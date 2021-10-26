@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<script th:inline="javascript">
+window.onload = function(){
+	/*<![CDATA[*/
+		var isLoggedIn = /*[[@{__${isLoggedIn}__}]]*/; 
+		var msg = /*[[${ERRORMSG}]]*/;
+		console.log(isLoggedIn);
+		if(isLoggedIn){
+			alert(msg);
+			console.log("이전페이지");
+			location.href = /*[[@{/main}]]*/;
+			
+		} else {
+			alert(msg);
+			console.log("이동");
+			location.href = /*[[@{/login}]]*/;
+		}
+	/*]]>*/
+};
+</script>
+</body>
+</html>

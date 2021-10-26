@@ -1,0 +1,75 @@
+
+.chat-area-w{
+	height : 500px;
+}
+.chat-area{
+	padding : 10px 20px;
+	height : 400px;
+	overflow : auto;
+}
+.chat-indiv{
+	display : flex;
+}
+.chat-me{
+	 flex-direction: row-reverse;
+	 text-align : right;
+}
+#chat-ij-profile{
+	width  : 40px;
+	height : 40px;
+}
+#chat-ij-content{
+	padding : 0 10px;
+}
+.chat-ij-info{
+	display : flex;
+}
+#chat-ij-name{
+	font-size : 11pt;
+	color : black;
+}
+#chat-ij-date{
+	margin-left : 10px;
+	font-size : 9pt;
+}
+#chat-ij-text{
+	max-width : 300px;
+	background-color : lightgray;
+	font-weight : lighter;
+	font-size : 11pt;
+	padding : 10px 20px;
+	border-radius : 10px;
+	color : black;
+}
+.chatOut{
+	color : red;
+}
+
+/* 메시지 입력 창 */
+.chatSending{
+	display : flex;
+	text-align : center;
+	height : 60px;
+	padding : 5px 10px;
+	border-top : 1px solid #dae1e6;
+}
+.messageInput{
+	width : 90%;
+	height : 75px;
+	padding : 0 5px;
+	border : none;
+	resize : none;
+}
+.messageInput:focus{
+	outline : none;
+}
+.sendBtn{
+	margin : 6px auto;
+	border : none;
+	border-radius : 10px;
+	padding : 4px 10px;
+	background-color : #4e73df;
+	color : #ffffff;
+	font-size : 11pt;
+	cursor : pointer;
+}

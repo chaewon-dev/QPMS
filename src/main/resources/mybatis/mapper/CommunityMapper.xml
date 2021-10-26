@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.community.ChatDao">
+	<!-- 사용자 정보 -->
+	<select id="getEmp" parameterType="String"
+		resultType="com.team3.pms.VO.community.EmpSch">
+		select e.*, dept_name
+		from SYS_EMP_TB e, EMP_DEPT_TB d
+		where
+		e.emp_dept_fk = d.emp_dept_pk
+		and emp_cd_pk = #{emp_cd_pk}
+	</select>
+	<!-- 채팅방 목록 조회 -->
+	<select id="chatList" parameterType="String"
+		resultType="com.team3.pms.VO.community.Chat">
+		select r.chtr_cd_pk, chtr_nm, chtr_kind, DATE_FORMAT(chtr_dt, '%Y-%m-%d') as chtr_dt
+		from SYS_CHTR_TB r, SYS_CHTL_TB l
+		where r.chtr_cd_pk = l.chtr_cd_pk and l.emp_cd_pk = #{emp_cd_pk}
+		ORDER BY chtr_dt desc
+	</select>
+	<!-- 검색 -->
+	<select id="empListByName"
+		parameterType="com.team3.pms.VO.community.EmpSch"
+		resultType="com.team3.pms.VO.community.EmpSch">
+		select emp_cd_pk, d.emp_dept_pk, emp_name, dept_name
+		from
+		SYS_EMP_TB e, EMP_DEPT_TB d
+		where e.emp_dept_fk = d.emp_dept_pk and e.emp_auth_fk in (1,5,10)
+		and
+		emp_name like concat('%',#{emp_name},'%')
+	</select>
+	<select id="empListByDept"
+		parameterType="com.team3.pms.VO.community.EmpSch"
+		resultType="com.team3.pms.VO.community.EmpSch">
+		select emp_cd_pk, d.emp_dept_pk, emp_name, dept_name
+		from
+		SYS_EMP_TB e, EMP_DEPT_TB d
+		where e.emp_dept_fk = d.emp_dept_pk and e.emp_auth_fk in (1,5,10)
+		and
+		dept_name like concat('%',#{dept_name},'%')
+	</select>
+	<!-- 그룹채팅 추가 -->
+	<select id="checkDupl" parameterType="String"
+		resultType="com.team3.pms.VO.community.Chat">
+		select r.chtr_cd_pk, chtr_nm, chtr_kind, emp_cd_pk
+		from SYS_CHTR_TB r, SYS_CHTL_TB l
+		where r.chtr_cd_pk = l.chtr_cd_pk and chtr_kind='D' and
+		emp_cd_pk=#{emp_cd_pk}
+	</select>
+	<insert id="insertChatRoom"
+		parameterType="com.team3.pms.VO.community.Chat">
+		insert into SYS_CHTR_TB(chtr_nm, chtr_kind)
+		values(#{chtr_nm}, #{chtr_kind})
+	</insert>
+	<insert id="insertChatList" parameterType="String">
+		insert into
+		SYS_CHTL_TB(chtr_cd_pk, emp_cd_pk, emp_name, dept_name)
+		select
+		concat('CTR-', LPAD(LASTVAL(CHTR_SEQ), 4, '0')),emp_cd_pk, emp_name,
+		d.dept_name
+		from SYS_EMP_TB e, EMP_DEPT_TB d
+		where e.emp_dept_fk =
+		d.emp_dept_pk and emp_cd_pk= #{emp_cd_pk}
+	</insert>
+	<!-- 채팅방 입장 -->
+	<select id="enterChat" parameterType="String"
+		resultType="com.team3.pms.VO.community.Chat">
+		select chtr_cd_pk, chtr_nm, chtr_kind, chtr_dt
+		from SYS_CHTR_TB where chtr_cd_pk = #{chtr_cd_pk}
+	</select>
+	<!-- 채팅방 사용자 조회 -->
+	<select id="chatUserList" parameterType="String"
+		resultType="com.team3.pms.VO.community.ChatList">
+		select chtl_cd_pk, chtr_cd_pk, emp_cd_pk, emp_name,
+		dept_name
+		from SYS_CHTL_TB WHERE chtr_cd_pk = #{chtr_cd_pk}
+	</select>
+	<!-- 채팅 사용자 수 확인 -->
+	<select id="userCount" parameterType="String" resultType="int">
+		select
+		count(emp_cd_pk) from SYS_CHTL_TB where chtr_cd_pk=#{chtr_cd_pk}
+	</select>
+	<!-- 채팅방 이름, 종류 변경 -->
+	<update id="changeRoomKind"
+		parameterType="com.team3.pms.VO.community.Chat">
+		UPDATE SYS_CHTR_TB set chtr_nm=#{chtr_nm},
+		chtr_kind=#{chtr_kind}
+		where chtr_cd_pk=#{chtr_cd_pk};
+	</update>
+	<!-- 채팅 사용자 추가 -->
+	<insert id="addUser"
+		parameterType="com.team3.pms.VO.community.Chat">
+		insert into
+		SYS_CHTL_TB(chtr_cd_pk, emp_cd_pk, emp_name, dept_name)
+		select
+		#{chtr_cd_pk},emp_cd_pk, emp_name,
+		d.dept_name
+		from SYS_EMP_TB e, EMP_DEPT_TB d
+		where e.emp_dept_fk = d.emp_dept_pk and e.emp_auth_fk in (1,5,10)
+		and emp_cd_pk= #{emp_cd_pk} 
+	</insert>
+	<!-- 채팅방 이름변경 -->
+	<update id="updateRoomName"
+		parameterType="com.team3.pms.VO.community.Chat">
+		update SYS_CHTR_TB set chtr_nm = #{chtr_nm}
+		where
+		chtr_cd_pk = #{chtr_cd_pk}
+	</update>
+	<!-- 대화 나가기 -->
+	<delete id="exitChat" parameterType="com.team3.pms.VO.community.ChatList">
+		delete from SYS_CHTL_TB 
+		where emp_cd_pk = #{emp_cd_pk} and chtr_cd_pk=#{chtr_cd_pk};
+	</delete>
+	<select id="chatListCount" parameterType="String" resultType="int">
+		select count(chtl_cd_pk) from SYS_CHTL_TB where chtr_cd_pk=#{chtr_cd_pk}
+	</select>
+	<delete id="deleteChat" parameterType="String">
+		delete from SYS_CHTR_TB where chtr_cd_pk=#{chtr_cd_pk}
+	</delete>
+	<!-- 채팅 내역 -->
+	<select id="readHistory" parameterType="com.team3.pms.VO.community.Chat" 
+	resultType="com.team3.pms.VO.community.ChatLog">
+	select distinct cl.chtr_cd_pk, cl.clog_sender, cl.clog_cont, 
+	DATE_FORMAT(clog_dt, '%Y-%m-%d %H:%i') as clog_dt 
+	from SYS_CLOG_TB cl, SYS_CHTL_TB ctl
+	where cl.chtr_cd_pk=#{chtr_cd_pk} and cl.chtr_cd_pk=ctl.chtr_cd_pk 
+	AND cl.clog_dt <![CDATA[>]]> ctl.chtl_dt and ctl.emp_cd_pk =#{emp_cd_pk}
+	</select>
+	<insert id="insertChatLog" parameterType="com.team3.pms.VO.community.ChatLog">
+		INSERT INTO SYS_CLOG_TB(chtr_cd_pk, clog_sender, clog_cont)
+		values(#{chtr_cd_pk}, #{clog_sender}, #{clog_cont})
+	</insert>
+	<!-- 채팅방 제목 -->
+	<select id="recentChtr" resultType="String">
+		select max(chtr_cd_pk) from SYS_CHTR_TB
+	</select>
+	<select id="getTitle" parameterType="com.team3.pms.VO.community.Chat"
+	resultType="String">
+		select titl_nm from SYS_TITL_TB 
+		where chtr_cd_pk=#{chtr_cd_pk} and emp_cd_pk=#{emp_cd_pk}
+	</select>
+	<insert id="insertTitle" parameterType="com.team3.pms.VO.community.ChatTitle">
+		INSERT INTO SYS_TITL_TB(chtr_cd_pk, titl_nm, emp_cd_pk)
+		values(#{chtr_cd_pk}, #{titl_nm}, #{emp_cd_pk})
+	</insert>
+	<update id="updateTitle" parameterType="com.team3.pms.VO.community.Chat">
+		update SYS_TITL_TB SET titl_nm=#{chtr_nm} 
+		where chtr_cd_pk=#{chtr_cd_pk} and emp_cd_pk=#{emp_cd_pk}
+	</update>
+	
+</mapper>

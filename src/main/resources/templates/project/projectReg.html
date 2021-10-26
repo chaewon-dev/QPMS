@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index2 :: navi">
+</head>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<div  th:with="title='Project'">
+					<nav th:replace="index2 :: topBar"></nav>
+				</div>
+				<!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                	<!-- Page Heading -->
+<!--                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">페이지 제목</h1>
+                    </div> -->
+                    <!-- Content Row -->
+                    <div class="row">
+                    
+                    	<div class="col-lg-12">
+
+                            <!-- Default Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header">
+                                    <span class="mt-2 font-weight-bold text-secondary float-left">프로젝트 등록</span>
+                                    <div class="input-group-append float-right">
+		                                <button class="btn btn-secondary" type="button" onclick="history.back();">
+		                                    <i class="fas fa-arrow-left fa-sm"></i>
+		                                    <span>Back</span>
+		                                </button>
+		                            </div>
+                                </div>
+                                
+                                <div class="card-body">
+                                <form>
+                                    <div class="input-form col-md-12 mx-auto">
+                                    	<div class="row">
+                                    		<div class="col-md-12 mb-3"> 
+	                                    		<label for="projectName">프로젝트 명</label> 
+	                                    		<input type="text" class="form-control" id="projectName" name="projectName" 
+	                                    		placeholder="프로젝트 명을 입력해주세요." value="" required> 
+                                    		</div>
+                                    	</div>
+                                    	
+                                    	<div class="row">
+                                    		<div class="col-md-6 mb-3"> 
+	                                    		<label for="projectType">프로젝트 유형</label> 
+	                                    		<select class="form-control" id="projectType" name="projectType" required> 
+	                                    			<option selected disabled value="">선택하세요</option>
+	                                    			<option>선행개발</option>
+	                                    			<option>고객선행</option>
+	                                    			<option>양산개발</option>
+	                                    		</select>
+                                    		</div>
+                                    		<div class="col-md-6 mb-3"> 
+	                                    		<label for="rndType">R&D 구분</label> 
+	                                    		<select class="form-control" id="rndType" name="rndType" required> 
+	                                    			<option selected disabled value="">선택하세요</option>
+	                                    			<option>장비 개발</option>
+	                                    			<option>플랫폼 개발</option>
+	                                    			<option>SW 개발</option>
+	                                    			<option>QA 테스트</option>
+	                                    		</select>
+                                    		</div>
+                                    	</div>
+                                    	
+                                    	<div class="row">
+                                    		<div class="col-md-6 mb-3"> 
+	                                    		<label for="projectDept">프로젝트 부서</label> 
+	                                    		<select class="form-control" id="projectDept" name="projectDept" required> 
+	                                    			<option selected disabled value="">선택하세요</option>
+	                                    			
+	                                    		</select>
+                                    		</div>
+                                    		<div class="col-md-6 mb-3"> 
+	                                    		<label for="projectPM">프로젝트 관리자</label> 
+	                                    		<select class="form-control" id="projectPM" name="projectPM" required> 
+	                                    			<option selected disabled value="">선택하세요</option>
+	                                    		</select>
+                                    		</div>
+                                    	</div>
+                                    	
+                                    	<div class="row">
+                                    		<div class="col-md-6 mb-3"> 
+	                                    		<label for="projectStartDT">시작일</label> 
+	                                    		<input type="date" class="form-control" id="projectStartDT" name="projectStartDT" required> 
+
+                                    		</div>
+                                    		<div class="col-md-6 mb-3"> 
+	                                    		<label for="projectCompDT">종료일</label> 
+	                                    		<input type="date" class="form-control" id="projectCompDT" name="projectCompDT" required> 
+
+                                    		</div>
+                                    	</div>
+                                    	
+                                    	<div class="row">
+                                    		<div class="col-md-12 mb-3"> 
+	                                    		<label for="projectDescription">프로젝트 설명</label> 
+	                                    		<textarea cols="1" rows="3" class="form-control" id="projectDescription" name="projectDescription"></textarea>
+                                    		</div>
+                                    	</div>
+                                    
+                                    
+                                    </div>
+
+									<div class="input-group-append float-right">
+										<button class="btn btn-secondary" type="button" onclick="history.back();">
+		                                    <i class="fas fa-arrow-left fa-sm"></i>
+		                                    <span>Back</span>
+		                                </button>
+		                                
+		                                <button class="ml-3 btn btn-primary" type="button" id="btnProjectSave">
+		                                    <i class="fas fa-check fa-sm"></i>
+		                                    <span>Save</span>
+		                                </button>
+		                            </div>
+		                        </form>
+                                </div>
+                                
+                                
+									
+                            </div>
+
+
+                        </div>
+
+                    </div>
+				</div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <div th:replace="index2 :: etc"></div>
+    <script th:src="@{/js/project/projectReg.js}"></script>
+</body>
+</html>

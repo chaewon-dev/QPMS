@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.project.ResourceAPIDao">
+
+	<!-- Resource -->
+	<select id="getMemberList" resultType="com.team3.pms.Dao.project.ResourceMemberDTO">
+	select emp_cd_pk, emp_name, dept_name
+	from SYS_EMP_TB, EMP_DEPT_TB
+	where emp_dept_fk = emp_dept_pk
+	and emp_dept_fk = #{deptData}
+	and emp_cd_pk in (select emp_cd_pk
+						from SYS_EMP_TB
+						where emp_cd_pk not in (select emp_cd_pk
+												from RESOURCE_TB
+												where project_pk = #{projectId}))
+	</select>
+	
+	<select id="getEngagementMemberList" resultType="com.team3.pms.Dao.project.ResourceMemberDTO">
+	select emp_cd_pk, emp_name, dept_name, project_pk
+	from (select e.emp_cd_pk emp_cd_pk, e.emp_name emp_name, e.emp_dept_fk emp_dept_fk, r.project_pk project_pk
+	from SYS_EMP_TB e
+	left join RESOURCE_TB r
+	on e.emp_cd_pk =r.emp_cd_pk ) t, EMP_DEPT_TB d
+	where emp_dept_fk = emp_dept_pk
+	and project_pk = #{projectId}
+	order by dept_name, emp_name
+	</select>
+	
+	<select id="getApproverManagerList" resultType="String">
+	select DISTINCT (emp_cd_pk)
+	from TASK_TB t, RESOURCE_TB r
+	where t.project_pk = #{projectId}
+	and t.TASK_APPROVER = r.resource_pk 
+	and task_approver is not null
+	
+	UNION 
+	
+	select DISTINCT (emp_cd_pk)
+	from TASK_TB t, RESOURCE_TB r
+	where t.project_pk = #{projectId}
+	and t.TASK_MANAGER = r.resource_pk 
+	and task_approver is not null
+	</select>
+	
+	<select id="getProjectResource" resultType="com.team3.pms.Dao.project.ProjectResourceGetDTO">
+		select resource_pk, r.emp_cd_pk emp_cd_pk, e.emp_name emp_name 
+		from RESOURCE_TB r, SYS_EMP_TB e
+		where r.emp_cd_pk = e.emp_cd_pk 
+		and project_pk = #{projectId};
+	</select>
+	
+	<insert id="addEngagementMember" parameterType="com.team3.pms.Dao.project.ResourceEngagementAddDTO">
+		insert into RESOURCE_TB(resource_pk, project_pk, emp_cd_pk)
+		values(concat('RSC-', LPAD(nextval(sq_resource), 4, '0')), #{project_pk}, #{emp_cd_pk})
+	</insert>
+	
+	
+	
+	<delete id="deleteEngagementMember">
+		DELETE FROM RESOURCE_TB 
+		WHERE emp_cd_pk = #{resourceId}
+		and project_pk = #{projectId}
+	</delete>
+	
+	
+	
+<!-- 	<select id="getMaxId" resultType="String">
+	select max(link_pk)
+	from LINK_TB
+	</select>
+	
+	<insert id="saveLink" parameterType="com.team3.pms.Controller.project.form.LinkSaveForm">
+		INSERT INTO LINK_TB
+		VALUES(#{id}, #{projectId}, #{source}, #{target}, #{type})
+	</insert>
+	
+	
+	<delete id="deleteLink">
+		DELETE FROM LINK_TB WHERE LINK_PK = #{linkId}
+	</delete> -->
+	
+<!-- 	<insert id="saveTask" parameterType="com.team3.pms.Controller.project.form.TaskProjectSaveForm"> 
+		INSERT INTO TASK_TB(project_pk, task_approver, task_nm, task_state, task_start_dt, task_comp_dt, task_progress, task_type, task_description, task_parent, task_sortorder)
+		VALUES(#{projectId},#{approver},#{text},#{state},str_to_date(#{start_date},'%d-%m-%Y'),str_to_date(#{end_date},'%d-%m-%Y'),#{progress},#{type},#{description},#{parent},#{sortorder})
+	</insert>
+	
+	<update id="updateTask" parameterType="com.team3.pms.Controller.project.form.TaskUpdateForm">
+		UPDATE TASK_TB
+		set project_pk = #{projectId}, task_approver = #{approver}, task_nm = #{text}, task_state = #{state}, 
+		task_start_dt = str_to_date(#{start_date},'%d-%m-%Y'), task_comp_dt = str_to_date(#{end_date},'%d-%m-%Y'),
+		task_progress = #{progress}, task_type = #{type}, task_description = #{description}, task_parent = #{parent},
+		task_sortorder = #{sortorder}
+		where task_pk = #{id}
+	</update>
+	
+	<delete id="deleteTask">
+		DELETE FROM TASK_TB WHERE TASK_PK = #{taskId}
+	</delete> -->
+	<!-- end of link -->
+	
+</mapper>

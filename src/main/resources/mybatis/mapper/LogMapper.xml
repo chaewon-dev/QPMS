@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.Log.LogDao">
+	<!-- com 패키지의 INFO 로그 확인 -->
+	<select id="getINFOcom" resultType="com.team3.pms.VO.Log.LogDto">
+		select FROM_UNIXTIME(timestmp/1000) AS time, 
+				formatted_message, level_string, thread_name, event_id
+			from logging_event a
+			where level_string='INFO' and logger_name like 'com.%'
+			order by event_id DESC;
+	</select>
+	
+		<!-- ERROR 로그 확인 -->
+	<select id="getERROR" resultType="com.team3.pms.VO.Log.LogDto">
+		select FROM_UNIXTIME(timestmp/1000) AS time, 
+				formatted_message, level_string, thread_name, event_id
+			from logging_event
+			where level_string='ERROR'
+			order by event_id desc;
+	</select>
+	
+	
+	
+	
+	
+			<!-- ERROR 로그 확인 -->
+	<select id="getERROR2" resultType="com.team3.pms.VO.Log.LogDto">
+		select FROM_UNIXTIME(timestmp/1000) AS time, formatted_message, level_string, thread_name, event_id
+			from (select truncate(timestmp, -4) timestmp, formatted_message, level_string, thread_name, event_id
+					from logging_event
+					where level_string='ERROR')	a
+			group by time 
+			having count(formatted_message)>1
+			order by event_id desc;
+	</select>
+	<select id="getINFOcomTotal" resultType="int">
+	SELECT count(*) 
+	from logging_event a
+		where level_string='INFO' and logger_name like 'com.%';
+	</select>
+	<select id="getERRORTotal" resultType="int">
+	SELECT count(*) 
+	from logging_event
+		where level_string='ERROR';
+	</select>
+</mapper>

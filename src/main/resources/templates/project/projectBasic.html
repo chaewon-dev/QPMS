@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index2 :: navi">
+</head>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<div  th:with="title='[ ' + ${projectId} + ' ] ' + ${projectName}">
+					<nav th:replace="index2 :: topBar"></nav>
+					<input type="hidden" id="projectId" th:value="${projectId}">
+				</div>				<!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                	<!-- Page Heading -->
+<!--                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">tabs</h1>
+                    </div> -->
+                    <!-- Content Row -->
+
+						<div class="tabs-container">
+						       <ul class="nav nav-tabs" role="tablist">
+						         <li><a class="nav-link" th:href="'/project/summary/'+${projectId}">요약정보</a></li>
+						         <li><a class="nav-link active" th:href="'/project/basic/'+${projectId}">기본정보</a></li>
+						         <li><a class="nav-link" th:href="'/project/resource/'+${projectId}">리소스</a></li>
+						         <li><a class="nav-link" th:href="'/project/wbs/'+${projectId}">WBS</a></li>
+						         <li><a class="nav-link" th:href="'/project/cost/'+${projectId}">비용</a></li>
+						       </ul>
+						         
+						    <div class="tab-content">   
+
+				
+				
+				                    <!-- Tab 2 Content -->
+						             <div role="tabpanel">
+						                <div class="panel-body">
+						                    <div class="card shadow mb-4">
+						                    	<div class="card-header">
+				                                    <span class="mt-2 font-weight-bold text-secondary float-left">프로젝트 기본 정보</span>
+				                                    <div class="input-group-append float-right" th:if="${authRole} == 10 or ${resourceRole} == 5">
+						                                <button class="ml-3 btn btn-warning float-right" type="button" id="btnEditMode">
+						                                    <i class="fas fa-pencil-alt fa-sm"></i>
+						                                    <span id="btnEditModeText">Edit Mode</span>
+						                                </button>
+						                            </div>
+				                                </div>
+						                        <div class = "card-body">
+								                    <div class="input-form col-md-12 mx-auto">
+ 								                    	<input type="hidden" id="cur_resource_pk" th:value="${currentPM.resource_pk}">
+								                    	<input type="hidden" id="cur_emp_cd_pk" th:value="${currentPM.emp_cd_pk}">
+								                    	<input type="hidden"  id="cur_emp_name" th:value="${currentPM.emp_name}">
+								                    
+
+								                                
+								                                
+								                    
+				                                    	<div class="row">
+				                                    		<div class="col-md-12 mb-3"> 
+					                                    		<label for="projectName">프로젝트 명</label> 
+					                                    		<input type="text" class="form-control" id="projectName" name="projectName" 
+					                                    		placeholder="프로젝트 명을 입력해주세요." th:value="${projectDetail.project_nm}" required readonly> 
+				                                    		</div>
+				                                    	</div>
+				                                    	
+				                                    	<div class="row">
+				                                    		<div class="col-md-6 mb-3"> 
+					                                    		<label for="projectType">프로젝트 유형</label> 
+					                                    		<select class="form-control" id="projectType" name="projectType" required disabled> 
+					                                    			<option th:selected = "${projectDetail.project_type} == '선행개발'">선행개발</option>
+					                                    			<option th:selected = "${projectDetail.project_type} == '고객선행'">고객선행</option>
+					                                    			<option th:selected = "${projectDetail.project_type} == '양산개발'">양산개발</option>
+					                                    		</select>
+				                                    		</div>
+				                                    		<div class="col-md-6 mb-3"> 
+					                                    		<label for="rndType">R&D 구분</label> 
+					                                    		<select class="form-control" id="rndType" name="rndType" required disabled> 
+					                                    			<option th:selected = "${projectDetail.rnd_type} == '장비 개발'">장비 개발</option>
+					                                    			<option th:selected = "${projectDetail.rnd_type} == '플랫폼 개발'">플랫폼 개발</option>
+					                                    			<option th:selected = "${projectDetail.rnd_type} == 'SW 개발'">SW 개발</option>
+					                                    			<option th:selected = "${projectDetail.rnd_type} == 'QA 테스트'">QA 테스트</option>
+					                                    		</select>
+				                                    		</div>
+				                                    	</div>
+				                                    	
+				                                    	<div class="row">
+				                                    		<div class="col-md-6 mb-3"> 
+					                                    		<label for="projectDept">프로젝트 부서</label> 
+					                                    		<select class="form-control" id="projectDept" name="projectDept" required disabled> 
+					                                    			<option th:each="dept : ${deptList}" th:value="${dept.emp_dept_pk}" th:text="${dept.dept_name}"
+					                                    			th:selected="${projectDetail.emp_dept_pk} == ${dept.emp_dept_pk}"></option>   
+					                                    		</select>
+				                                    		</div>
+				                                    		<div class="col-md-6 mb-3"> 
+					                                    		<label for="projectPM">프로젝트 관리자</label> 
+					                                    		<select class="form-control" id="projectPM" name="projectPM" required disabled> 
+					                                    		</select>
+				                                    		</div>
+				                                    	</div>
+				                                    	
+				                                    	<div class="row">
+				                                    		<div class="col-md-6 mb-3"> 
+					                                    		<label for="projectStartDT">시작일</label> 
+					                                    		<input type="date" class="form-control" id="projectStartDT" name="projectStartDT" 
+					                                    		th:value="${#dates.format(projectDetail.project_start_dt,'yyyy-MM-dd')}" required readonly> 
+				
+				                                    		</div>
+				                                    		<div class="col-md-6 mb-3"> 
+					                                    		<label for="projectCompDT">종료일</label> 
+					                                    		<input type="date" class="form-control" id="projectCompDT" name="projectCompDT" 
+					                                    		th:value="${#dates.format(projectDetail.project_comp_dt,'yyyy-MM-dd')}" required readonly> 
+				
+				                                    		</div>
+				                                    	</div>
+				                                    	
+				                                    	<div class="row">
+				                                    		<div class="col-md-12 mb-3"> 
+					                                    		<label for="projectDescription">프로젝트 설명</label> 
+					                                    		<textarea cols="1" rows="3" class="form-control" id="projectDescription" name="projectDescription" 
+					                                    		th:text="${projectDetail.project_description}" readonly></textarea>
+				                                    		</div>
+				                                    	</div>
+				                                    	
+				                                    	<div class="row">
+				                                    		<div class="col-md-6 mb-5"> 
+					                                    		<label for="projectState">프로젝트 상태</label> 
+					                                    		<select class="form-control" id="projectState" name="projectState" required disabled> 
+					                                    			<option th:each="projectState : ${projectStateList}" th:value="${projectState.project_state_pk}"
+					                                    			th:text = "${projectState.project_state_nm}" th:selected="${projectDetail.project_state_pk} == ${projectState.project_state_pk}"></option>
+					                                    		</select>
+				                                    		</div>
+				                                    	</div>
+                                    
+                                    
+				                                    </div>
+
+													<div class="input-group-append float-left ml-2 mb-2" 
+													th:if="${authRole} == 10 or ${resourceRole} == 5">
+														<button class="btn btn-danger" type="button" id="btnProjectDelete">
+						                                    <i class="fas fa-trash-alt fa-sm"></i>
+						                                    <span>Delete</span>
+						                                </button>
+						                            </div>
+
+													<div class="input-group-append float-right mr-2 mb-2">
+														<button class="btn btn-secondary" type="button" onclick="history.back();">
+						                                    <i class="fas fa-arrow-left fa-sm"></i>
+						                                    <span>Back</span>
+						                                </button>
+						                                
+						                                <button class="ml-3 btn btn-primary" type="button" id="btnProjectUpdate" 
+						                                th:if="${authRole} == 10 or ${resourceRole} == 5">
+						                                    <i class="fas fa-check fa-sm"></i>
+						                                    <span>Update</span>
+						                                </button>
+						                            </div>
+						                 		</div>
+						                 	</div>
+						                </div>
+						            </div>
+				                                    
+				            <!-- End of Tab 2 Content -->
+				
+				         
+				            
+						</div>
+                    </div>
+				</div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <div th:replace="index2 :: etc"></div>
+    <script th:src="@{/js/project/projectBasic.js}"></script>
+</body>
+</html>

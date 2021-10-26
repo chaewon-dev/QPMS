@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index2 :: navi">
+</head>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var loginUser = $("#loginUser").text();
+		var writer = $("#writer").val();
+		if(loginUser != writer){
+			$("#delBtn").css("visibility","hidden");
+			$("#uptBtn").css("visibility","hidden");
+		}
+	});
+</script>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<div th:with="title='Community'">
+					<nav th:replace="index2 :: topBar"></nav>
+				</div>
+				<!-- End of Topbar -->
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<div
+						class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-0 text-gray-800">자료실</h1>
+						<input type="hidden" th:value="${archive.emp_cd_pk}" id="writer"/>
+						<span id="loginUser" sec:authentication="principal.emp_cd_pk" style="visibility:hidden">회원 고유번호</span>
+					</div>
+					<!-- Content Row -->
+					<div class="row">
+						<div class="col-lg-12">
+
+							<!-- Default Card Example -->
+							<div class="card shadow mb-4">
+								<div class="card-header">
+									<span class="mt-2 font-weight-bold text-secondary float-left" id="title" 
+									th:text="${archive.bbs_title}"></span>
+								</div>
+								<div class="card-body">
+									<form>
+										<div class="input-form col-md-12 mx-auto">
+											<div class="row">
+												<div class="col-md-12 mb-3" id="dt_hit">
+													<span th:text="'작성자 '+${archive.emp_name}" style="margin:0 5px;"></span> | 
+													<span th:text="${archive.bbs_dt}" style="margin:0 5px;"></span> | 
+													<span th:text="'조회수 '+${archive.bbs_hit}" style="margin:0 5px;"></span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12 mb-3" id="content" th:text="${archive.bbs_cont}">
+													
+												</div>
+											</div>
+											<hr>
+											<div th:if="${archive.bfile_nm!=null}" class="row">
+												<span>첨부파일</span>
+												<div class="col-md-12 mb-3 shadowBox">
+													<a th:href="'/download?bfile_cd_pk='+${archive.bfile_cd_pk}">
+													<span th:text="${archive.bfile_nm}" style="margin:0 5px;"></span></a>
+												</div>
+											</div>
+										</div>
+										<div class="input-group-append float-right">
+											<a class="btn btn-primary" style="margin-left:5px;" id="uptBtn"
+											th:href="'/community/archive/updateForm?bbs_cd_pk='+${archive.bbs_cd_pk}">
+												 <span>수정</span>
+											</a>
+											<button class="btn btn-secondary" type="button"  id="delBtn" style="margin-left:5px;"
+											 data-toggle="modal" data-target="#delArchiveModal">
+												 <span>삭제</span>
+											</button>
+											<button class="btn btn-primary" type="button" style="margin-left:5px;"
+												onclick="goList();">
+												 <span>목록</span>
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+		<!-- End of Content Wrapper -->
+	</div>
+	<!-- delNotice Modal-->
+	<div class="modal fade" id="delArchiveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">자료실 삭제</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">해당 글을 삭제하시겠습니까?</div>
+                <div class="modal-footer">
+					<a class="btn btn-primary" th:href="'/community/archive/delete?bbs_cd_pk='+${archive.bbs_cd_pk}">삭제</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- End of Page Wrapper -->
+	<div th:replace="index2 :: etc"></div>
+</body>
+<script type="text/javascript">
+	//목록 이동
+	function goList(){
+		location.href="/community/archive";
+	}
+	
+	// css
+	var dt_hit = document.querySelector("#dt_hit");
+	dt_hit.style.backgroundColor="#f2f2f2";
+	dt_hit.style.height="43px";
+	dt_hit.style.padding="10px 16px";
+	dt_hit.style.border="1px solid #ddd";
+	dt_hit.style.fontSize="10pt";
+	var title = document.querySelector("#title");
+	title.style.fontSize="13pt";
+	title.style.color="#333";
+	title.style.fontWeight="bold";
+		
+</script>
+</html>

@@ -1,0 +1,784 @@
+978  [restartedMain] INFO  com.team3.pms.PmsApplication - Starting PmsApplication using Java 15.0.2 on DESKTOP-G4DIIJ3 with PID 21440 (D:\hellobootworkspace\aws_qpms_test\bin\main started by ch in D:\hellobootworkspace\aws_qpms_test)
+980  [restartedMain] INFO  com.team3.pms.PmsApplication - No active profile set, falling back to default profiles: default
+1048 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+1048 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+3452 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 3333 (http)
+3463 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-3333"]
+3464 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+3464 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.53]
+3601 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+3602 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2553 ms
+4665 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/js/**'] with []
+4665 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/css/**'] with []
+4665 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/images/**'] with []
+4665 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/font/**'] with []
+4665 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/html/**'] with []
+4666 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/vendor/**'] with []
+4698 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@26c23062, org.springframework.security.web.context.SecurityContextPersistenceFilter@6bc5df77, org.springframework.security.web.header.HeaderWriterFilter@3b6e4205, org.springframework.security.web.csrf.CsrfFilter@2fc88ab8, org.springframework.security.web.authentication.logout.LogoutFilter@46e4cd3d, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1bf2dc08, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@720116bf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@20e80fb6, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@2be18be1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3f7ed83b, org.springframework.security.web.session.SessionManagementFilter@755413bd, org.springframework.security.web.access.ExceptionTranslationFilter@3c235644, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2aaa02fd]
+4949 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+5298 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+5315 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-3333"]
+5338 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 3333 (http) with context path ''
+5340 [restartedMain] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Starting...
+5340 [restartedMain] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6d32f281]]
+5341 [restartedMain] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Started.
+5350 [restartedMain] INFO  com.team3.pms.PmsApplication - Started PmsApplication in 4.758 seconds (JVM running for 5.668)
+6352 [http-nio-3333-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+6352 [http-nio-3333-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+6353 [http-nio-3333-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+6486 [http-nio-3333-exec-1] WARN  o.a.c.util.SessionIdGeneratorBase - Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [102] milliseconds.
+6487 [http-nio-3333-exec-1] ERROR c.t.p.S.M.MemberAuthenticationEntryPoint - Full authentication is required to access this resource
+11700 [http-nio-3333-exec-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+11737 [http-nio-3333-exec-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+11747 [http-nio-3333-exec-9] INFO  jdbc.sqlonly - select emp_cd_pk, emp_auth_fk, emp_auth, emp_pos_fk, emp_pos, emp_dept_fk, emp_dept, 
+				emp_id, emp_pw, emp_name
+		from v_empTB
+		where emp_id = 'hi10';
+
+11747 [http-nio-3333-exec-9] INFO  jdbc.sqlonly - select emp_cd_pk, emp_auth_fk, emp_auth, emp_pos_fk, emp_pos, emp_dept_fk, emp_dept, 
+				emp_id, emp_pw, emp_name
+		from v_empTB
+		where emp_id = 'hi10';
+
+11765 [http-nio-3333-exec-9] INFO  jdbc.resultsettable - 
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+|emp_cd_pk |emp_auth_fk |emp_auth |emp_pos_fk |emp_pos |emp_dept_fk |emp_dept |emp_id |emp_pw |emp_name |
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+|text-0010 |1           |Employee |10         |사원      |7000        |연구개발     |hi10   |hihi   |김길동      |
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+
+11765 [http-nio-3333-exec-9] INFO  jdbc.resultsettable - 
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+|emp_cd_pk |emp_auth_fk |emp_auth |emp_pos_fk |emp_pos |emp_dept_fk |emp_dept |emp_id |emp_pw |emp_name |
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+|text-0010 |1           |Employee |10         |사원      |7000        |연구개발     |hi10   |hihi   |김길동      |
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+
+11978 [http-nio-3333-exec-9] INFO  c.t.p.S.M.CustomAuthenticationProvider - User 'hi10': Logged In.
+12034 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 10
+			group by emp_dept_pk;
+
+12034 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 10
+			group by emp_dept_pk;
+
+12043 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|10             |PRJ-0010   |10               |시작전              |1000        |인사        |
+|6              |PRJ-0036   |10               |시작전              |1100        |홍보        |
+|6              |PRJ-0019   |10               |시작전              |2000        |총무        |
+|1              |PRJ-0084   |10               |시작전              |3000        |경영지원      |
+|5              |PRJ-0008   |10               |시작전              |7000        |연구개발      |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+12043 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|10             |PRJ-0010   |10               |시작전              |1000        |인사        |
+|6              |PRJ-0036   |10               |시작전              |1100        |홍보        |
+|6              |PRJ-0019   |10               |시작전              |2000        |총무        |
+|1              |PRJ-0084   |10               |시작전              |3000        |경영지원      |
+|5              |PRJ-0008   |10               |시작전              |7000        |연구개발      |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+12044 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 20
+			group by emp_dept_pk;
+
+12044 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 20
+			group by emp_dept_pk;
+
+12050 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|1              |PRJ-0009   |20               |정상진행             |1100        |홍보        |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+12050 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|1              |PRJ-0009   |20               |정상진행             |1100        |홍보        |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+12051 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 40
+			group by emp_dept_pk;
+
+12051 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 40
+			group by emp_dept_pk;
+
+12057 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+12057 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+12057 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select * from v_dashboard_2;
+
+12057 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select * from v_dashboard_2;
+
+12065 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|-----------|--------------|-----------------|
+|num_of_emp |project_pk |project_nm    |project_state_nm |
+|-----------|-----------|--------------|-----------------|
+|14         |PRJ-0037   |AAAA개발        |시작전              |
+|8          |PRJ-0009   |5G 수신환경 연구    |정상진행             |
+|5          |PRJ-0045   |삼성 SDS 구매 ERP |시작전              |
+|5          |PRJ-0068   |test2         |시작전              |
+|3          |PRJ-0076   |테스트           |시작전              |
+|3          |PRJ-0074   |테스트           |시작전              |
+|-----------|-----------|--------------|-----------------|
+
+12065 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|-----------|--------------|-----------------|
+|num_of_emp |project_pk |project_nm    |project_state_nm |
+|-----------|-----------|--------------|-----------------|
+|14         |PRJ-0037   |AAAA개발        |시작전              |
+|8          |PRJ-0009   |5G 수신환경 연구    |정상진행             |
+|5          |PRJ-0045   |삼성 SDS 구매 ERP |시작전              |
+|5          |PRJ-0068   |test2         |시작전              |
+|3          |PRJ-0076   |테스트           |시작전              |
+|3          |PRJ-0074   |테스트           |시작전              |
+|-----------|-----------|--------------|-----------------|
+
+12065 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select * from v_dashboard_1;
+
+12065 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select * from v_dashboard_1;
+
+12077 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+|project_pk |project_nm            |project_state_nm |emp_dept_pk |dept_name |project_start_dt |project_comp_dt |task_progress |
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+|PRJ-0065   |현대모비스 전자결재시스템 구축 프로젝트 |시작전              |2000        |총무        |2021-10-12       |2021-11-28      |67.5          |
+|PRJ-0020   |칸반보드 샘플 프로젝트          |시작전              |1000        |인사        |2021-10-06       |2021-10-06      |40.0          |
+|PRJ-0043   |신한카드 관리자페이지 구축        |시작전              |2000        |총무        |2021-10-18       |2021-10-31      |38.2          |
+|PRJ-0045   |삼성 SDS 구매 ERP         |시작전              |1000        |인사        |2021-10-01       |2021-11-27      |35.0          |
+|PRJ-0019   |고주파수 영역 연구            |시작전              |2000        |총무        |2021-11-04       |2021-11-06      |14.1          |
+|PRJ-0021   |SIA 테스트               |시작전              |1000        |인사        |2021-10-06       |2021-10-06      |8.6           |
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+
+12077 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+|project_pk |project_nm            |project_state_nm |emp_dept_pk |dept_name |project_start_dt |project_comp_dt |task_progress |
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+|PRJ-0065   |현대모비스 전자결재시스템 구축 프로젝트 |시작전              |2000        |총무        |2021-10-12       |2021-11-28      |67.5          |
+|PRJ-0020   |칸반보드 샘플 프로젝트          |시작전              |1000        |인사        |2021-10-06       |2021-10-06      |40.0          |
+|PRJ-0043   |신한카드 관리자페이지 구축        |시작전              |2000        |총무        |2021-10-18       |2021-10-31      |38.2          |
+|PRJ-0045   |삼성 SDS 구매 ERP         |시작전              |1000        |인사        |2021-10-01       |2021-11-27      |35.0          |
+|PRJ-0019   |고주파수 영역 연구            |시작전              |2000        |총무        |2021-11-04       |2021-11-06      |14.1          |
+|PRJ-0021   |SIA 테스트               |시작전              |1000        |인사        |2021-10-06       |2021-10-06      |8.6           |
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+
+12090 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select a.project_pk, a.emp_cd_pk, a.resource_role, d.auth_name, b.project_nm, 
+				c.*, task_progress
+		from RESOURCE_TB a
+			inner join PROJECT_TB b on a.project_pk = b.project_pk
+			inner join PROJECT_STATE_TB c on b.project_state_pk = c.project_state_pk
+			inner join EMP_AUTH_TB d on a.resource_role = d.emp_auth_pk
+			left join v_project_progress e on a.project_pk = e.project_pk
+		where emp_cd_pk = 'text-0010'  and b.project_state_pk < 40
+		group by a.project_pk
+		order by task_progress desc
+		limit 5;
+
+12090 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select a.project_pk, a.emp_cd_pk, a.resource_role, d.auth_name, b.project_nm, 
+				c.*, task_progress
+		from RESOURCE_TB a
+			inner join PROJECT_TB b on a.project_pk = b.project_pk
+			inner join PROJECT_STATE_TB c on b.project_state_pk = c.project_state_pk
+			inner join EMP_AUTH_TB d on a.resource_role = d.emp_auth_pk
+			left join v_project_progress e on a.project_pk = e.project_pk
+		where emp_cd_pk = 'text-0010'  and b.project_state_pk < 40
+		group by a.project_pk
+		order by task_progress desc
+		limit 5;
+
+12099 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+|project_pk |emp_cd_pk |resource_role |auth_name |project_nm            |project_state_pk |project_state_nm |task_progress |
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+|PRJ-0065   |[unread]  |1             |Employee  |현대모비스 전자결재시스템 구축 프로젝트 |10               |시작전              |67.5          |
+|PRJ-0045   |[unread]  |1             |Employee  |삼성 SDS 구매 ERP         |10               |시작전              |35.0          |
+|PRJ-0019   |[unread]  |1             |Employee  |고주파수 영역 연구            |10               |시작전              |14.1          |
+|PRJ-0009   |[unread]  |1             |Employee  |5G 수신환경 연구            |20               |정상진행             |8.2           |
+|PRJ-0064   |[unread]  |1             |Employee  |SK하이닉스 임직원 ERP 구축     |10               |시작전              |0.1           |
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+
+12099 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+|project_pk |emp_cd_pk |resource_role |auth_name |project_nm            |project_state_pk |project_state_nm |task_progress |
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+|PRJ-0065   |[unread]  |1             |Employee  |현대모비스 전자결재시스템 구축 프로젝트 |10               |시작전              |67.5          |
+|PRJ-0045   |[unread]  |1             |Employee  |삼성 SDS 구매 ERP         |10               |시작전              |35.0          |
+|PRJ-0019   |[unread]  |1             |Employee  |고주파수 영역 연구            |10               |시작전              |14.1          |
+|PRJ-0009   |[unread]  |1             |Employee  |5G 수신환경 연구            |20               |정상진행             |8.2           |
+|PRJ-0064   |[unread]  |1             |Employee  |SK하이닉스 임직원 ERP 구축     |10               |시작전              |0.1           |
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+
+15621 [http-nio-3333-exec-5] INFO  jdbc.sqlonly - SELECT emp_auth_fk
+		from SYS_EMP_TB
+		where emp_cd_pk = 'text-0010'
+
+15621 [http-nio-3333-exec-5] INFO  jdbc.sqlonly - SELECT emp_auth_fk
+		from SYS_EMP_TB
+		where emp_cd_pk = 'text-0010'
+
+15627 [http-nio-3333-exec-5] INFO  jdbc.resultsettable - 
+|------------|
+|emp_auth_fk |
+|------------|
+|1           |
+|------------|
+
+15627 [http-nio-3333-exec-5] INFO  jdbc.resultsettable - 
+|------------|
+|emp_auth_fk |
+|------------|
+|1           |
+|------------|
+
+15641 [http-nio-3333-exec-5] INFO  jdbc.sqlonly - SELECT DISTINCT PROJECT_NM, PROJECT_STATE_NM, PT.PROJECT_PK, PROJECT_TYPE, PROJECT_START_DT, PROJECT_COMP_DT
+		FROM PROJECT_STATE_TB PST, PROJECT_TB PT, RESOURCE_TB r
+		WHERE PST.PROJECT_STATE_PK = PT.PROJECT_STATE_PK
+		and r.project_pk = PT.PROJECT_PK
+		and r.emp_cd_pk like CONCAT('%', 'text-0010', '%')
+
+15641 [http-nio-3333-exec-5] INFO  jdbc.sqlonly - SELECT DISTINCT PROJECT_NM, PROJECT_STATE_NM, PT.PROJECT_PK, PROJECT_TYPE, PROJECT_START_DT, PROJECT_COMP_DT
+		FROM PROJECT_STATE_TB PST, PROJECT_TB PT, RESOURCE_TB r
+		WHERE PST.PROJECT_STATE_PK = PT.PROJECT_STATE_PK
+		and r.project_pk = PT.PROJECT_PK
+		and r.emp_cd_pk like CONCAT('%', 'text-0010', '%')
+
+15652 [http-nio-3333-exec-5] INFO  jdbc.resultsettable - 
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+|project_nm            |project_state_nm |project_pk |project_type |project_start_dt |project_comp_dt |
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+|OTP 개발                |시작전              |PRJ-0008   |선행개발         |2020-10-01       |2020-12-01      |
+|5G 수신환경 연구            |정상진행             |PRJ-0009   |선행개발         |2020-11-01       |2021-01-01      |
+|고주파수 영역 연구            |시작전              |PRJ-0019   |고객선행         |2021-11-04       |2021-11-06      |
+|AAAA개발                |시작전              |PRJ-0037   |선행개발         |2021-10-15       |2021-10-16      |
+|삼성 SDS 구매 ERP         |시작전              |PRJ-0045   |고객선행         |2021-10-01       |2021-11-27      |
+|SK하이닉스 임직원 ERP 구축     |시작전              |PRJ-0064   |고객선행         |2021-10-20       |2022-01-29      |
+|현대모비스 전자결재시스템 구축 프로젝트 |시작전              |PRJ-0065   |고객선행         |2021-10-12       |2021-11-28      |
+|test2                 |시작전              |PRJ-0068   |선행개발         |2021-10-01       |2021-10-31      |
+|테스트                   |시작전              |PRJ-0076   |선행개발         |2021-10-23       |2021-11-06      |
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+
+15652 [http-nio-3333-exec-5] INFO  jdbc.resultsettable - 
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+|project_nm            |project_state_nm |project_pk |project_type |project_start_dt |project_comp_dt |
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+|OTP 개발                |시작전              |PRJ-0008   |선행개발         |2020-10-01       |2020-12-01      |
+|5G 수신환경 연구            |정상진행             |PRJ-0009   |선행개발         |2020-11-01       |2021-01-01      |
+|고주파수 영역 연구            |시작전              |PRJ-0019   |고객선행         |2021-11-04       |2021-11-06      |
+|AAAA개발                |시작전              |PRJ-0037   |선행개발         |2021-10-15       |2021-10-16      |
+|삼성 SDS 구매 ERP         |시작전              |PRJ-0045   |고객선행         |2021-10-01       |2021-11-27      |
+|SK하이닉스 임직원 ERP 구축     |시작전              |PRJ-0064   |고객선행         |2021-10-20       |2022-01-29      |
+|현대모비스 전자결재시스템 구축 프로젝트 |시작전              |PRJ-0065   |고객선행         |2021-10-12       |2021-11-28      |
+|test2                 |시작전              |PRJ-0068   |선행개발         |2021-10-01       |2021-10-31      |
+|테스트                   |시작전              |PRJ-0076   |선행개발         |2021-10-23       |2021-11-06      |
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+
+16721 [http-nio-3333-exec-9] INFO  jdbc.sqlonly - SELECT emp_auth_fk
+		from SYS_EMP_TB
+		where emp_cd_pk = 'text-0010'
+
+16721 [http-nio-3333-exec-9] INFO  jdbc.sqlonly - SELECT emp_auth_fk
+		from SYS_EMP_TB
+		where emp_cd_pk = 'text-0010'
+
+16725 [http-nio-3333-exec-9] INFO  jdbc.resultsettable - 
+|------------|
+|emp_auth_fk |
+|------------|
+|1           |
+|------------|
+
+16725 [http-nio-3333-exec-9] INFO  jdbc.resultsettable - 
+|------------|
+|emp_auth_fk |
+|------------|
+|1           |
+|------------|
+
+16737 [http-nio-3333-exec-9] INFO  jdbc.sqlonly - SELECT resource_role
+		from RESOURCE_TB
+		where project_pk = 'PRJ-0068'
+		and emp_cd_pk = 'text-0010'
+		limit 1
+
+16737 [http-nio-3333-exec-9] INFO  jdbc.sqlonly - SELECT resource_role
+		from RESOURCE_TB
+		where project_pk = 'PRJ-0068'
+		and emp_cd_pk = 'text-0010'
+		limit 1
+
+16742 [http-nio-3333-exec-9] INFO  jdbc.resultsettable - 
+|--------------|
+|resource_role |
+|--------------|
+|1             |
+|--------------|
+
+16742 [http-nio-3333-exec-9] INFO  jdbc.resultsettable - 
+|--------------|
+|resource_role |
+|--------------|
+|1             |
+|--------------|
+
+16753 [http-nio-3333-exec-9] INFO  jdbc.sqlonly - SELECT PROJECT_NM
+		FROM PROJECT_TB
+		WHERE PROJECT_PK = 'PRJ-0068'
+
+16753 [http-nio-3333-exec-9] INFO  jdbc.sqlonly - SELECT PROJECT_NM
+		FROM PROJECT_TB
+		WHERE PROJECT_PK = 'PRJ-0068'
+
+16758 [http-nio-3333-exec-9] INFO  jdbc.resultsettable - 
+|-----------|
+|project_nm |
+|-----------|
+|test2      |
+|-----------|
+
+16758 [http-nio-3333-exec-9] INFO  jdbc.resultsettable - 
+|-----------|
+|project_nm |
+|-----------|
+|test2      |
+|-----------|
+
+17189 [http-nio-3333-exec-3] INFO  jdbc.sqlonly - select resource_pk, r.emp_cd_pk emp_cd_pk, e.emp_name emp_name 
+		from RESOURCE_TB r, SYS_EMP_TB e
+		where r.emp_cd_pk = e.emp_cd_pk 
+		and project_pk = 'PRJ-0068';
+
+17189 [http-nio-3333-exec-3] INFO  jdbc.sqlonly - select resource_pk, r.emp_cd_pk emp_cd_pk, e.emp_name emp_name 
+		from RESOURCE_TB r, SYS_EMP_TB e
+		where r.emp_cd_pk = e.emp_cd_pk 
+		and project_pk = 'PRJ-0068';
+
+17196 [http-nio-3333-exec-3] INFO  jdbc.resultsettable - 
+|------------|----------|---------|
+|resource_pk |emp_cd_pk |emp_name |
+|------------|----------|---------|
+|RSC-3215    |text-0010 |김길동      |
+|RSC-3216    |emp-1006  |박남정      |
+|RSC-3217    |emp-3001  |한라봉      |
+|RSC-3231    |emp-0003  |김태형      |
+|RSC-3260    |emp-5002  |테스트      |
+|------------|----------|---------|
+
+17196 [http-nio-3333-exec-3] INFO  jdbc.resultsettable - 
+|------------|----------|---------|
+|resource_pk |emp_cd_pk |emp_name |
+|------------|----------|---------|
+|RSC-3215    |text-0010 |김길동      |
+|RSC-3216    |emp-1006  |박남정      |
+|RSC-3217    |emp-3001  |한라봉      |
+|RSC-3231    |emp-0003  |김태형      |
+|RSC-3260    |emp-5002  |테스트      |
+|------------|----------|---------|
+
+17261 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select task_pk, task_approver, task_nm, task_state, date_format(task_start_dt,'%d-%m-%Y') task_start_dt, date_format(task_comp_dt,'%d-%m-%Y') task_comp_dt, task_progress, task_type, task_description, task_parent, task_sortorder, task_manager
+	from TASK_TB
+	where project_pk = 'PRJ-0068'
+
+17261 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select task_pk, task_approver, task_nm, task_state, date_format(task_start_dt,'%d-%m-%Y') task_start_dt, date_format(task_comp_dt,'%d-%m-%Y') task_comp_dt, task_progress, task_type, task_description, task_parent, task_sortorder, task_manager
+	from TASK_TB
+	where project_pk = 'PRJ-0068'
+
+17268 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------|--------------|--------|-----------|--------------|-------------|--------------|----------|-----------------|------------|---------------|-------------|
+|task_pk  |task_approver |task_nm |task_state |task_start_dt |task_comp_dt |task_progress |task_type |task_description |task_parent |task_sortorder |task_manager |
+|---------|--------------|--------|-----------|--------------|-------------|--------------|----------|-----------------|------------|---------------|-------------|
+|TSK-0285 |RSC-3215      |테스트     |0          |21-10-2021    |25-10-2021   |0.0           |null      |테스트              |0           |0              |RSC-3215     |
+|---------|--------------|--------|-----------|--------------|-------------|--------------|----------|-----------------|------------|---------------|-------------|
+
+17268 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------|--------------|--------|-----------|--------------|-------------|--------------|----------|-----------------|------------|---------------|-------------|
+|task_pk  |task_approver |task_nm |task_state |task_start_dt |task_comp_dt |task_progress |task_type |task_description |task_parent |task_sortorder |task_manager |
+|---------|--------------|--------|-----------|--------------|-------------|--------------|----------|-----------------|------------|---------------|-------------|
+|TSK-0285 |RSC-3215      |테스트     |0          |21-10-2021    |25-10-2021   |0.0           |null      |테스트              |0           |0              |RSC-3215     |
+|---------|--------------|--------|-----------|--------------|-------------|--------------|----------|-----------------|------------|---------------|-------------|
+
+17313 [http-nio-3333-exec-7] INFO  jdbc.sqlonly - select link_pk, link_source, link_target, link_type
+	from LINK_TB
+	where project_pk = 'PRJ-0068'
+
+17313 [http-nio-3333-exec-7] INFO  jdbc.sqlonly - select link_pk, link_source, link_target, link_type
+	from LINK_TB
+	where project_pk = 'PRJ-0068'
+
+17322 [http-nio-3333-exec-7] INFO  jdbc.resultsettable - 
+|--------|------------|------------|----------|
+|link_pk |link_source |link_target |link_type |
+|--------|------------|------------|----------|
+|--------|------------|------------|----------|
+
+17322 [http-nio-3333-exec-7] INFO  jdbc.resultsettable - 
+|--------|------------|------------|----------|
+|link_pk |link_source |link_target |link_type |
+|--------|------------|------------|----------|
+|--------|------------|------------|----------|
+
+19358 [http-nio-3333-exec-2] INFO  jdbc.sqlonly - SELECT emp_auth_fk
+		from SYS_EMP_TB
+		where emp_cd_pk = 'text-0010'
+
+19358 [http-nio-3333-exec-2] INFO  jdbc.sqlonly - SELECT emp_auth_fk
+		from SYS_EMP_TB
+		where emp_cd_pk = 'text-0010'
+
+19362 [http-nio-3333-exec-2] INFO  jdbc.resultsettable - 
+|------------|
+|emp_auth_fk |
+|------------|
+|1           |
+|------------|
+
+19362 [http-nio-3333-exec-2] INFO  jdbc.resultsettable - 
+|------------|
+|emp_auth_fk |
+|------------|
+|1           |
+|------------|
+
+19373 [http-nio-3333-exec-2] INFO  jdbc.sqlonly - SELECT DISTINCT PROJECT_NM, PROJECT_STATE_NM, PT.PROJECT_PK, PROJECT_TYPE, PROJECT_START_DT, PROJECT_COMP_DT
+		FROM PROJECT_STATE_TB PST, PROJECT_TB PT, RESOURCE_TB r
+		WHERE PST.PROJECT_STATE_PK = PT.PROJECT_STATE_PK
+		and r.project_pk = PT.PROJECT_PK
+		and r.emp_cd_pk like CONCAT('%', 'text-0010', '%')
+
+19373 [http-nio-3333-exec-2] INFO  jdbc.sqlonly - SELECT DISTINCT PROJECT_NM, PROJECT_STATE_NM, PT.PROJECT_PK, PROJECT_TYPE, PROJECT_START_DT, PROJECT_COMP_DT
+		FROM PROJECT_STATE_TB PST, PROJECT_TB PT, RESOURCE_TB r
+		WHERE PST.PROJECT_STATE_PK = PT.PROJECT_STATE_PK
+		and r.project_pk = PT.PROJECT_PK
+		and r.emp_cd_pk like CONCAT('%', 'text-0010', '%')
+
+19383 [http-nio-3333-exec-2] INFO  jdbc.resultsettable - 
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+|project_nm            |project_state_nm |project_pk |project_type |project_start_dt |project_comp_dt |
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+|OTP 개발                |시작전              |PRJ-0008   |선행개발         |2020-10-01       |2020-12-01      |
+|5G 수신환경 연구            |정상진행             |PRJ-0009   |선행개발         |2020-11-01       |2021-01-01      |
+|고주파수 영역 연구            |시작전              |PRJ-0019   |고객선행         |2021-11-04       |2021-11-06      |
+|AAAA개발                |시작전              |PRJ-0037   |선행개발         |2021-10-15       |2021-10-16      |
+|삼성 SDS 구매 ERP         |시작전              |PRJ-0045   |고객선행         |2021-10-01       |2021-11-27      |
+|SK하이닉스 임직원 ERP 구축     |시작전              |PRJ-0064   |고객선행         |2021-10-20       |2022-01-29      |
+|현대모비스 전자결재시스템 구축 프로젝트 |시작전              |PRJ-0065   |고객선행         |2021-10-12       |2021-11-28      |
+|test2                 |시작전              |PRJ-0068   |선행개발         |2021-10-01       |2021-10-31      |
+|테스트                   |시작전              |PRJ-0076   |선행개발         |2021-10-23       |2021-11-06      |
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+
+19383 [http-nio-3333-exec-2] INFO  jdbc.resultsettable - 
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+|project_nm            |project_state_nm |project_pk |project_type |project_start_dt |project_comp_dt |
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+|OTP 개발                |시작전              |PRJ-0008   |선행개발         |2020-10-01       |2020-12-01      |
+|5G 수신환경 연구            |정상진행             |PRJ-0009   |선행개발         |2020-11-01       |2021-01-01      |
+|고주파수 영역 연구            |시작전              |PRJ-0019   |고객선행         |2021-11-04       |2021-11-06      |
+|AAAA개발                |시작전              |PRJ-0037   |선행개발         |2021-10-15       |2021-10-16      |
+|삼성 SDS 구매 ERP         |시작전              |PRJ-0045   |고객선행         |2021-10-01       |2021-11-27      |
+|SK하이닉스 임직원 ERP 구축     |시작전              |PRJ-0064   |고객선행         |2021-10-20       |2022-01-29      |
+|현대모비스 전자결재시스템 구축 프로젝트 |시작전              |PRJ-0065   |고객선행         |2021-10-12       |2021-11-28      |
+|test2                 |시작전              |PRJ-0068   |선행개발         |2021-10-01       |2021-10-31      |
+|테스트                   |시작전              |PRJ-0076   |선행개발         |2021-10-23       |2021-11-06      |
+|----------------------|-----------------|-----------|-------------|-----------------|----------------|
+
+21583 [http-nio-3333-exec-6] INFO  jdbc.sqlonly - SELECT EMP_DEPT_PK, DEPT_NAME
+		FROM EMP_DEPT_TB
+
+21583 [http-nio-3333-exec-6] INFO  jdbc.sqlonly - SELECT EMP_DEPT_PK, DEPT_NAME
+		FROM EMP_DEPT_TB
+
+21589 [http-nio-3333-exec-6] INFO  jdbc.resultsettable - 
+|------------|----------|
+|emp_dept_pk |dept_name |
+|------------|----------|
+|1000        |인사        |
+|1100        |홍보        |
+|2000        |총무        |
+|3000        |경영지원      |
+|4000        |회계        |
+|5000        |고객만족      |
+|6000        |기술지원      |
+|7000        |연구개발      |
+|8000        |생산관리      |
+|9000        |영업        |
+|------------|----------|
+
+21589 [http-nio-3333-exec-6] INFO  jdbc.resultsettable - 
+|------------|----------|
+|emp_dept_pk |dept_name |
+|------------|----------|
+|1000        |인사        |
+|1100        |홍보        |
+|2000        |총무        |
+|3000        |경영지원      |
+|4000        |회계        |
+|5000        |고객만족      |
+|6000        |기술지원      |
+|7000        |연구개발      |
+|8000        |생산관리      |
+|9000        |영업        |
+|------------|----------|
+
+1091 [restartedMain] INFO  com.team3.pms.PmsApplication - Starting PmsApplication using Java 15.0.2 on DESKTOP-G4DIIJ3 with PID 16368 (D:\hellobootworkspace\qpms_step1\bin\main started by ch in D:\hellobootworkspace\qpms_step1)
+1093 [restartedMain] INFO  com.team3.pms.PmsApplication - No active profile set, falling back to default profiles: default
+1147 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+1147 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2721 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 3333 (http)
+2730 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-3333"]
+2731 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2731 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.53]
+2863 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2864 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1717 ms
+3730 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/js/**'] with []
+3730 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/css/**'] with []
+3730 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/images/**'] with []
+3731 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/font/**'] with []
+3731 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/html/**'] with []
+3731 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure Ant [pattern='/vendor/**'] with []
+3765 [restartedMain] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6be56f3d, org.springframework.security.web.context.SecurityContextPersistenceFilter@ca85c01, org.springframework.security.web.header.HeaderWriterFilter@715410da, org.springframework.security.web.csrf.CsrfFilter@4379bcbd, org.springframework.security.web.authentication.logout.LogoutFilter@2ab54a77, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@726acb45, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@53d748d9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@9dd0b6e, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@444b7214, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6d8aca25, org.springframework.security.web.session.SessionManagementFilter@79338c5c, org.springframework.security.web.access.ExceptionTranslationFilter@1aa191d2, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@57fda7bd]
+4028 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+4411 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+4438 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-3333"]
+4465 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 3333 (http) with context path ''
+4466 [restartedMain] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Starting...
+4467 [restartedMain] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6288de81]]
+4467 [restartedMain] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Started.
+4479 [restartedMain] INFO  com.team3.pms.PmsApplication - Started PmsApplication in 3.747 seconds (JVM running for 4.97)
+9280 [http-nio-3333-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+9280 [http-nio-3333-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+9281 [http-nio-3333-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+9412 [http-nio-3333-exec-1] ERROR c.t.p.S.M.MemberAuthenticationEntryPoint - Full authentication is required to access this resource
+13248 [http-nio-3333-exec-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+13287 [http-nio-3333-exec-9] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+13294 [http-nio-3333-exec-9] INFO  jdbc.sqlonly - select emp_cd_pk, emp_auth_fk, emp_auth, emp_pos_fk, emp_pos, emp_dept_fk, emp_dept, 
+				emp_id, emp_pw, emp_name
+		from v_empTB
+		where emp_id = 'hi10';
+
+13294 [http-nio-3333-exec-9] INFO  jdbc.sqlonly - select emp_cd_pk, emp_auth_fk, emp_auth, emp_pos_fk, emp_pos, emp_dept_fk, emp_dept, 
+				emp_id, emp_pw, emp_name
+		from v_empTB
+		where emp_id = 'hi10';
+
+13311 [http-nio-3333-exec-9] INFO  jdbc.resultsettable - 
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+|emp_cd_pk |emp_auth_fk |emp_auth |emp_pos_fk |emp_pos |emp_dept_fk |emp_dept |emp_id |emp_pw |emp_name |
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+|text-0010 |1           |Employee |10         |사원      |7000        |연구개발     |hi10   |hihi   |김길동      |
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+
+13311 [http-nio-3333-exec-9] INFO  jdbc.resultsettable - 
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+|emp_cd_pk |emp_auth_fk |emp_auth |emp_pos_fk |emp_pos |emp_dept_fk |emp_dept |emp_id |emp_pw |emp_name |
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+|text-0010 |1           |Employee |10         |사원      |7000        |연구개발     |hi10   |hihi   |김길동      |
+|----------|------------|---------|-----------|--------|------------|---------|-------|-------|---------|
+
+13497 [http-nio-3333-exec-9] INFO  c.t.p.S.M.CustomAuthenticationProvider - User 'hi10': Logged In.
+13547 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 10
+			group by emp_dept_pk;
+
+13547 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 10
+			group by emp_dept_pk;
+
+13558 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|10             |PRJ-0010   |10               |시작전              |1000        |인사        |
+|6              |PRJ-0036   |10               |시작전              |1100        |홍보        |
+|6              |PRJ-0019   |10               |시작전              |2000        |총무        |
+|1              |PRJ-0084   |10               |시작전              |3000        |경영지원      |
+|5              |PRJ-0008   |10               |시작전              |7000        |연구개발      |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+13558 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|10             |PRJ-0010   |10               |시작전              |1000        |인사        |
+|6              |PRJ-0036   |10               |시작전              |1100        |홍보        |
+|6              |PRJ-0019   |10               |시작전              |2000        |총무        |
+|1              |PRJ-0084   |10               |시작전              |3000        |경영지원      |
+|5              |PRJ-0008   |10               |시작전              |7000        |연구개발      |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+13558 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 20
+			group by emp_dept_pk;
+
+13558 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 20
+			group by emp_dept_pk;
+
+13568 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|1              |PRJ-0009   |20               |정상진행             |1100        |홍보        |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+13568 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|1              |PRJ-0009   |20               |정상진행             |1100        |홍보        |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+13568 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 40
+			group by emp_dept_pk;
+
+13568 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = 40
+			group by emp_dept_pk;
+
+13574 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+13574 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|num_of_project |project_pk |project_state_pk |project_state_nm |emp_dept_pk |dept_name |
+|---------------|-----------|-----------------|-----------------|------------|----------|
+|---------------|-----------|-----------------|-----------------|------------|----------|
+
+13575 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select * from v_dashboard_2;
+
+13575 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select * from v_dashboard_2;
+
+13582 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|-----------|--------------|-----------------|
+|num_of_emp |project_pk |project_nm    |project_state_nm |
+|-----------|-----------|--------------|-----------------|
+|14         |PRJ-0037   |AAAA개발        |시작전              |
+|8          |PRJ-0009   |5G 수신환경 연구    |정상진행             |
+|5          |PRJ-0068   |test2         |시작전              |
+|5          |PRJ-0045   |삼성 SDS 구매 ERP |시작전              |
+|3          |PRJ-0074   |테스트           |시작전              |
+|3          |PRJ-0008   |OTP 개발        |시작전              |
+|-----------|-----------|--------------|-----------------|
+
+13582 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|-----------|--------------|-----------------|
+|num_of_emp |project_pk |project_nm    |project_state_nm |
+|-----------|-----------|--------------|-----------------|
+|14         |PRJ-0037   |AAAA개발        |시작전              |
+|8          |PRJ-0009   |5G 수신환경 연구    |정상진행             |
+|5          |PRJ-0068   |test2         |시작전              |
+|5          |PRJ-0045   |삼성 SDS 구매 ERP |시작전              |
+|3          |PRJ-0074   |테스트           |시작전              |
+|3          |PRJ-0008   |OTP 개발        |시작전              |
+|-----------|-----------|--------------|-----------------|
+
+13583 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select * from v_dashboard_1;
+
+13583 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select * from v_dashboard_1;
+
+13593 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+|project_pk |project_nm            |project_state_nm |emp_dept_pk |dept_name |project_start_dt |project_comp_dt |task_progress |
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+|PRJ-0065   |현대모비스 전자결재시스템 구축 프로젝트 |시작전              |2000        |총무        |2021-10-12       |2021-11-28      |67.5          |
+|PRJ-0020   |칸반보드 샘플 프로젝트          |시작전              |1000        |인사        |2021-10-06       |2021-10-06      |40.0          |
+|PRJ-0043   |신한카드 관리자페이지 구축        |시작전              |2000        |총무        |2021-10-18       |2021-10-31      |38.2          |
+|PRJ-0045   |삼성 SDS 구매 ERP         |시작전              |1000        |인사        |2021-10-01       |2021-11-27      |35.0          |
+|PRJ-0019   |고주파수 영역 연구            |시작전              |2000        |총무        |2021-11-04       |2021-11-06      |14.1          |
+|PRJ-0021   |SIA 테스트               |시작전              |1000        |인사        |2021-10-06       |2021-10-06      |8.6           |
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+
+13593 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+|project_pk |project_nm            |project_state_nm |emp_dept_pk |dept_name |project_start_dt |project_comp_dt |task_progress |
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+|PRJ-0065   |현대모비스 전자결재시스템 구축 프로젝트 |시작전              |2000        |총무        |2021-10-12       |2021-11-28      |67.5          |
+|PRJ-0020   |칸반보드 샘플 프로젝트          |시작전              |1000        |인사        |2021-10-06       |2021-10-06      |40.0          |
+|PRJ-0043   |신한카드 관리자페이지 구축        |시작전              |2000        |총무        |2021-10-18       |2021-10-31      |38.2          |
+|PRJ-0045   |삼성 SDS 구매 ERP         |시작전              |1000        |인사        |2021-10-01       |2021-11-27      |35.0          |
+|PRJ-0019   |고주파수 영역 연구            |시작전              |2000        |총무        |2021-11-04       |2021-11-06      |14.1          |
+|PRJ-0021   |SIA 테스트               |시작전              |1000        |인사        |2021-10-06       |2021-10-06      |8.6           |
+|-----------|----------------------|-----------------|------------|----------|-----------------|----------------|--------------|
+
+13594 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select a.project_pk, a.emp_cd_pk, a.resource_role, d.auth_name, b.project_nm, 
+				c.*, task_progress
+		from RESOURCE_TB a
+			inner join PROJECT_TB b on a.project_pk = b.project_pk
+			inner join PROJECT_STATE_TB c on b.project_state_pk = c.project_state_pk
+			inner join EMP_AUTH_TB d on a.resource_role = d.emp_auth_pk
+			left join v_project_progress e on a.project_pk = e.project_pk
+		where emp_cd_pk = 'text-0010'  and b.project_state_pk < 40
+		group by a.project_pk
+		order by task_progress desc
+		limit 5;
+
+13594 [http-nio-3333-exec-1] INFO  jdbc.sqlonly - select a.project_pk, a.emp_cd_pk, a.resource_role, d.auth_name, b.project_nm, 
+				c.*, task_progress
+		from RESOURCE_TB a
+			inner join PROJECT_TB b on a.project_pk = b.project_pk
+			inner join PROJECT_STATE_TB c on b.project_state_pk = c.project_state_pk
+			inner join EMP_AUTH_TB d on a.resource_role = d.emp_auth_pk
+			left join v_project_progress e on a.project_pk = e.project_pk
+		where emp_cd_pk = 'text-0010'  and b.project_state_pk < 40
+		group by a.project_pk
+		order by task_progress desc
+		limit 5;
+
+13603 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+|project_pk |emp_cd_pk |resource_role |auth_name |project_nm            |project_state_pk |project_state_nm |task_progress |
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+|PRJ-0065   |[unread]  |1             |Employee  |현대모비스 전자결재시스템 구축 프로젝트 |10               |시작전              |67.5          |
+|PRJ-0045   |[unread]  |1             |Employee  |삼성 SDS 구매 ERP         |10               |시작전              |35.0          |
+|PRJ-0019   |[unread]  |1             |Employee  |고주파수 영역 연구            |10               |시작전              |14.1          |
+|PRJ-0009   |[unread]  |1             |Employee  |5G 수신환경 연구            |20               |정상진행             |8.2           |
+|PRJ-0064   |[unread]  |1             |Employee  |SK하이닉스 임직원 ERP 구축     |10               |시작전              |0.1           |
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+
+13603 [http-nio-3333-exec-1] INFO  jdbc.resultsettable - 
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+|project_pk |emp_cd_pk |resource_role |auth_name |project_nm            |project_state_pk |project_state_nm |task_progress |
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+|PRJ-0065   |[unread]  |1             |Employee  |현대모비스 전자결재시스템 구축 프로젝트 |10               |시작전              |67.5          |
+|PRJ-0045   |[unread]  |1             |Employee  |삼성 SDS 구매 ERP         |10               |시작전              |35.0          |
+|PRJ-0019   |[unread]  |1             |Employee  |고주파수 영역 연구            |10               |시작전              |14.1          |
+|PRJ-0009   |[unread]  |1             |Employee  |5G 수신환경 연구            |20               |정상진행             |8.2           |
+|PRJ-0064   |[unread]  |1             |Employee  |SK하이닉스 임직원 ERP 구축     |10               |시작전              |0.1           |
+|-----------|----------|--------------|----------|----------------------|-----------------|-----------------|--------------|
+
+63829 [MessageBroker-1] INFO  o.s.w.s.c.WebSocketMessageBrokerStats - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]

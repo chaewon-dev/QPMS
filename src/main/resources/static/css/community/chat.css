@@ -1,0 +1,166 @@
+.row{
+	display: flex;
+	margin : 0 auto;
+}
+
+.chat-body{
+	height : 600px;
+	width : 1000px;
+	display : flex;
+	overflow : auto;
+}
+.btn-addChat{
+	width : 260px;
+	margin : 10px 20px;
+	margin-left : 0;
+	padding : 4px 8px;
+}
+.chat-groups{
+	display : block;
+	padding : 8px 15px;
+	width : 260px;
+	border : none;
+	text-align : left;
+	background-color : white;
+	border-bottom : 1px solid #dae1e6;
+	font-size : 11pt;
+	text-overflow: ellipsis;
+	overflow:hidden;
+	white-space : nowrap;
+}
+.chat-groups:hover{
+	background-color : #dae1e6;
+	text-decoration : none;
+}
+/*
+.col-xl-8 .col-lg-7{
+	width : 50%;
+}
+*/
+.left-side{
+	width : 280px;
+}
+
+.chat-area-w{
+	height : 500px;
+}
+.chat-area{
+	padding : 10px 20px;
+	height : 400px;
+	overflow : auto;
+}
+.chat-indiv{
+	display : flex;
+}
+.chat-me{
+	 flex-direction: row-reverse;
+	 text-align : right;
+}
+#chat-ij-profile{
+	width  : 40px;
+	height : 40px;
+}
+#chat-ij-content{
+	padding : 0 10px;
+}
+.chat-ij-info{
+	display : flex;
+}
+#chat-ij-name{
+	font-size : 11pt;
+	color : black;
+}
+#chat-ij-date{
+	margin-left : 10px;
+	font-size : 9pt;
+}
+#chat-ij-text{
+	text-align : left;
+	max-width : 300px;
+	background-color : lightgray;
+	font-weight : lighter;
+	font-size : 11pt;
+	padding : 10px 20px;
+	border-radius : 10px;
+	color : black;
+}
+.chatOut{
+	color : red;
+}
+
+/* modal */
+.empList{
+	height  : 162px;
+	overflow : auto;
+}
+.modal-content{
+	width : 400px;
+	max-height : 300px;
+	overflow : auto;
+}
+.modal-footer{
+	text-align : right;
+}
+#confirm{
+	margin-left : auto;
+}
+.modal-search{
+	display : flex;
+	align-items : center;
+}
+.schOption{
+	margin-left : 20px;
+	width : 20%;
+	height : 45px;
+}
+.searchTab{
+	margin : 10px 20px;
+	padding : 4px 8px;
+	width : 65%;
+	height : 45px;
+	border : 1px solid gray;
+	border-radius : 10px;
+}
+.btn-secondary{
+	margin-left : 5px;
+}
+/* 메시지 입력 창 */
+.chatSending{
+	display : flex;
+	text-align : center;
+	height : 60px;
+	padding : 5px 10px;
+	border-top : 1px solid #dae1e6;
+}
+.messageInput{
+	width : 90%;
+	height : 75px;
+	padding : 0 5px;
+	border : none;
+	resize : none;
+}
+.messageInput:focus{
+	outline : none;
+}
+.sendBtn{
+	margin : 6px auto;
+	border : none;
+	border-radius : 10px;
+	padding : 4px 10px;
+	background-color : #4e73df;
+	color : #ffffff;
+	font-size : 11pt;
+	cursor : pointer;
+}
+/* modal body */
+.modal-body{
+	display : flex;
+	align-items : center;
+	padding : 16px 25px;
+}
+.user-name{
+	margin-left : 10px;
+}
+#user-select{
+	margin-left : auto;
+}

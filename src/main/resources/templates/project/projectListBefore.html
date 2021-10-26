@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- <head th:replace="index2 :: navi">
+</head> -->
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Tables</title>
+
+    <!-- Custom fonts for this template -->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet">
+    
+    
+
+</head>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<div  th:with="title='Project'">
+					<nav th:replace="index2 :: topBar"></nav>
+				</div>
+				<!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                	<!-- Page Heading -->
+<!--                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">페이지 등록</h1>
+                    </div> -->
+                    <!-- Content Row -->
+                    <div class="row">
+                                            <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <!-- <div class="card border-left-primary shadow h-100 py-2"> -->
+                            <div class="card shadow mb-4">
+	                            <form action="/projectList">
+	                            	<div class="card-body">
+	                            		<select class="form-control float-left w-25" name="state">
+	                            			<option selected value="0">프로젝트 상태 선택</option>
+	                            			<option value="10">시작전</option>
+	                            			<option value="20">정상진행</option>
+	                            			<option value="30">지연진행</option>
+	                            			<option value="40">완료</option>
+	                            			<option value="50">홀드</option>
+	                            			<option value="60">드롭</option>
+	                            			<option value="70">종료</option>
+	                            		</select>
+	                            		<select class="form-control float-left w-25" name="dept">
+	                            			<option selected value="0">부서 선택</option>
+	                            			<option value="10">총무</option>
+	                            			<option value="20">회계</option>
+	                            			<option value="30">경영지원</option>
+	                            			<option value="40">인사</option>
+	                            			<option value="50">고객만족</option>
+	                            			<option value="60">기술지원</option>
+	                            			<option value="70">연구개발</option>
+	                            		</select>
+	                            		
+	                            		<div
+					                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+					                        <div class="input-group">
+					                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+					                                name="query">
+					                            <div class="input-group-append">
+					                                <button class="btn btn-primary" type="button" id="projectSch">
+					                                    <i class="fas fa-search fa-sm"></i>
+					                                </button>
+					                            </div>
+					                        </div>
+					                    </div>
+	                            		
+	                            		<input type="button" value="프로젝트 등록" class="btn float-right btn-primary"
+	                            				onclick="location.href='/projectReg'"/>
+	                            	</div>
+	                            	
+	                                <div class="card-body">
+	
+	                                    <table role="grid">
+											<tr><th>프로젝트명</th><th>상태</th><th>코드</th><th>유형</th><th>시작일</th><th>완료일</th></tr>
+											<tr th:each="project : ${projects}">
+											<td th:text="${project.project_nm}"></td>
+											<td th:text="${project.project_state_nm}"></td>
+											<td th:text="${project.project_pk}"></td>
+											<td th:text="${project.project_type}"></td>
+											<td th:text="${#dates.format(project.project_start_dt,'yyyy-MM-dd')}"></td>
+											<td th:text="${#dates.format(project.project_comp_dt,'yyyy-MM-dd')}"></td>
+											</tr>
+										
+										</table>
+	                                            
+	
+	                                </div>
+
+	                            </form>
+                            </div>
+                        </div>
+                    
+						
+                    </div>
+				</div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <div th:replace="index2 :: etc"></div>
+        <!-- Page level plugins -->
+    <script src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="@{/js/demo/datatables-demo.js}"></script>
+</body>
+</html>

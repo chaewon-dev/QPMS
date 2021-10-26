@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+<property name="home" value="logs"/>
+
+<!-- print logs in console -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <Target>System.out</Target>
+    <encoder>
+      <pattern>%d{yyyy.MM.dd HH:mm:ss.SSS} [%thread] %-3level %logger{5} - %msg %n</pattern>
+    </encoder>
+  </appender>
+
+<!-- use JDBC driver instead of MysqlDataSource -->
+<appender name="DB"
+        class="ch.qos.logback.classic.db.DBAppender">
+        <connectionSource
+            class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+            <driverClass>org.mariadb.jdbc.Driver</driverClass>
+            <url>jdbc:mariadb://ssangyong-team3.c5bmjoxzrazs.ap-northeast-2.rds.amazonaws.com/pms</url>
+            <user>team3</user>
+            <password>3whghkdlxld!</password>
+        </connectionSource>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter"> 
+        	<level>INFO</level> 
+        </filter>
+</appender>
+
+<!-- save logs as a file --> 
+<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${home}/access-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>utf8</charset>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+</appender>
+
+<!-- Log4jdbc -->
+<logger name="jdbc" level="OFF"/>
+
+<logger name="jdbc.sqlonly" level="INFO">
+
+	 <appender-ref ref="STDOUT" />
+	 <appender-ref ref="FILE" />
+</logger>
+
+<logger name="jdbc.sqltiming" level="WARN">
+	<appender-ref ref="DB" />
+	 <appender-ref ref="STDOUT" />
+	 	 <appender-ref ref="FILE" />
+</logger>
+
+<logger name="jdbc.audit" level="WARN">
+	<appender-ref ref="DB" />
+	 <appender-ref ref="STDOUT" />
+	 	 <appender-ref ref="FILE" />
+</logger>
+
+<logger name="jdbc.resultset" level="WARN">
+ <appender-ref ref="DB" />
+	 <appender-ref ref="STDOUT" />
+	 <appender-ref ref="FILE" />
+	 
+</logger>
+
+<logger name="jdbc.resultsettable" level="INFO">
+
+	 <appender-ref ref="STDOUT" />
+	 <appender-ref ref="FILE" />
+</logger>
+
+<logger name="jdbc.connection" level="WARN">
+	<appender-ref ref="DB" />
+	 <appender-ref ref="STDOUT" />
+	 <appender-ref ref="FILE" />
+</logger>
+'
+<!-- 특정패키지 로깅레벨 설정 --> 
+<logger name="com.team3.pms" level="INFO" additivity="false"> 
+    <appender-ref ref="DB" />
+     <appender-ref ref="STDOUT" />
+     <appender-ref ref="FILE" />
+</logger>
+<logger name="com.team3.pms.PmsApplication" level="INFO" additivity="false"> 
+     <appender-ref ref="STDOUT" />
+     <appender-ref ref="FILE" />
+</logger>
+
+<!--<logger name="com.zaxxer.hikari" level="OFF" additivity="false"> 
+    <appender-ref ref="DB" />
+</logger>
+<logger name="org.springframework" level="WARN" additivity="false"> 
+    <appender-ref ref="DB" />
+     <appender-ref ref="STDOUT" />
+</logger>
+<logger name="org.apache" level="WARN" additivity="false"> 
+    <appender-ref ref="DB" />
+     <appender-ref ref="STDOUT" />
+</logger>-->
+<!-- 출처: https://goddaehee.tistory.com/206 [갓대희의 작은공간] -->
+
+<root level="INFO">
+	<appender-ref ref="STDOUT" />
+	<appender-ref ref="FILE" />
+</root>
+
+</configuration>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index2 :: navi">
+</head>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<div  th:with="title='[ ' + ${projectId} + ' ] ' + ${projectName}">
+					<nav th:replace="index2 :: topBar"></nav>
+				</div>	
+				<!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                	<!-- Page Heading -->
+<!--                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">페이지 제목</h1>
+                    </div> -->
+                    <!-- Content Row -->
+                    <div class="row">
+                    
+                    	<div class="col-lg-12">
+
+                            <!-- Default Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header">
+                                    <span class="mt-2 font-weight-bold text-secondary float-left">비용 정보 수정</span>
+                                    <div class="input-group-append float-right" 
+                                    th:if="${authRole} == 10 or ${resourceRole} == 5 or ${user_pk} == ${costInfo.emp_cd_pk}">
+		                                <button class="ml-3 btn btn-warning float-right" type="button" id="btnEditMode">
+		                                    <i class="fas fa-pencil-alt fa-sm"></i>
+		                                    <span id="btnEditModeText">Edit Mode</span>
+		                                </button>
+		                            </div>
+                                </div>
+                                
+                                <div class="card-body">
+                                <form>
+                                    <div class="input-form col-md-12 mx-auto">
+                                    	
+                                    	<div class="row">
+                                    	<input type="hidden" id="projectId" th:value="${projectId}">
+                                    	<input type="hidden" id="cost_pk" th:value="${costInfo.cost_pk}">
+                                    		<div class="col-md-6 mb-3"> 
+	                                    		<label for="cost_type">비용 항목</label> 
+	                                    		<select class="form-control" id="cost_type" name="cost_type" disabled required> 
+	                                    			<option th:selected="${costInfo.cost_type} == '인건비'">인건비</option>
+	                                    			<option th:selected="${costInfo.cost_type} == '재료비'">재료비</option> 
+	                                    			<option th:selected="${costInfo.cost_type} == '임상연구비'">임상연구비</option>
+	                                    			<option th:selected="${costInfo.cost_type} == '위탁연구비'">위탁연구비</option>
+	                                    			<option th:selected="${costInfo.cost_type} == '개발금형비'">개발금형비</option>
+	                                    			<option th:selected="${costInfo.cost_type} == '기타'">기타</option>
+	                                    			
+	                                    		</select>
+                                    		</div>
+                                    		<div class="col-md-6 mb-3"> 
+	                                    		<label for="cost">지출 비용</label> 
+	                                    		<input class="form-control" type="text" id="cost" name="cost"
+	                                    		onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');"
+	                                    		th:value = "${costInfo.cost}" readonly>
+                                    		</div>
+                                    	</div>
+                                    	
+                                    	<div class="row">
+                                    		<div class="col-md-6 mb-3"> 
+                                    			<input type="hidden" id="cost_dept_pk" th:value="${costInfo.emp_dept_pk}">
+	                                    		<label for="emp_dept_pk">부서</label> 
+	                                    		<select class="form-control" id="emp_dept_pk" name="emp_dept_pk" required disabled> 
+	                                    		</select>
+                                    		</div>
+                                    		<div class="col-md-6 mb-3"> 
+	                                    		<label for="cost_dt">지출 일자</label> 
+	                                    		<input type="date" class="form-control" id="cost_dt" name="cost_dt" required readonly
+	                                    		th:value="${#dates.format(costInfo.cost_dt,'yyyy-MM-dd')}"> 
+
+                                    		</div>
+                                    	</div>
+                                    	
+                                    	<div class="row">
+                                    		<div class="col-md-12 mb-3"> 
+	                                    		<label for="cost_memo">메모</label> 
+	                                    		<textarea cols="1" rows="3" class="form-control" id="cost_memo" name="cost_memo" readonly
+	                                    		th:text="${costInfo.cost_memo}"></textarea>
+                                    		</div>
+                                    	</div>
+                                    
+                                    
+                                    </div>
+
+
+
+									<div class="input-group-append float-left ml-2 mb-2">
+										<button class="btn btn-danger" type="button" id="btnCostDelete"
+										th:if="${authRole} == 10 or ${resourceRole} == 5 or ${user_pk} == ${costInfo.emp_cd_pk}">
+		                                    <i class="fas fa-trash-alt fa-sm"></i>
+		                                    <span>Delete</span>
+		                                </button>
+		                            </div>
+									<div class="input-group-append float-right">
+										<button class="btn btn-secondary" type="button" onclick="history.back();">
+		                                    <i class="fas fa-arrow-left fa-sm"></i>
+		                                    <span>Back</span>
+		                                </button>
+		                                
+		                                <button class="ml-3 btn btn-primary" type="button" id="btnCostUpdate"
+		                                th:if="${authRole} == 10 or ${resourceRole} == 5 or ${user_pk} == ${costInfo.emp_cd_pk}">
+		                                    <i class="fas fa-check fa-sm"></i>
+		                                    <span>Update</span>
+		                                </button>
+		                            </div>
+		                        </form>
+                                </div>
+                                
+                                
+									
+                            </div>
+
+
+                        </div>
+
+                    </div>
+				</div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <div th:replace="index2 :: etc"></div>
+    <script th:src="@{/js/project/projectCostEdit.js}"></script>
+</body>
+</html>

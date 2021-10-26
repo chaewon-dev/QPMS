@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index2 :: navi">
+</head>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<div th:with="title='Community'">
+					<nav th:replace="index2 :: topBar"></nav>
+				</div>
+				<!-- End of Topbar -->
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<div
+						class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-0 text-gray-800">자료실</h1>
+					</div>
+					<!-- Content Row -->
+					<div class="row">
+						<div class="col-lg-12">
+
+							<!-- Default Card Example -->
+							<div class="card shadow mb-4">
+								<div class="card-header">
+									<span class="mt-2 font-weight-bold text-secondary float-left">자료실 등록</span>
+								</div>
+
+								<div class="card-body">
+									<form id="archiveForm" name="archiveForm" method="post" enctype="multipart/form-data" action="/community/archive/insert">
+										<input type="hidden" name="bbs_cd_pk" value=""/>
+										<div class="input-form col-md-12 mx-auto">
+											<div class="row">
+												<div class="col-md-12 mb-3">
+													<label for="archiveTitle">제목</label> <input type="text"
+														class="form-control" id="archiveTitle" name="bbs_title"
+														placeholder="제목을 입력해주세요." value="" 
+														maxlength="30" required/>
+													<div class="invalid-feedback">제목 입력</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12 mb-3">
+													<label for="archiveContent">내용 입력</label>
+													<textarea cols="1" rows="3" class="form-control"
+														id="archiveContent" name="bbs_cont"  required style="resize:none;min-height:300px;"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12 mb-3">
+													<label for="noticeFile">첨부파일</label>
+													<input type="file" cols="1" rows="3" class="form-control"
+														id="archiveFile" name="report"/>
+												</div>
+											</div>
+										</div>
+										<div class="input-group-append float-right">
+											<button class="ml-3 btn btn-primary" 
+												id="btnProjectSave">
+												<i class="fas fa-check fa-sm"></i> <span>Save</span>
+											</button>
+											<button class="btn btn-secondary" type="button" style="margin-left:5px;"
+												onclick="cancel();">
+												 <span>Cancel</span>
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+		<!-- End of Content Wrapper -->
+	</div>
+	<!-- End of Page Wrapper -->
+	<div th:replace="index2 :: etc"></div>
+</body>
+<script type="text/javascript">
+	function cancel(){
+		location.href="/community/archive";
+	}
+</script>
+</html>

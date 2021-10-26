@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.RiskPage.RiskDao">
+	<select id="riskList" resultType="com.team3.pms.VO.risk.Risk" >
+			select * from SYS_RISK_TB r, PROJECT_TB p, SYS_RISKPGS_TB rpgs, sys_riskact_tb ra, sys_risktype_tb st
+			WHERE r.project_cd = p.project_pk
+			and r.riskpgs_cd = rpgs.riskpgs_cd 
+			and r.riskact_pk = ra.riskact_pk 
+			and r.risktype_pk = st.risktype_pk 
+			and r.riskpgs_cd like CONCAT('%', '${riskpgs_cd}', '%')
+			ORDER by risk_cd DESC
+	</select>
+	<insert id="riskInsert" parameterType="com.team3.pms.VO.risk.Risk">
+			insert into SYS_RISK_TB
+			values(concat('RIS-', LPAD(nextval(sq_risk), 4, '0')), #{risk_nm}, #{project_cd},
+			#{riskpgs_cd}, #{risk_finder}, #{risk_handler}, CURDATE(), CURDATE(), #{risktype_pk}, #{riskact_pk}, #{risk_actionbf}, #{risk_actionaf}, #{risk_lesson}, #{risk_file})
+	</insert>
+
+	<select id="riskDetailPage" parameterType="string" resultType="com.team3.pms.VO.risk.Risk">
+			select * from SYS_RISK_TB r, PROJECT_TB p, SYS_RISKPGS_TB rpgs, sys_riskact_tb ra, sys_risktype_tb st
+			WHERE r.project_cd = p.project_pk
+			and r.riskpgs_cd = rpgs.riskpgs_cd 
+			and r.riskact_pk = ra.riskact_pk 
+			and r.risktype_pk = st.risktype_pk
+			and risk_cd=#{risk_cd}
+	</select>
+	
+	<update id="riskUpdate" parameterType="com.team3.pms.VO.risk.Risk">
+		update SYS_RISK_TB
+			set risk_nm = #{risk_nm},
+				project_cd = #{project_cd},
+				riskpgs_cd = #{riskpgs_cd},
+				risk_finder = #{risk_finder},
+				risk_handler = #{risk_handler},
+				risk_upddate_dt = CURDATE(),
+				risk_actionbf = #{risk_actionbf},
+				risk_actionaf = #{risk_actionaf},
+				risktype_pk = #{risktype_pk},
+				riskact_pk = #{riskact_pk},
+				risk_lesson = #{risk_lesson}
+			where risk_cd = #{risk_cd}
+	</update>
+	
+	
+	<delete id="riskDelete" parameterType="String">
+		DELETE from SYS_RISK_TB
+		where risk_cd = #{risk_cd}
+	</delete>
+	
+	
+	<select id="riskpgsList" resultType="com.team3.pms.VO.risk.RiskPGS">
+		select * from SYS_RISKPGS_TB
+	</select>
+	
+	
+	<select id="riskResourceList" resultType="com.team3.pms.VO.risk.RiskResource">
+		select * from SYS_EMP_TB emp, EMP_DEPT_TB dept
+		where emp.emp_dept_fk = dept.emp_dept_pk
+	</select>
+	
+	<select id="riskTypeList" resultType="com.team3.pms.VO.risk.RiskType">
+		select * from sys_risktype_tb
+	</select>
+	<select id="riskActionList" resultType="com.team3.pms.VO.risk.RiskAction">
+		SELECT * FROM sys_riskact_tb
+	</select>
+	
+	
+</mapper>

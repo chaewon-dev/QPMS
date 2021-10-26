@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>test index</title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+
+	<!-- gantt -->
+	<link rel="stylesheet" href="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css" 
+    type="text/css"> 
+	<script src="http://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
+	<script th:src="@{js/project/testdata.js?v=7.1.6}"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css?v=7.1.6">
+	<link rel="stylesheet" href="/css/project/controls_styles.css?v=7.1.6">
+	
+	<style>
+		html, body {
+			height: 100%;
+			padding: 0px;
+			margin: 0px;
+		}
+
+		.gantt_row_project{
+			font-weight: bold;
+		}
+
+ 		.gantt-info ul{
+			line-height: 150%;
+		}
+		
+		.gantt-fullscreen {
+			position: absolute;
+			bottom: 20px;
+			right: 20px;
+			width: 30px;
+			height: 30px;
+			padding: 2px;
+			font-size: 32px;
+			background: transparent;
+			cursor: pointer;
+			opacity: 0.5;
+			text-align: center;
+			-webkit-transition: background-color 0.5s, opacity 0.5s;
+			transition: background-color 0.5s, opacity 0.5s;
+		}
+
+		.gantt-fullscreen:hover {
+			background: rgba(150, 150, 150, 0.5);
+			opacity: 1;
+		}
+		.fa-pencil, .fa-plus, .fa-times {
+			cursor: pointer;
+			font-size: 16px;
+			text-align: center;
+			opacity: 0.4;
+		}
+		.fa-pencil:hover, .fa-plus:hover, .fa-times:hover {
+			opacity: 1;
+		}
+		.fa-pencil {
+					color: #ffa011;
+		}
+		.fa-plus {
+			color: #328EA0;
+		}
+		.fa-times {
+			color: red;
+		}
+
+
+	</style>
+</head>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<div  th:with="title='[ ' + ${projectId} + ' ] ' + ${projectName}">
+					<nav th:replace="index2 :: topBar"></nav>
+					<input type="hidden" id="projectId" th:value="${projectId}">
+				</div>				<!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                	<!-- Page Heading -->
+<!--                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">tabs</h1>
+                    </div> -->
+                    <!-- Content Row -->
+
+						<div class="tabs-container">
+						       <ul class="nav nav-tabs" role="tablist">
+						         <li><a class="nav-link" th:href="'/project/summary/'+${projectId}">요약정보</a></li>
+						         <li><a class="nav-link" th:href="'/project/basic/'+${projectId}">기본정보</a></li>
+						         <li><a class="nav-link" th:href="'/project/resource/'+${projectId}">리소스</a></li>
+						         <li><a class="nav-link active" th:href="'/project/wbs/'+${projectId}">WBS</a></li>
+						         <li><a class="nav-link" th:href="'/project/cost/'+${projectId}">비용</a></li>
+						       </ul>
+						         
+						    <div class="tab-content">   
+						        
+						           
+				            <!-- Tab 4 Content -->
+						            <div role="tabpanel">
+						                <div class="panel-body">
+						                    <div class="card shadow mb-4">
+						                        <div class = "card-body" style="height:750px;">
+						                        	<div id="myCover" style='height:100%;'>
+									                    <div class="gantt_control">
+									                    	<button id="edit_toggle" onclick="toggle_readonly()" th:if="${authRole} == 10 or ${resourceRole} == 5">Edit Mode</button>
+									                    	<button onclick="shortcut_keys()">Shortcut Keys</button>
+															<button class='zoom_toggle' onclick="toggleMode(this)">Zoom to Fit</button>
+															<input type=button value="Zoom In" onclick="zoom_in();">
+															<input type=button value="Zoom Out" onclick="zoom_out();">
+														</div>
+														
+									                    <div id="gantt_here" style='width:100%; height:calc(100% - 52px);'></div>
+								                    </div>
+						                 		</div>
+						                 	</div>
+						                </div>
+						            </div>
+				            <!-- End of Tab 4 Content -->				         
+
+				          
+				            
+						</div>
+                    </div>
+				</div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <div th:replace="index2 :: etc"></div>
+    <script>
+	gantt.plugins({
+		multiselect: true,
+		auto_scheduling: true,
+		keyboard_navigation: true,
+		undo: true,
+		drag_timeline: true,
+		fullscreen: true
+	});
+
+
+	gantt.config.keyboard_navigation_cells = true;
+	gantt.config.auto_scheduling = true;
+	gantt.config.auto_scheduling_strict = true;
+	gantt.config.row_height = 23;
+	gantt.config.fit_tasks = true;
+	gantt.config.show_unscheduled = true;
+	gantt.config.placeholder_task = true;
+	gantt.config.auto_types = true;
+
+/* 	gantt.serverList("priority", [
+		{key: "1", label: "Low"},
+		{key: "2", label: "Normal"},
+		{key: "3", label: "High"}
+	]); */
+
+	var formatter = gantt.ext.formatters.durationFormatter({
+		enter: "day", 
+		store: "day", 
+		format: "auto"
+	});
+	var linksFormatter = gantt.ext.formatters.linkFormatter({durationFormatter: formatter});
+
+
+	var editors = {
+		text: {type: "text", map_to: "text"},
+		start_date: {type: "date", map_to: "start_date", min: new Date(2000, 0, 1), max: new Date(2050, 0, 1)},
+		end_date: {type: "date", map_to: "end_date", min: new Date(2000, 0, 1), max: new Date(2050, 0, 1)},
+		duration: {type: "duration", map_to: "duration", min:0, max: 100, formatter: formatter},
+		//priority: {type: "select", map_to: "priority", options:gantt.serverList("priority")},
+		predecessors: {type: "predecessor", map_to: "auto", formatter: linksFormatter},
+		progress: {type: "number", map_to:"progress", min:0, max: 100}
+	};
+
+	
+/* 	function priorityLabel(task){
+		var value = task.priority;
+		var list = gantt.serverList("priority");
+		for(var i = 0; i < list.length; i++){
+			if(list[i].key == value){
+				return list[i].label;
+			}
+		}
+		return "";
+	}
+ */
+ 	var colHeader = '<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="createTaskBefore()"></div>',
+	colContent = function (task) {
+		return ('<i class="ml-1 mr-1 fa gantt_button_grid gantt_grid_edit fa-pencil" onclick="clickGridButton(\'' + task.id + '\', \'edit\')"></i>' +
+			'<i class="ml-1 mr-1 fa gantt_button_grid gantt_grid_add fa-plus" onclick="clickGridButton(\'' + task.id + '\', \'add\')"></i>' +
+			'<i class="ml-1 mr-1 fa gantt_button_grid gantt_grid_delete fa-times" onclick="clickGridButton(\'' + task.id + '\', \'delete\')"></i>');
+	};
+	
+	
+	gantt.locale.labels.section_task = "Task";
+	gantt.locale.labels.section_approver = "Approver";
+	gantt.locale.labels.section_manager = "Manager";
+	gantt.locale.labels.section_description = "Description";
+	gantt.locale.labels.section_time = "Date";
+	
+	
+	
+	
+	//resource_data -> ajax로 가져오기?  승인자, 실무담당자 둘 다 resource 데이터 가져오면 되나? key: emp_cd_pk, 
+	//리소스를 조회해서 emp_cd_pk와 직원이름을 불러오자.실제 저장되는 값(key) 는 resource_pk
+	
+ 	$.ajax({
+	    type: 'GET',
+	    url: '/api/project/resource/' + $('#projectId').val(),
+	    //async: false,
+	    dataType: 'json',	
+	    contentType: 'application/json; charset=utf-8',
+	}).done(function (resourceData) {
+		console.log(resourceData); // RSC-2012값에 맞는 label만 출력해보기
+		
+		gantt.config.columns = [
+			{name: "wbs", label: "WBS", width: 30, align: "center", template: gantt.getWBSCode},
+			{name: "text", label: "Task", tree: true, width: 150, editor: editors.text, resize: true, align: "left"},
+			{name: "duration", label: "Dur.",width:35, align: "center", editor: editors.duration, resize: true,  template: function(task){
+				return formatter.format(task.duration);
+			}},
+			{name: "start_date", label: "Start", width:75, align: "center", editor: editors.start_date, resize: true},
+			{name: "end_date", label: "Finish", width:75, align: "center", editor: editors.end_date, resize: true},
+			//{name: "priority", label: "Priority", width:80, align: "center", editor: editors.priority, template: priorityLabel, resize: true},
+			{name: "predecessors", label: "Pre.",width:40, align: "center", editor: editors.predecessors, resize: true, template: function(task){
+				var links = task.$target;
+				var labels = [];
+				for(var i = 0; i < links.length; i++){
+					var link = gantt.getLink(links[i]);
+					labels.push(linksFormatter.format(link));
+				}
+				return labels.join(", ")
+			}},
+			{name: "progress", label: "Prog.", align: "center", width: 40, resize: true, editor: editors.progress, template: function (task){
+		  		if (task.progress){
+		  			return Math.round(task.progress * 100) + "%";
+		  		}
+		  	}},
+			{name: "approver", label: "Approver", align: "center", width: 50 , template: function (task){
+				for(var i in resourceData){
+					if(resourceData[i].key == task.approver){
+						return resourceData[i].label.split(' / ')[1];				
+					}
+					
+				}
+		  		
+		  	}},
+			{
+				name: "manager", label: "Manager", align: "center", width: 50, template: function (task){
+					for(var i in resourceData){
+						if(resourceData[i].key == task.manager){
+							return resourceData[i].label.split(' / ')[1];				
+						}
+						
+					}
+			  		
+		  	}},
+			{
+				name: "buttons",
+				label: colHeader,
+				width: 70,
+				template: colContent,
+				align:"center"
+			}
+		];
+		
+		
+		
+		gantt.config.lightbox.sections = [
+			{name: "task", height: 38, map_to: "text", type: "textarea", focus: true},
+			{
+				name: "approver",
+				height: 22,
+				map_to: "approver",
+				type: "select",
+				options: resourceData
+			},
+			{
+				name: "manager",
+				height: 22,
+				map_to: "manager",
+				type: "select",
+				options: resourceData
+			},
+			{name: "time", type: "time", map_to: "auto", time_format: ["%d", "%m", "%Y"]},
+			{name: "description", height: 100, map_to: "description", type: "textarea"}
+		];
+		
+		gantt.config.lightbox.project_sections = [
+			{name: "task", height: 38, map_to: "text", type: "textarea", focus: true},
+			{
+				name: "approver",
+				height: 22,
+				map_to: "approver",
+				type: "select",
+				options: resourceData
+			},
+			{
+				name: "manager",
+				height: 22,
+				map_to: "manager",
+				type: "select",
+				options: resourceData
+			},
+			{name: "description", height: 100, map_to: "description", type: "textarea"}
+		];
+		
+	}).fail(function (error) {
+		//console.log(data);
+	    alert(JSON.stringify(error));
+	});
+	
+	
+	
+
+	gantt.attachEvent("onTaskCreated", function(task){
+		if(task.type == gantt.config.types.placeholder){
+			return false;
+
+		}else{
+			
+			if(task.approver == null){
+				task.approver = "";
+			}
+			if(task.description == null){
+				task.description = "";
+			}
+			if(task.manager == null){
+				task.manager = "";
+			}
+			if(task.sortorder == null){
+				task.sortorder = 0;
+			}
+			if(task.state == null){
+				task.state = 0;
+			}
+
+		}
+		
+		return true;
+	});
+	
+	gantt.attachEvent("onAfterTaskAdd", function(id,item){
+		//console.log(id);
+		//console.log(item);
+		//var task = jsonifyTask(item); // convert item to right format and return JSON string
+		//console.log('sendPOST');
+		
+		
+		//생성시 자동으로 POST를 보내니까 Ajax로 POST요청할 필요가 없음
+		//onAfterTaskAdd시에 id만 수정하면됨.
+		$.ajax({
+		    type: 'GET',
+		    url: '/api/task/maxId',
+		    dataType: 'text',	//json or text
+		    contentType: 'application/json; charset=utf-8',
+		}).done(function (maxId) {
+			console.log(maxId);
+			var splitMaxId = maxId.split('-');
+			var new_id = splitMaxId[0] + '-' + (''+(parseInt(splitMaxId[1])+1)).padStart(4,'0');
+			gantt.changeTaskId(id, new_id);
+		}).fail(function (error) {
+		    alert(JSON.stringify(error));
+		});
+		
+		
+		
+	});
+	
+	gantt.attachEvent("onAfterLinkAdd", function(id,item){
+		$.ajax({
+		    type: 'GET',
+		    url: '/api/link/maxId',
+		    dataType: 'text',	//json or text
+		    contentType: 'application/json; charset=utf-8',
+		}).done(function (maxId) {
+			var splitMaxId = maxId.split('-');
+			var new_id = splitMaxId[0] + '-' + (''+(parseInt(splitMaxId[1])+1)).padStart(4,'0');
+			gantt.changeLinkId(id, new_id);
+		}).fail(function (error) {
+		    alert(JSON.stringify(error));
+		});
+	});
+	
+	gantt.attachEvent("onTemplatesReady", function () {
+		var toggle = document.createElement("i");
+		toggle.className = "fa fa-expand gantt-fullscreen";
+		gantt.toggleIcon = toggle;
+		gantt.$container.appendChild(toggle);
+		toggle.onclick = function() {
+			gantt.ext.fullscreen.toggle();
+		};
+	});
+	gantt.attachEvent("onExpand", function () {
+		var icon = gantt.toggleIcon;
+		if (icon) {
+			icon.className = icon.className.replace("fa-expand", "fa-compress");
+		}
+
+	});
+	gantt.attachEvent("onCollapse", function () {
+		var icon = gantt.toggleIcon;
+		if (icon) {
+			icon.className = icon.className.replace("fa-compress", "fa-expand");
+		}
+	});
+	
+	
+
+	gantt.ext.inlineEditors.attachEvent("onSave", function(state){
+		var col = state.columnName;
+		if(gantt.autoSchedule && (col == "start_date" || col == "end_date" || col == "duration")){
+			gantt.autoSchedule();
+		}
+	});
+	
+	gantt.ext.inlineEditors.attachEvent("onEditStart", function(state){
+		
+		if (state.columnName == "progress"){	
+		    var task = gantt.getTask(state.id);
+		    var element = document.getElementsByTagName("input").progress;
+		    element.value = parseInt(element.value * 100);
+		    console.log(task);
+	    }
+	});
+
+	gantt.ext.inlineEditors.attachEvent("onBeforeSave", function(state){
+	  	if (state.columnName == "progress")
+	      	state.newValue /= 100;
+	   return true;
+	});
+	
+	//gantt.config.resize_rows = true;
+//gantt.config.keep_grid_width = true; 
+//gantt.config.grid_resizer_attribute = "gridresizer";
+//gantt.config.grid_width = 450;
+	//gantt.config.grid_elastic_columns = true;
+	gantt.config.touch = "force";
+	gantt.config.open_tree_initially = true;
+
+
+
+	gantt.config.layout = {
+		css: "gantt_container",
+		cols: [
+			{
+				width:620,
+				min_width: 300,
+				rows:[
+					{view: "grid", scrollX: "gridScroll", scrollable: true, scrollY: "scrollVer"},
+					{view: "scrollbar", id: "gridScroll", group:"horizontal"}
+				]
+			},
+			{resizer: true, width: 1},
+			{
+				rows:[
+					{view: "timeline", scrollX: "scrollHor", scrollY: "scrollVer"},
+					{view: "scrollbar", id: "scrollHor", group:"horizontal"}
+				]
+			},
+			{view: "scrollbar", id: "scrollVer"}
+		]
+	};
+	//gantt.config.order_branch = true;
+	//gantt.config.order_branch_free = true;
+
+
+	gantt.ext.fullscreen.getFullscreenElement = function() {
+		return document.getElementById("myCover");
+	}
+
+
+	var toggle2 = true;
+	gantt.config.readonly = toggle2;
+	
+	function toggle_readonly(){
+		toggle2 = !toggle2;
+	  	gantt.config.readonly = toggle2;
+	  	gantt.message("Edit Mode: " + !toggle2);
+	  	if(toggle2){
+	  		$('#edit_toggle').html('Edit Mode');
+	  	}else{
+	  		$('#edit_toggle').html('Exit Edit Mode');
+	  	}
+	  	
+	}
+	
+	function createTaskBefore(){
+		if(!gantt.config.readonly){
+			gantt.createTask();
+		}
+	}
+	
+	
+	
+	function clickGridButton(id, action) {
+
+		if(!gantt.config.readonly){
+			switch (action) {
+			case "edit":
+				gantt.showLightbox(id);
+				break;
+			case "add":
+				gantt.createTask(null, id);
+				
+				break;
+			case "delete":
+				gantt.confirm({
+					title: gantt.locale.labels.confirm_deleting_title,
+					text: gantt.locale.labels.confirm_deleting,
+					callback: function (res) {
+						if (res)
+							gantt.deleteTask(id);
+					}
+				});
+				break;
+			}
+		}
+	}
+	
+	function shortcut_keys(){
+	  	gantt.message({
+			text: "<p>Keyboard shortcuts:</p>" +
+			"<b>Global</b>" +
+			"<ul>" +
+			"<li><b>Tab</b> - select gantt</li>" +
+			"<li><b>Alt + Up/Down/Left/Right</b> - scroll gantt</li>" +
+			"<li><b>Ctrl + Enter</b> - create new task</li>" +
+			"<li><b>Ctrl + Z</b> - undo</li>" +
+			"<li><b>Ctrl + R</b> - redo</li>" +
+			"</ul>" +
+			"<b>Header Cells</b>" +
+			"<ul>" +
+			"<li><b>Left/Right</b> - navigate over cells</li>" +
+
+			"<li><b>Home/End</b> - navigate to the first/last column</li>" +
+			"<li><b>Down</b> - navigate to task rows</li>" +
+			"<li><b>Space/Enter</b> - click header</li>" +
+			"</ul>" +
+			"<b>Task cells</b>" +
+			"<ul>" +
+			"<li><b>Up/Down/Left/Right</b> - navigate cells</li>" +
+			"<li><b>PageDown/PageUp</b> - navigate to the first/last cell in column</li>" +
+			"<li><b>Home/End</b> - navigate to the first/last cell in row</li>" +
+			"<li><b>Space</b> - select task</li>" +
+			"<li><b>Ctrl + Enter</b> - create new task</li>" +
+			"<li><b>Delete</b> - delete selected task</li>" +
+			"<li><b>Enter</b> - open the lightbox</li>" +
+			"<li><b>Shift + Left/Right</b> - expand, collapse tree</li>" +
+			"</ul>",
+			expire: -1
+		});
+	}
+
+	
+	
+	</script>
+	<script th:src="@{/js/project/ganttZoom.js}"></script>
+	<script th:inline="javascript">
+
+ 		var apiUrl = "/api/wbs/"+$('#projectId').val();
+		gantt.init("gantt_here");
+		
+		var link_data;
+		
+		
+		
+		$.ajax({
+		    type: 'GET',
+		    url: apiUrl,
+		    dataType: 'json',	
+		    contentType: 'application/json; charset=utf-8',
+		}).done(function (data) {
+			$.ajax({
+			    type: 'GET',
+			    url: apiUrl+'/link',
+			    //async: false,
+			    dataType: 'json',	
+			    contentType: 'application/json; charset=utf-8',
+			}).done(function (link) {
+				gantt.parse({data:data, links:link});
+			
+			}).fail(function (error) {
+			    alert(JSON.stringify(error));
+			});
+			
+		
+		}).fail(function (error) {
+			//console.log(data);
+		    alert(JSON.stringify(error));
+		});
+
+		
+		var dp = gantt.createDataProcessor({
+			//apiUrl에는 project 코드를 포함시켜야한다.
+			//ex) /project/wbs/PRJ-0019
+			//이렇게 설정해야 프로젝트에 맞는 task, link만 불러올 수 있다.
+		      url: apiUrl,
+		      mode: "REST-JSON"
+		});
+		
+	</script>
+</body>
+</html>

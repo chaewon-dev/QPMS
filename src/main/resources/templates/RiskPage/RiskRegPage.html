@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index2 :: navi">
+
+
+</head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+<script type="text/javascript">
+
+
+</script>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<div  th:with="title=''">
+					<nav th:replace="index2 :: topBar"></nav>
+				</div>
+				<!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                	<!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">리스크 등록</h1>
+                    </div>
+                    <!-- Content Row -->
+                    <div>
+                    	<form id="riskRegForm" enctype="multipart/form-data" action="RiskInsert" method="post">
+							<div class="mb-3">
+							  <label for="risk_title" class="form-label">리스크제목</label><span><span id="risk_title_word">0</span>/30</span>
+							  <input type="text" class="form-control" name="risk_nm" id="risk_title" maxlength="30" placeholder="리스크제목 (30자 이내)">
+							</div>
+							
+							<div class="mb-3 risk_project_row">
+								<div class="form-group">
+								    <label for="risk_project_title">프로젝트명</label>
+								    <select class="form-control" name="project_cd" id="risk_project_title" >
+									    <option th:each="pList : ${projects}" th:text="${pList.project_nm}" th:value="${pList.project_pk}"></option>
+								    </select>
+								</div>
+								
+								<div class="form-group">
+								    <label for="risk_state">진행상황</label>
+								    <select class="form-control" name="riskpgs_cd" id="risk_state">
+									      <option th:each="rpgsList : ${riskpgsList}" th:text="${rpgsList.riskpgs_st}" th:value="${rpgsList.riskpgs_cd}"></option>
+								    </select>
+								</div>
+							</div>
+							
+							
+							<div class="mb-3 risk_project_row">
+								<div class="form-group">
+								    <label for="risk_project_title">리스크 유형</label>
+								    <select class="form-control" name="risktype_pk" id="risk_type" >
+									    <option th:each="rtList : ${riskTypeList}" th:text="${rtList.risktype_nm}" th:value="${rtList.risktype_pk}"></option>
+								    </select>
+								</div>
+								
+								<div class="form-group">
+								    <label for="risk_state">리스크 대응</label>
+								    <select class="form-control" name="riskact_pk" id="risk_action">
+									      <option th:each="raList : ${riskActionList}" th:text="${raList.riskact_st}" th:value="${raList.riskact_pk}"></option>
+								    </select>
+								</div>
+							</div>
+							
+							
+							<div class="mb-3 risk_person_row">
+								<div class="form-group">
+								    <label for="risk_finder">발견자</label>
+								    <select class="form-control" name="risk_finder" id="risk_finder">
+								    	
+								    	<option th:each="rpgrList : ${riskResourceList}" th:text="${rpgrList.emp_name}" th:value="${rpgrList.emp_name}"></option>
+								    </select>
+								</div>
+								<div class="form-group">
+								    <label for="risk-handler">조치자</label>
+								    <select class="form-control" name="risk_handler" id="risk_handler">
+								      	<option th:each="rpgrList : ${riskResourceList}" th:text="${rpgrList.emp_name}" th:value="${rpgrList.emp_name}"></option>
+								    
+								    </select>
+								</div>
+							</div>
+							<div class="mb-3 risk_action_row">
+							  <div class="form-group">
+							    <label for="risk_action_bf">조치전</label><span><span id="risk_action_bf_word">0</span>/3000</span>
+							    <textarea class="form-control" maxlength="3000" name="risk_actionbf" id="risk_action_bf" rows="5"></textarea>
+							  </div>
+							  <div class="form-group">
+								    <label for="risk_action_af">조치후</label><span><span id="risk_action_af_word">0</span>/3000</span>
+								    <textarea class="form-control" maxlength="3000" name="risk_actionaf" id="risk_action_af" rows="5"></textarea>
+							  </div>
+							  <div class="form-group">
+							    <label for="risk_lesson">교훈사항</label><span><span id="risk_lesson_word">0</span>/3000</span>
+							    <textarea class="form-control" maxlength="3000" name="risk_lesson" id="risk_lesson" rows="5"></textarea>
+							  </div>
+							</div>
+							<div class="mb-3">
+								첨부파일
+							</div>
+							 <div class="input-group mb-3">
+								<div class="custom-file">
+									<input type="file" name="report" class="custom-file-input" id="risk_file">
+									<label class="custom-file-label" for="risk_file">
+										파일을 선택하세요!
+									</label>
+								</div>
+							</div>
+												
+							<div class="mb-3 risk_buttons">
+								<!-- 버튼들 -->	
+								<button type="button" id="riskReg" class="btn btn-primary">
+									<i class="fas fa-check fa-sm"></i>
+		                            <span>Save</span>
+								</button>
+								<button type="button" id="goMain" class="btn btn-secondary">
+									<i class="fas fa-arrow-left fa-sm"></i>
+		                            <span>Back</span>
+								</button>						
+							</div>
+						
+                    	</form>
+                    </div>
+				</div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <div th:replace="index2 :: etc"></div>
+</body>
+<style>
+	.risk_project_row div{
+		width: 49.5%;
+		display : inline-block;
+	}
+	
+	.risk_person_row div{
+		width: 49.5%;
+		display : inline-block;
+	}
+	
+	.risk_buttons {
+	 	text-align: right;
+	}
+	
+	.container-fluid {
+		padding: 20px 70px;
+	}
+	#riskRegForm div {
+		position : relative;
+	}
+	
+	#riskRegForm div > span {
+		position : absolute;
+		right : 0;
+	}
+</style>
+<script>
+	document.addEventListener("DOMContentLoaded", function(){
+
+		// 글자수 제한 및 글자수 세기
+		var riskReg = document.querySelector("#riskReg");
+		var riskRegForm = document.querySelector("#riskRegForm");
+		
+		var riskTitle = document.querySelector("#risk_title");
+		var riskTitleWord = document.querySelector("#risk_title_word");
+		riskTitle.onkeyup = function(){;
+			riskTitleWord.innerText = riskTitle.value.length;
+			if(riskTitle.value.length>=30){
+				alert("제목은 30자까지 입력할 수 있습니다.");
+			}
+		}
+		
+		var riskActionBf = document.querySelector("#risk_action_bf");
+		var riskActionBfWord = document.querySelector("#risk_action_bf_word");
+		var riskActionAf = document.querySelector("#risk_action_af");
+		var riskActionAfWord = document.querySelector("#risk_action_af_word");
+		var riskLesson = document.querySelector("#risk_lesson");
+		var riskLessonWord = document.querySelector("#risk_lesson_word");
+		
+		riskActionBf.onkeyup = function(){;
+			riskActionBfWord.innerText = riskActionBf.value.length;
+		}
+		riskActionAf.onkeyup = function(){;
+			riskActionAfWord.innerText = riskActionAf.value.length;
+		}
+		riskLesson.onkeyup = function(){;
+			riskLessonWord.innerText = riskLesson.value.length;
+		}	
+		
+		riskReg.onclick = function(){
+			if(riskTitle.value==""||riskTitle.value==null){
+				alert("제목을 입력해주세요.");
+				riskTitle.focus();
+				return ;	
+			}
+			
+			if(riskActionBf.value==""||riskTitle.value==null){
+				alert("조치전 상태를 입력해주세요.");
+				riskActionBf.focus();
+				return ;	
+			}
+			riskRegForm.submit();
+		};
+		
+		var goMain = document.querySelector("#goMain");
+		goMain.onclick = function(){
+			location.href="/RiskList";
+		}
+
+	     
+		// $('select').select2();
+		
+		$(".custom-file-input").on("change", function(){
+			$(this).next(".custom-file-label").text($(this).val());
+		});
+		
+		
+		
+	});
+</script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+
+
+
+</html>

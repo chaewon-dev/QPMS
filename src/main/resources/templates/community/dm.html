@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div  th:fragment="dmTab">
+	<div class="card shadow mb-4">
+		<!-- Card Header - Dropdown -->
+		<div
+			class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+			<h6 class="m-0 font-weight-bold text-primary">대화상대명</h6>
+			<div class="dropdown no-arrow">
+				<a class="dropdown-toggle" href="#" role="button"
+					id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false"> <i
+					class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+				</a>
+				<div
+					class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+					aria-labelledby="dropdownMenuLink">
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item chatOut" href="#">그룹 나가기</a>
+				</div>
+			</div>
+		</div>
+		<!-- Card Body -->
+		<div class="chat-area-w">
+			<div class="chat-area">
+				<div class="chat-indiv">
+					<img th:src="@{/img/undraw_profile_1.svg}" id="chat-ij-profile" />
+					<div id="chat-ij-content">
+						<div class="chat-ij-info">
+							<h5 id="chat-ij-name">
+								<span>마길동(부서)</span>
+							</h5>
+							<h5 id="chat-ij-date">
+								<span>2021-01-01 18:00</span>
+							</h5>
+						</div>
+						<h5 id="chat-ij-text">
+							<span>안녕 이거 내용이다 내용이야!</span>
+						</h5>
+					</div>
+				</div>
+				<div class="chat-indiv chat-me">
+					<div id="chat-ij-content">
+						<h5 id="chat-ij-date">
+							<span>2021-01-01 18:00</span>
+						</h5>
+						<h5 id="chat-ij-text">
+							<span>안녕 이거 내용이다 내용이야!</span>
+						</h5>
+					</div>
+				</div>
+			</div>
+			<div class="chatSending">
+				<textarea placeholder="메시지를 입력하세요" class="messageInput"></textarea>
+				<input class="sendBtn" type="submit" value="전송" onclick="메시지함수" />
+			</div>
+		</div>
+	</div>
+</div>
+
+</html>

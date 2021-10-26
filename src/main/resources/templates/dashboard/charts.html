@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>QPMS</title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+         <!-- Sidebar -->
+        <ul th:replace="index2 :: sideBar"></ul>
+
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                 <!-- Topbar -->
+                <div  th:with="title='Dashboard'">
+					<nav th:replace="index2 :: topBar"></nav>
+				</div>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!-- <h1 class="h3 mb-2 text-gray-800">Dashboard</h1>
+                    <p class="mb-4">전체 프로젝트 대시보드 (Chart.js 사용)</p> -->
+
+
+                    <!-- Content Row -->
+                    <div class="row">
+						<div class="col-xl-6 col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">My 프로젝트</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <table class="table table-striped table-hover" th:if="${not #lists.isEmpty(ProjectList)}">
+                                    <thead>
+                                    <tr>
+                                    	<td></td>
+                                    	<td>프로젝트 이름 (진행률)</td>
+                                    	<td>상태</td>
+                                    	<td>역할</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+	                                    <tr th:each="p, index : ${ProjectList}"
+	                                    	th:onclick="'location.href = \'' + @{/project/wbs/{id}(id=${p.project_pk})} + '\''"
+	                                    	style="cursor:pointer;">
+		                                    <td th:text="${index.index}+1"></td>
+					                		<td> <span th:text="${p.project_nm}"></span> (<span th:text="${p.task_progress}"></span>%)</td>
+					                		<td th:text="${p.project_state_nm}"></td>
+					                		<td th:text="${p.auth_name}"></td>
+					                	</tr>
+	                                  </tbody>
+                                    </table>
+                                    <span th:if="${#lists.isEmpty(ProjectList)}">현재 진행중인 My 프로젝트가 없습니다!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6">
+                            <!-- Bar Chart -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">전체 진행 프로젝트 현황</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-bar">
+                                        <canvas id="Dash1"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                         
+                         
+                    </div>
+                    <div class="row">
+
+                        <div class="col-xl-6 col-lg-6" >
+
+                            <!-- Area Chart -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">부서별 프로젝트 현황</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="Dash3"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        <div class="col-xl-6 col-lg-6" >
+                            <!-- Donut Chart -->
+							<div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">전체 진행 프로젝트 인원수</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-pie pt-4">
+                                        <canvas id="Dash2"></canvas>
+                                    </div>
+                                </div>
+                            </div>            
+                        </div>
+                    </div>
+					  
+						
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <div th:replace="index2 :: etc"></div>
+
+    
+    
+</body>
+<script th:inline="javascript">
+function number_format(number, decimals, dec_point, thousands_sep) {
+	  // *     example: number_format(1234.56, 2, ',', ' ');
+	  // *     return: '1 234,56'
+	  number = (number + '').replace(',', '').replace(' ', '');
+	  var n = !isFinite(+number) ? 0 : +number, 
+	    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+	    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+	    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+	    s = '',
+	    toFixedFix = function(n, prec) {
+	      var k = Math.pow(10, prec);
+	      return '' + Math.round(n * k) / k;
+	    };
+	  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+	  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+	  if (s[0].length > 3) {
+	    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+	  }
+	  if ((s[1] || '').length < prec) {
+	    s[1] = s[1] || '';
+	    s[1] += new Array(prec - s[1].length + 1).join('0');
+	  }
+	  return s.join(dec);
+	}
+
+//--------------------첫번째: Dash3 (부서별 진행 프로젝트 갯수)
+var ctx3 = document.getElementById("Dash3");
+var Dash3_10 = [[${Dash3_10}]];
+var Dash3_20 = [[${Dash3_20}]];
+var Dash3_40 = [[${Dash3_40}]];
+var array_dash3_10_num = new Array();
+var array_dash3_10_state = "";
+var array_dash3_dept = new Array();
+
+var array_dash3_20_num = new Array();
+var array_dash3_20_state = "";
+
+var array_dash3_40_num = new Array();
+var array_dash3_40_state = "";
+
+var count_dash3_1 = 0;
+var count_dash3_2 = 0;
+var count_dash3_3 = 0;
+Dash3_10.forEach(function(item){
+	array_dash3_10_num[count_dash3_1] = item.num_of_project;
+	array_dash3_10_state = item.project_state_nm;
+	array_dash3_dept[count_dash3_1] = item.dept_name;
+	count_dash3_1++;
+})
+Dash3_20.forEach(function(item){
+	array_dash3_20_num[count_dash3_2] = item.num_of_project;
+	array_dash3_20_state = item.project_state_nm;
+	count_dash3_2++;
+})
+Dash3_40.forEach(function(item){
+	array_dash3_40_num[count_dash3_3] = item.num_of_project;
+	array_dash3_40_state = item.project_state_nm;
+	count_dash3_3++;
+})
+
+//세가지 데이터셋 중에서 가장 큰 값 dash3_total_max
+var dash3_10_max = 0;
+var dash3_20_max = 0;
+var dash3_30_max = 0;
+if(array_dash3_10_num.length > 1){
+	dash3_10_max = array_dash3_10_num.reduce(function(a, b) {
+	return Math.max(a, b);
+	})
+}
+if(array_dash3_20_num.length > 1){
+	dash3_20_max = array_dash3_20_num.reduce(function(a, b) {
+	return Math.max(a, b);
+	})
+}
+if(array_dash3_40_num.length > 1){
+	dash3_30_max = array_dash3_40_num.reduce(function(a, b) {
+	return Math.max(a, b);
+	})
+}
+//데이터 중 가장 큰 값 구하기
+var dash3_total_max = Math.max(dash3_10_max, dash3_20_max, dash3_30_max);
+//비어있는 라벨 채우기
+if( array_dash3_10_state == null || array_dash3_10_state==""){
+	 array_dash3_10_state = "시작전";
+}
+if( array_dash3_20_state == null || array_dash3_20_state==""){
+	 array_dash3_20_state = "정상진행";
+}
+if( array_dash3_40_state == null || array_dash3_40_state==""){
+	 array_dash3_40_state = "완료";
+}
+
+var Dashboard3 = new Chart(ctx3, {
+type: 'bar',
+data: {
+ labels: array_dash3_dept,
+ datasets: [{
+	//시작전
+   label: array_dash3_10_state,
+   backgroundColor: "#ff85a2",
+   hoverBackgroundColor: "#ffd1dc",
+   borderColor: "#4e73df",
+   data: array_dash3_10_num,
+ },
+ {
+	 //정상진행
+	   label: array_dash3_20_state,
+	   backgroundColor: "#85dfff",
+	   hoverBackgroundColor: "#d1f3ff",
+	   borderColor: "#4e73df",
+	   data: array_dash3_20_num,
+	},
+{
+		//완료
+		   label: array_dash3_40_state,
+		   backgroundColor: "#85ffa4",
+		   hoverBackgroundColor: "#d1ffdd",
+		   borderColor: "#4e73df",
+		   data: array_dash3_40_num,
+		 } 
+ ],
+},
+options: {
+ maintainAspectRatio: false,
+ layout: {
+   padding: {
+     left: 10,
+     right: 25,
+     top: 25,
+     bottom: 0
+   }
+ },
+ scales: {
+   xAxes: [{
+     time: {
+       unit: 'month'
+     },
+     gridLines: {
+       display: false,
+       drawBorder: false
+     },
+     ticks: {
+       maxTicksLimit: 6
+     },
+   }],
+   yAxes: [{
+     ticks: {
+       min: 0,
+       max: dash3_total_max,
+       maxTicksLimit: 5,
+       padding: 10,
+       // Include a dollar sign in the ticks
+       callback: function(value, index, values) {
+         return number_format(value);
+       }
+     },
+     gridLines: {
+       color: "rgb(234, 236, 244)",
+       zeroLineColor: "rgb(234, 236, 244)",
+       drawBorder: false,
+       borderDash: [2],
+       zeroLineBorderDash: [2]
+     }
+   }],
+ },
+ legend: {
+ 	display: true,
+ 	position: "bottom",
+ 	align: "center",
+ 	labels: {
+ 	      usePointStyle: true,
+ 	      boxWidth: 6
+ 	    }
+ },
+ tooltips: {
+   titleMarginBottom: 10,
+   titleFontColor: '#6e707e',
+   titleFontSize: 14,
+   backgroundColor: "rgb(255,255,255)",
+   bodyFontColor: "#858796",
+   borderColor: '#dddfeb',
+   borderWidth: 1,
+   xPadding: 15,
+   yPadding: 15,
+   displayColors: false,
+   caretPadding: 10,
+   callbacks: {
+     label: function(tooltipItem, chart) {
+       var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+       return datasetLabel + ': ' + number_format(tooltipItem.yLabel)+'건';
+     }
+   }
+ },
+}
+});
+
+
+
+
+    
+//--------------------두번째: Dash2 (프로젝트별 실무자 수)
+var ctx2 = document.getElementById("Dash2");
+var Dash2 = [[${Dash2}]];
+var array_dash2_project = new Array();
+var array_dash2_num = new Array();
+var array_dash2_pk = new Array();
+var array_dash2_state = new Array();
+var count_dash2 = 0;
+Dash2.forEach(function(item){
+	array_dash2_project[count_dash2] = item.project_nm;
+	array_dash2_num[count_dash2] = item.num_of_emp;
+	array_dash2_pk[count_dash2] = item.project_pk;
+	array_dash2_state[count_dash2] = item.project_state_nm;
+	count_dash2++;
+})
+var Dashboard2 = new Chart(ctx2, {
+  type: 'doughnut',
+  data: {
+    labels: array_dash2_project,
+    datasets: [{
+      data: array_dash2_num,
+      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+      hoverBorderColor: "rgba(234, 236, 244, 1)",
+    }],
+  },
+  options: {
+    maintainAspectRatio: false,
+    tooltips: {
+      backgroundColor: "rgb(255,255,255)",
+      bodyFontColor: "#858796",
+      borderColor: '#dddfeb',
+      borderWidth: 1,
+      xPadding: 15,
+      yPadding: 15,
+      displayColors: false,
+      caretPadding: 10,
+      callbacks: {
+    	     label: function(tooltipItem, chart) {
+    	       var datasetLabel = chart.labels[tooltipItem.index] +'('+array_dash2_state[tooltipItem.index]+') ' || '';
+    	       return datasetLabel +': '+chart.datasets[0].data[tooltipItem.index]+'명';
+    	     },
+    }
+    },
+    legend: {
+    	display: true,
+    	position: "bottom",
+    	align: "center",
+    	labels: {
+    	      usePointStyle: true,
+    	      boxWidth: 6
+    	    }
+    },
+    hover: {
+        onHover: function(e) {
+           var point = this.getElementAtEvent(e);
+           if (point.length) e.target.style.cursor = 'pointer';
+           else e.target.style.cursor = 'default';
+        }
+     },
+    cutoutPercentage: 60,
+  },
+  }
+);
+
+
+
+
+//--------------------세번째: Dash1 (프로젝트별 진행률)
+var ctx1ADMIN = document.getElementById("Dash1ADMIN");
+var ctx1 = document.getElementById("Dash1");
+var Dash1 = [[${Dash1}]];
+var array_dash1_project = new Array();
+var array_dash1_dept = new Array();
+var array_dash1_compdate = new Array();
+var array_dash1_prog = new Array();
+var array_dash1_pk = new Array();
+var count_dash1 = 0;
+Dash1.forEach(function(item){
+	array_dash1_project[count_dash1] = item.project_nm;
+	array_dash1_dept[count_dash1] = item.dept_name;
+	array_dash1_compdate[count_dash1] = item.project_comp_dt;
+	array_dash1_prog[count_dash1] = item.task_progress;
+	array_dash1_pk[count_dash1] = item.project_pk;
+	count_dash1++;
+})
+
+var Dashboard1 = new Chart(ctx1, {
+  type: 'horizontalBar',
+  data: {
+    labels: array_dash1_project,
+    datasets: [{
+      label: "진행률(%)",
+      backgroundColor: "#4e73df",
+      hoverBackgroundColor: "#2e59d9",
+      borderColor: "#4e73df",
+      data: array_dash1_prog,
+    }],
+  },
+  options: {
+	  responsive: true,
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        left: 10,
+        right: 25,
+        top: 25,
+        bottom: 0
+      }
+    },
+    scales: {
+      xAxes: [{
+        gridLines: {
+          display: false,
+          drawBorder: false
+        },
+        ticks: {
+          maxTicksLimit: 6
+        },
+        maxBarThickness: 25,
+        callback: function(value, index, values) {
+            return number_format(value)+'%';
+          }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: array_dash1_prog.reduce(function(a, b) {
+      	    return Math.max(a, b);
+          }),
+          maxTicksLimit: 6,
+          padding: 10,
+          // Include a dollar sign in the ticks
+        },
+        gridLines: {
+          color: "rgb(234, 236, 244)",
+          zeroLineColor: "rgb(234, 236, 244)",
+          drawBorder: false,
+          borderDash: [2],
+          zeroLineBorderDash: [2]
+        }
+      }],
+    },
+    legend: {
+     	display: true,
+     	position: "bottom",
+     	align: "center",
+     	labels: {
+     	      usePointStyle: true,
+     	      boxWidth: 6
+     	    }
+     },
+    tooltips: {
+      titleMarginBottom: 10,
+      titleFontColor: '#6e707e',
+      titleFontSize: 14,
+      backgroundColor: "rgb(255,255,255)",
+      bodyFontColor: "#858796",
+      borderColor: '#dddfeb',
+      borderWidth: 1,
+      xPadding: 15,
+      yPadding: 15,
+      displayColors: false,
+      caretPadding: 10,
+      callbacks: {
+        label: function(tooltipItem, chart) {
+          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+          return datasetLabel + ': ' + number_format(tooltipItem.xLabel)+'%';
+        }
+      }
+    },
+    hover: {
+        onHover: function(e) {
+           var point = this.getElementAtEvent(e);
+           if (point.length) e.target.style.cursor = 'pointer';
+           else e.target.style.cursor = 'default';
+        }
+     },
+  }
+});
+// ------------------------- ADMIN 일 때만 그래프 클릭
+
+var auth = [[${Auth}]];
+var auth_Array = auth.map(a => a.authority);
+
+console.log(auth_Array);
+
+if(auth_Array[0] == 'ROLE_ADMIN'){
+	/*
+	ctx3.onclick = function(e){
+		location.href="project";
+	}*/
+
+	ctx2.onclick = function(e) {
+		   var slice = Dashboard2.getElementAtEvent(e);
+		   if (!slice.length) return; // return if not clicked on slice
+		   var label = slice[0]._model.label;
+		   for(var i=0; i<count_dash2; i++){
+			   if(label == array_dash2_project[i]){
+				   location.href = "project/wbs/"+array_dash2_pk[i];
+			   }
+		   }
+	}
+
+
+	ctx1.onclick = function(e) {
+		   var slice = Dashboard1.getElementAtEvent(e);
+		   if (!slice.length) return; // return if not clicked on slice
+		   var label = slice[0]._model.label;
+		   for(var i=0; i<count_dash1; i++){
+			   if(label == array_dash1_project[i]){
+				   location.href = "project/wbs/"+array_dash1_pk[i];
+			   }
+		   }
+	}
+}
+
+
+</script>
+</html>

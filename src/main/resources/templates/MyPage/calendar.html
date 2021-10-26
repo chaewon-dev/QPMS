@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index2 :: navi">
+</head>
+    <link th:href="@{/css/MyPage/Approval.css}" rel="stylesheet">
+        <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="css/calendar/main.css" rel="stylesheet" />
+    <script src="js/calendar/main.js"></script>
+<script>
+ // $(document).ready(function(){   });
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+	var toDay = new Date().toISOString().split("T")[0];
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      initialDate: toDay,
+      navLinks: true, 
+      selectable: true,
+      selectMirror: true,
+      select: function(arg) {
+    	$("#callModal").click(); 
+    	$("#exampleModalLongTitle").text("일정등록");
+    	$("#regBtn").show();
+    	$("#uptBtn").hide();
+    	$("#delBtn").hide();
+
+    	$("form")[0].reset();
+    	$("#start").val(arg.start.toLocaleString());
+    	$("[name=start]").val(arg.start.toISOString());
+    	$("#end").val(arg.end.toLocaleString());
+    	$("[name=end]").val(arg.end.toISOString());
+    	$("#allDay").val(""+arg.allDay);
+    	$("[name=allDay]").val((arg.allDay?1:0));
+        calendar.unselect()
+      },
+      eventClick: function(arg) {
+    	console.log("#특정일정 클릭#");	
+    	$("#callModal").click();
+    	$("#exampleModalLongTitle").text("상세일정");
+    	$("#regBtn").hide();
+    	$("#uptBtn").show();
+    	$("#delBtn").show();
+    	addForm(arg.event);
+      },
+	  eventDrop:function(info){ // 특정 일정을 드래그해서 드랍했을 때..
+	 	console.log("#이벤트 드랍#")	
+	 	console.log(info.event);
+		addForm(info.event);
+		ajaxFun("calendarUpdate");
+	  },
+	  eventResize:function(info){ // 특정 일정의 사이즈를 변경했을 때..
+		 console.log("#이벤트 사이즈변경#")	
+		 console.log(info.event);	
+		 addForm(info.event);
+		 ajaxFun("calendarUpdate");
+	  },      
+      editable: true,
+      dayMaxEvents: true, // allow "more" link when too many events
+      events: function(info,successCallback, 
+    		  failureCallback){
+    	  $.ajax({
+    		  type:"post",
+    		  url:"/calList",
+    		  dataType:"json",
+    		  success:function(data){
+    			  console.log(data)
+    			  successCallback(data);
+    		  },
+    		  error:function(err){
+    			  console.log(err);
+    		  }
+    		  
+    	  });
+    	  
+      }
+    });
+
+    calendar.render();
+    
+    $("#regBtn").click(function(){
+    	if($("[name=title]").val()==""){
+    		alert("일정을 등록하세요!");
+    		return;
+    	}
+    	ajaxFun("calendarInsert");
+    });
+    $("#uptBtn").click(function(){
+    	if(confirm("수정하시겠습니까?")){
+    		ajaxFun("calendarUpdate");
+    	}
+    });
+    $("#delBtn").click(function(){
+		if(confirm("삭제하시겠습니까?")){
+			ajaxFun("calendarDelete")
+    	}   	
+    });
+    
+    
+  });
+  function ajaxFun(url){
+  	$.ajax({
+		type:"post",
+		url:"/"+url,
+		data:$("form").serialize(),
+		success:function(data){
+			alert(data);
+			location.reload();
+		},
+		error:function(err){
+			console.log(err);
+		}
+		
+	});  	  
+  }
+  function addForm(event){
+  	$("form")[0].reset();
+	$("[name=id]").val(event.id);
+	$("[name=title]").val(event.title);
+	$("[name=backgroundColor]").val(event.backgroundColor);
+	$("[name=textColor]").val(event.textColor);
+	$("[name=content]").val(event.extendedProps.content);
+	$("#start").val(event.start.toLocaleString());
+	$("[name=start]").val(event.start.toISOString());
+	$("#end").val(event.end.toLocaleString());
+	$("[name=end]").val(event.end.toISOString());
+	$("#allDay").val(""+event.allDay);
+	$("[name=allDay]").val((event.allDay?1:0)); 	  	  
+  }
+
+</script>
+<style>
+
+  #calendar {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .input-group-text{width:100%;
+		text-align:center;background-color: #f8f9fc;
+		color:#4e73df; font-weight:bolder; font-size:15px;}
+  .input-group-prepend{width:25%;}  
+  .input-group{font-size:15px; width:450px;}
+</style>    
+
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Topbar -->
+				<div th:with="title='MY 스케줄'">
+					<nav th:replace="index2 :: topBar"></nav>
+				</div>
+				<!-- End of Topbar -->
+
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<!-- Content Row -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 mt-2 font-weight-bold text-secondary float-left">
+								MY 스케줄 캘린더</h6>
+						</div>
+						<div class="card-body">
+							<div id='calendar'></div>
+					
+			<h2 data-toggle="modal" 
+			data-target="#calendarModal" id="callModal"></h2>  
+			<div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" 
+				aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="height:800px;">
+			  <div class="modal-dialog modal-dialog-centered" role="document">
+			    <div class="modal-content" style="height:500px; width:500px;">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+					<form  class="form"    method="post">
+					  <input type="hidden" name="id" value="0"/>
+					  <div class="input-group mb-3">
+					    <div class="input-group-prepend">
+					      <span class="input-group-text">일정</span>
+					    </div>
+					    <input type="text" name="title" class="form-control" placeholder="일정입력" >
+					  </div>
+					  <div class="input-group mb-3">
+					    <div class="input-group-prepend">
+					      <span class="input-group-text">시작일</span>
+					    </div>
+					    <input type="text" id="start" class="form-control" placeholder="입력" disabled>
+					    <input type="hidden" name="start" >
+					  </div>	
+					  <div class="input-group mb-3">
+					    <div class="input-group-prepend">
+					      <span class="input-group-text">종료일</span>
+					    </div>
+					    <input type="text" id="end" class="form-control" placeholder="입력" disabled>
+					    <input type="hidden" name="end" >
+					  </div>	
+					  <div class="input-group mb-3">
+					    <div class="input-group-prepend">
+					      <span class="input-group-text">내용</span>
+					    </div>
+					    <textarea name="content" rows="2" cols="10"  
+					    	class="form-control" ></textarea>
+					  </div>	
+					  <div class="input-group mb-3">
+					    <div class="input-group-prepend">
+					      <span class="input-group-text">배경색상</span>
+					    </div>
+					    <input type="color" name="backgroundColor"  
+					    value="#0099cc"  class="form-control" placeholder="입력">
+					    <div class="input-group-prepend">
+					      <span class="input-group-text">글자색상</span>
+					    </div>
+					    <input type="color" name="textColor" 
+					    value="#ccffff" class="form-control" placeholder="입력">
+					  </div>	
+					  <div class="input-group mb-3">
+					    <div class="input-group-prepend">
+					      <span class="input-group-text">종일여부</span>
+					    </div>
+					    <select id="allDay" class="form-control" >
+					    	<option value="true">종일</option>
+					    	<option value="false">시간</option>
+					    </select>
+					    <input type="hidden" name="allDay"/>
+					  </div>	
+					</form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			        <button type="button" id='regBtn' class="btn btn-primary">등록</button>
+			        <button type="button" id='uptBtn' class="btn btn-info">수정</button>
+			        <button type="button" id='delBtn' class="btn btn-warning">삭제</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+						</div>
+					</div>
+				<!-- /.container-fluid -->
+			</div>
+		</div>
+		<!-- End of Main Content -->
+
+		
+		<!-- Footer -->
+		<footer th:replace="index2 :: footer"> </footer>
+		<!-- End of Footer -->
+	</div>
+	<!-- End of Content Wrapper -->
+	</div>
+    <!-- End of Page Wrapper -->
+    <div th:replace="index2 :: etc"></div>
+    
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+	<script src="js/calendar/main.js"></script>
+	<script src="https://developers.google.com/web/ilt/pwa/working-with-the-fetch-api" type="text/javascript"></script>
+
+</body>
+</html>

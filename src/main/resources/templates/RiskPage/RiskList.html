@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>리스크 관리</title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+	
+	<!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+	
+	
+	<style>
+		.select_default {
+			width : 300px;
+			float : left;
+			padding-left : 20px;
+			padding-top : 10px;	
+		}
+		.input-group-text {
+			width: 100px;
+			background-color:#4e73df;
+		}
+		
+		.select_default label {
+			color : #ffffff;
+		}
+	</style>
+	
+	<!-- ajax -->
+    <script src="js/risk/riskList.js"></script>
+
+</head>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+		
+			<!-- Main Content -->
+			<div id="content">
+			
+				<!-- Topbar -->
+				<div  th:with="title='RiskList'">
+					<nav th:replace="index2 :: topBar"></nav>
+				</div>
+				<!-- End of Topbar -->
+				
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h4 class="m-0 font-weight-bold text-primary">
+                            리스크관리</h4>
+                        	<h1 class="h3 mb-2 text-gray-800"></h1>
+                    		<p class="mb-4">리스크를 관리하는 페이지입니다.</p>
+                        	<div class="risk_btns">
+                        		<!-- 필터 추가 -->
+                        		<form id="filterForm" method="post">
+                        			<div class="select_default input-group mb-3">
+									  <div class="input-group-prepend">
+									    <label class="input-group-text" for="inputGroupSelect01">리스크현황</label>
+									  </div>
+									  <select name="riskpgs_cd" class="custom-select" id="inputGroupSelect01" onchange="filterSubmit()">
+									    <option th:text="전체" th:value="null"></option>
+									    <option th:each="rpgsList : ${riskpgsList}" th:text="${rpgsList.riskpgs_st}" th:value="${rpgsList.riskpgs_cd}"></option>
+									  </select>
+									</div>
+                        		</form>
+                        	
+								<button type="button" class="btn btn-primary" onclick="riskReg()">리스크 등록</button>
+                        	</div>
+                        
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered  text-center" id="dataTable" width="100%" cellspacing="0">
+                                       	<col width="10%">
+									   	<col width="20%">
+									   	<col width="20%">
+									   	<col width="10%">
+									   	<col width="10%">
+									   	<col width="10%">
+									   	<col width="10%">
+									   	<col width="10%">
+                                    
+                                    <thead>
+                                        <tr>
+                                        	<th>번호</th>
+                                            <th>제목</th>
+                                            <th>프로젝트명</th>
+                                            <th>진행상황</th>
+                                            <th>발견자</th>
+                                            <th>조치자</th>
+                                            <th>등록일</th>
+                                            <th>수정일</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    	<tr th:each="rList : ${riskLisk}" th:onclick="'location.href = \'' + @{/RiskDetailPage?risk_cd={id}(id=${rList.risk_cd})} + '\''" >
+                                    		<td th:text="${rList.risk_cd}"></td>
+                                    		<td class="text-left" th:text="${rList.risk_nm}"></td>
+                                    		<td th:text="${rList.project_nm}"></td>
+                                    		<td th:text="${rList.riskpgs_st}"></td>
+                                    		<td th:text="${rList.risk_finder}"></td>
+                                    		<td th:text="${rList.risk_handler}"></td>
+                                    		<td th:text="${#dates.format(rList.risk_regdate_dt, 'yyyy-MM-dd')}"></td>
+                                    		<td th:text="${#dates.format(rList.risk_upddate_dt, 'yyyy-MM-dd')}"></td>
+                                    	</tr>
+                                    </tbody>
+                                    
+                                    <tfoot>
+                                        <tr>
+                                        	<th>번호</th>
+                                            <th>제목</th>
+                                            <th>프로젝트명</th>
+                                            <th>진행상황</th>
+                                            <th>발견자</th>
+                                            <th>조치자</th>
+                                            <th>등록일</th>
+                                            <th>최종수정일</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+						
+						
+                    </div>
+				</div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <div th:replace="index2 :: etc"></div>
+    
+    
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+    
+    
+    <!-- 임시 -->
+    <style>
+		.risk_btns {
+			text-align: right;
+		}
+	
+	</style>
+    <script>
+    	function riskReg(){
+    		location.href="RiskRegPage";
+    	}
+    	
+    	
+   		var oTable = $("#dataTable").dataTable();
+           oTable.fnSort( [ [0,"desc"] ] );
+    	
+    </script>
+</body>
+</html>

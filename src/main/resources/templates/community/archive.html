@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index2 :: navi">
+</head>
+<link th:href="@{/css/community/bbsReg.css}" rel="stylesheet"/>
+<link th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}"
+	rel="stylesheet" type="text/css" />
+<!-- Page level plugins -->
+<script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+<!-- Page level custom scripts -->
+<script th:src="@{/js/demo/datatables-demo.js}"></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	       var oTable = $("#dataTable").dataTable();
+	       // Sort immediately with columns 0 and 1
+	       oTable.fnSort( [ [0,"desc"] ] );
+});
+</script>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<div th:with="title='Community'">
+					<nav th:replace="index2 :: topBar"></nav>
+				</div>
+				<!-- End of Topbar -->
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<!-- Content Row -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">자료실</h6>
+							<button type="button" class="ml-3 btn btn-primary" id="regBtn">등록</button>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="dataTable" width="100%"
+									cellspacing="0">
+									<thead>
+										<tr>
+											<th>번호</th>
+											<th>제목</th>
+											<th>작성자</th>
+											<th>날짜</th>
+											<th>조회수</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="archive : ${archiveList}">
+											<td th:text="${archive.bbs_no}"></td>
+											<td><a th:href="@{'/community/archive/detail?bbs_cd_pk='+${archive.bbs_cd_pk}}"><span th:text="${archive.bbs_title}"></span></a></td>
+											<td th:text="${archive.emp_name}"></td>
+											<td th:text="${archive.bbs_dt}"></td>
+											<td th:text="${archive.bbs_hit}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+		<!-- End of Content Wrapper -->
+	</div>
+	<!-- End of Page Wrapper -->
+	<div th:replace="index2 :: etc"></div>
+	<!-- Page level plugins -->
+	<script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+	<!-- Page level custom scripts -->
+	<script th:src="@{/js/demo/datatables-demo.js}"></script>
+
+</body>
+<script type="text/javascript">
+var regBtn = document.querySelector("#regBtn");
+regBtn.onclick=function(){
+	location.href="/community/archive/insert";
+}
+
+</script>
+</html>

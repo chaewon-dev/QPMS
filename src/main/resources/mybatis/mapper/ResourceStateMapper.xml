@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.ResourcePage.ResourceDao">
+	<select id="resourceStateList"
+		resultType="com.team3.pms.VO.resource.ResourceState">
+		SELECT rsc_pk, rsc_cat_num, rsc_cat_nm, rsc_parent,
+		nvl(date_format(rsc_start_dt,'%d-%m-%Y'),DATE_FORMAT(sysdate(),'%d-%m-%Y'))  rsc_start_dt,
+		nvl(date_format(rsc_end_dt,'%d-%m-%Y'),DATE_FORMAT(sysdate(),'%d-%m-%Y')) rsc_end_dt, rsc_prog
+		from RSC_TB
+	</select>
+	<select id ="getDept" parameterType="String" resultType="int">
+		select emp_dept_fk from SYS_EMP_TB where emp_cd_pk=#{emp_cd_pk}
+	</select>
+	<select id="getEmp" parameterType="String" resultType="String">
+		SELECT emp_cd_pk from RESOURCE_TB 
+		where resource_pk = #{resource_pk}
+	</select>
+	<select id="chkProject" parameterType="com.team3.pms.VO.resource.ResourceState" resultType="int">
+		select COUNT(r1.rsc_pk) from RSC_TB r1, RSC_TB r2
+where r1.rsc_cat_num=#{project_pk} AND r1.rsc_parent= r2.rsc_pk 
+and r2.rsc_cat_num =concat('',#{emp_dept_pk})
+	</select>
+	<insert id="addProject" parameterType="com.team3.pms.VO.resource.ResourceState">
+		insert into
+		RSC_TB(rsc_cat_num, rsc_cat_nm, rsc_parent, rsc_start_dt, rsc_end_dt)
+		select r.project_pk, project_nm, rs.rsc_pk, project_start_dt,
+		project_comp_dt
+		from RESOURCE_TB r, PROJECT_TB p, (select emp_dept_pk,
+		emp_cd_pk
+		from SYS_EMP_TB e, EMP_DEPT_TB d
+		where
+		e.emp_dept_fk=d.emp_dept_pk
+		and e.emp_dept_fk=#{emp_dept_pk}) k,
+		(select
+		rsc_pk, rsc_cat_num
+		from RSC_TB
+		WHERE rsc_cat_num =
+		concat('',#{emp_dept_pk})) rs
+		where r.emp_cd_pk =k.emp_cd_pk
+		and r.project_pk
+		=p.PROJECT_PK
+		and rs.rsc_cat_num = k.emp_dept_pk AND r.project_pk = #{project_pk}
+		group by project_nm
+	</insert>
+	<insert id="addName"
+		parameterType="com.team3.pms.VO.resource.ResourceState">
+		insert into RSC_TB(rsc_cat_num, rsc_cat_nm, rsc_parent)
+		select k.emp_cd_pk,k.emp_name, rs.rsc_pk
+		from RESOURCE_TB r, RSC_TB rt,
+		(select emp_dept_pk, emp_cd_pk, emp_name
+		from SYS_EMP_TB e, EMP_DEPT_TB d
+		where
+		e.emp_dept_fk=d.emp_dept_pk
+		and e.emp_dept_fk=concat('',#{emp_dept_pk})) k,
+		(select rsc_pk, rsc_cat_num, rsc_parent
+		from RSC_TB
+		WHERE rsc_cat_num =
+		#{project_pk}) rs
+		where r.emp_cd_pk =k.emp_cd_pk
+		and rs.rsc_cat_num = r.project_pk
+		and rt.rsc_pk = rs.rsc_parent
+		and rt.rsc_cat_num =concat('',#{emp_dept_pk})  and k.emp_cd_pk = #{emp_cd_pk}
+	</insert>
+	<insert id="addTask"
+		parameterType="com.team3.pms.VO.resource.ResourceState">
+		insert into RSC_TB(rsc_cat_num, rsc_cat_nm, rsc_start_dt, rsc_end_dt, rsc_parent, rsc_prog)
+		select task_pk, TASK_NM, TASK_START_DT, TASK_COMP_DT, r.rsc_pk, 0 
+from TASK_TB, (SELECT r1.* FROM RSC_TB r1, RSC_TB r2
+WHERE r1.rsc_cat_num = #{emp_cd_pk} 
+and r1.rsc_parent = r2.rsc_pk 
+and r2.rsc_cat_num =#{project_pk}) r
+where task_pk = (select max(task_pk)
+				from TASK_TB 
+				where TASK_MANAGER= #{task_manager} 
+				AND PROJECT_PK=#{project_pk})
+		<!--  
+		insert into RSC_TB(rsc_cat_num, rsc_cat_nm, rsc_parent,
+		rsc_start_dt, rsc_end_dt, rsc_prog)
+		select task_pk, task_nm, rs.rsc_pk, task_start_dt, task_comp_dt,
+		task_progress
+		from RSC_TB rs,
+		(select rsc_pk, rsc_cat_num, rsc_cat_nm, rsc_parent
+		from RSC_TB
+		where rsc_cat_num=#{project_pk}) rt,
+		(select e.emp_cd_pk, emp_name, resource_pk, project_pk
+		from SYS_EMP_TB e,
+		RESOURCE_TB r
+		where e.emp_cd_pk = r.emp_cd_pk
+		and r.project_pk=
+		#{project_pk}
+		AND e.emp_dept_fk=#{emp_dept_pk}) re
+		,TASK_TB t
+		WHERE re.resource_pk = t.TASK_MANAGER
+		AND re.emp_cd_pk = rs.rsc_cat_num
+		AND rs.rsc_parent = rt.rsc_pk
+		-->
+		<!-- 
+		left join TASK_TB t
+		on re.resource_pk = t.TASK_MANAGER
+		where re.emp_cd_pk = rs.rsc_cat_num
+		AND rs.rsc_parent = rt.rsc_pk
+		 -->
+	</insert>
+	<!-- 프로젝트 업데이트 연동 -->
+	<update id="updateByProject"
+		parameterType="com.team3.pms.VO.resource.ResourceState">
+		UPDATE RSC_TB set rsc_cat_nm = #{rsc_cat_nm},
+		rsc_start_dt=#{rsc_start_dt}, rsc_end_dt=#{rsc_end_dt}
+		 where rsc_cat_num=#{rsc_cat_num} 
+		 <!-- 'PRJ-0041' -->
+	</update>
+	<!-- 프로젝트 삭제 시 프로젝트 삭제 -->
+	<delete id="deleteProject" parameterType="String">
+		DELETE FROM RSC_TB
+		WHERE rsc_cat_num=#{project_pk}
+	</delete>
+	<!-- 프로젝트 삭제 시 이름 삭제 -->
+	<select id="chkName" parameterType="String" resultType="int">
+		select count(r2.rsc_pk) from RSC_TB r1, RSC_TB r2
+where r1.rsc_pk = r2.rsc_parent 
+and r1.rsc_cat_num = #{project_pk}
+	</select>
+	<select id="chkTask" parameterType="String" resultType="int">
+		select count(rr.rsc_pk) from RSC_TB rr,
+(SELECT r.rsc_pk, r.rsc_cat_nm, r.rsc_cat_num 
+FROM RSC_TB r, (select rsc_pk, rsc_cat_num
+		from RSC_TB
+		WHERE rsc_cat_num = #{project_pk}) r2
+where r.rsc_parent=r2.rsc_pk) rr2
+where rr.rsc_parent = rr2.rsc_pk
+	</select>
+	<delete id="deleteNameByProject" parameterType="String">
+		delete FROM
+		RSC_TB
+		WHERE RSC_PK IN (
+		SELECT r.rsc_pk
+		FROM RSC_TB r, (select rsc_pk, rsc_cat_num
+		from RSC_TB
+		WHERE rsc_cat_num = #{project_pk}) r2
+		where r.rsc_parent=r2.rsc_pk)
+	</delete>
+	<!-- 프로젝트 삭제 시 task 삭제 -->
+	<delete id="deleteTaskByproject" parameterType="String">
+		delete from
+		RSC_TB
+		WHERE RSC_PK IN (
+		select rr.rsc_pk from RSC_TB rr,
+		(SELECT r.rsc_pk, r.rsc_cat_nm, r.rsc_cat_num
+		FROM RSC_TB r, (select rsc_pk, rsc_cat_num
+		from RSC_TB
+		WHERE rsc_cat_num =
+		#{project_pk}) r2
+		where r.rsc_parent=r2.rsc_pk) rr2
+		where rr.rsc_parent = rr2.rsc_pk
+		)
+	</delete>
+	<!-- task 업데이트 -->
+	<update id="updateTask" parameterType="com.team3.pms.VO.resource.ResourceState">
+		UPDATE RSC_TB 
+SET rsc_cat_nm = #{rsc_cat_nm}, rsc_start_dt=#{rsc_start_dt}, rsc_end_dt=#{rsc_end_dt}, 
+rsc_parent=(select r1.rsc_pk from RSC_TB r1, RSC_TB r2, RSC_TB r3 
+where r2.rsc_cat_num =#{rsc_cat_num} 
+and r3.rsc_cat_num=concat('',#{emp_dept_pk})
+and r2.rsc_parent = r3.rsc_pk 
+AND r1.rsc_parent = r2.rsc_pk
+and r1.rsc_cat_num =#{emp_cd_pk})
+where rsc_cat_num = #{task_pk}
+	</update>
+	<update id="updateRscTaskProg" parameterType="com.team3.pms.VO.MyPage.Task">
+		UPDATE RSC_TB SET rsc_prog = #{task_progress}/100 where rsc_cat_num=#{task_pk}
+	</update>
+	<select id="chkTaskManager" parameterType="String" resultType="int">
+		select COUNT(rsc_pk) from RSC_TB where rsc_cat_num=#{task_pk}
+	</select>
+	<!--  TASK 삭제 -->
+	<delete id="deleteTask" parameterType="String">
+		delete from RSC_TB where rsc_cat_num = #{task_pk}
+	</delete>
+	<!--  리소스 삭제 -->
+	<delete id="deleteRscMem" parameterType="com.team3.pms.VO.resource.ResourceState">
+		DELETE FROM RSC_TB WHERE rsc_pk =(
+		select r1.rsc_pk from RSC_TB r1, RSC_TB r2
+		WHERE r1.rsc_cat_num=#{emp_cd_pk} 
+		and r1.rsc_parent = r2.rsc_pk
+		and r2.rsc_cat_num =#{project_pk})
+	</delete>
+	<!-- 프로젝트 필터 -->
+	<select id="filterByProject" parameterType="String" 
+	resultType="com.team3.pms.VO.resource.ResourceState">
+		select r1.rsc_pk, r1.rsc_cat_num, r1.rsc_cat_nm, r1.rsc_parent, nvl(date_format(r1.rsc_start_dt,'%d-%m-%Y'),DATE_FORMAT(sysdate(),'%d-%m-%Y'))  rsc_start_dt,
+		nvl(date_format(r1.rsc_end_dt,'%d-%m-%Y'),DATE_FORMAT(sysdate(),'%d-%m-%Y')) rsc_end_dt,r1.rsc_prog 
+from RSC_TB r1, (SELECT * FROM RSC_TB where rsc_cat_num  = #{project_pk}) r2
+where r1.rsc_pk = r2.rsc_parent
+UNION 
+select rsc_pk, rsc_cat_num, rsc_cat_nm, rsc_parent, nvl(date_format(rsc_start_dt,'%d-%m-%Y'),DATE_FORMAT(sysdate(),'%d-%m-%Y'))  rsc_start_dt,
+		nvl(date_format(rsc_end_dt,'%d-%m-%Y'),DATE_FORMAT(sysdate(),'%d-%m-%Y')) rsc_end_dt, rsc_prog  from RSC_TB WHERE rsc_cat_num = #{project_pk}
+union
+SELECT r1.rsc_pk, r1.rsc_cat_num, r1.rsc_cat_nm, r1.rsc_parent, nvl(date_format(r1.rsc_start_dt,'%d-%m-%Y'),DATE_FORMAT(sysdate(),'%d-%m-%Y'))  rsc_start_dt,
+		nvl(date_format(r1.rsc_end_dt,'%d-%m-%Y'),DATE_FORMAT(sysdate(),'%d-%m-%Y')) rsc_end_dt,r1.rsc_prog  FROM RSC_TB r1, (select * from RSC_TB r2 where rsc_cat_num = #{project_pk}) r2
+WHERE r1.rsc_parent = r2.rsc_pk
+UNION
+select r.rsc_pk, r.rsc_cat_num, r.rsc_cat_nm, r.rsc_parent, nvl(date_format(r.rsc_start_dt,'%d-%m-%Y'),DATE_FORMAT(sysdate(),'%d-%m-%Y'))  rsc_start_dt,
+		nvl(date_format(r.rsc_end_dt,'%d-%m-%Y'),DATE_FORMAT(sysdate(),'%d-%m-%Y')) rsc_end_dt,r.rsc_prog  from RSC_TB r,
+(SELECT r1.rsc_pk FROM RSC_TB r1, 
+	(select * from RSC_TB r2 
+	where rsc_cat_num = #{project_pk}) r2
+WHERE r1.rsc_parent = r2.rsc_pk) rr
+where r.rsc_parent = rr.rsc_pk
+	
+	</select>
+</mapper>

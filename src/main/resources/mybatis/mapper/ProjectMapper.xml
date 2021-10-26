@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.project.ProjectDao">
+	
+	<!-- project -->
+	<select id="projectList" resultType="com.team3.pms.Dao.project.ProjectDTO">
+		SELECT PROJECT_NM, PROJECT_STATE_NM, PROJECT_PK, PROJECT_TYPE, PROJECT_START_DT, PROJECT_COMP_DT
+		FROM PROJECT_STATE_TB PST, PROJECT_TB PT
+		WHERE PST.PROJECT_STATE_PK = PT.PROJECT_STATE_PK
+	</select>
+	
+	<select id="projectListByEmpCdPk" resultType="com.team3.pms.Dao.project.ProjectDTO">
+		SELECT DISTINCT PROJECT_NM, PROJECT_STATE_NM, PT.PROJECT_PK, PROJECT_TYPE, PROJECT_START_DT, PROJECT_COMP_DT
+		FROM PROJECT_STATE_TB PST, PROJECT_TB PT, RESOURCE_TB r
+		WHERE PST.PROJECT_STATE_PK = PT.PROJECT_STATE_PK
+		and r.project_pk = PT.PROJECT_PK
+		and r.emp_cd_pk like CONCAT('%', #{emp_cd_pk}, '%')
+	</select>
+	
+	<select id="findAuthRoleByEmpCdPk" resultType="String">
+		SELECT emp_auth_fk
+		from SYS_EMP_TB
+		where emp_cd_pk = #{emp_cd_pk}
+	</select>
+	
+	<select id="findResourceRoleByEmpCdPk"  resultType="String">
+		SELECT resource_role
+		from RESOURCE_TB
+		where project_pk = #{project_pk}
+		and emp_cd_pk = #{emp_cd_pk}
+		limit 1
+	</select>
+	
+	<select id="findProjectName" resultType="String">
+		SELECT PROJECT_NM
+		FROM PROJECT_TB
+		WHERE PROJECT_PK = #{projectId}
+	</select>
+	
+	<select id="getProjectDetail" resultType="com.team3.pms.Dao.project.ProjectDetailDTO">
+		SELECT project_state_pk, emp_dept_pk, project_nm, project_type, rnd_type, project_start_dt, project_comp_dt, project_description
+		FROM PROJECT_TB PT
+		WHERE PROJECT_PK = #{projectId}
+	</select>
+	
+	<select id="projectStateList" resultType="com.team3.pms.Dao.project.ProjectStateDTO">
+		SELECT project_state_pk, project_state_nm
+		from PROJECT_STATE_TB
+	</select>
+	
+	<select id="getCurrentPM" resultType="com.team3.pms.Dao.project.ResourceDetailDTO">
+		SELECT resource_pk, r.emp_cd_pk emp_cd_pk, e.emp_name emp_name
+		from RESOURCE_TB r, SYS_EMP_TB e
+		where project_pk = #{projectId}
+		and r.emp_cd_pk = e.emp_cd_pk 
+		and resource_role = 5
+	</select>
+	
+	<select id="findResourceByProjectEmp" resultType="com.team3.pms.Dao.project.PMSaveDTO">
+		SELECT resource_pk
+		from RESOURCE_TB
+		where project_pk = #{project_pk}
+		and emp_cd_pk = #{emp_cd_pk}
+	</select>
+	
+	<select id="projectCost" resultType="com.team3.pms.Dao.project.CostListDTO">
+		select cost_pk, cost_type, cost, dept_name, cost_dt, emp_name, cost_reg_dt
+		from COST_TB c, SYS_EMP_TB e, EMP_DEPT_TB d
+		where c.emp_cd_pk = e.emp_cd_pk 
+		and c.emp_dept_pk = d.emp_dept_pk
+		and c.project_pk = #{projectId}
+		order by cost_pk desc
+	</select>
+	
+	<update id="updateProject" parameterType="com.team3.pms.Controller.project.form.ProjectUpdateForm">
+		UPDATE PROJECT_TB
+		set project_nm = #{project_nm}, project_type = #{project_type}, rnd_type = #{rnd_type},
+		emp_dept_pk = #{emp_dept_pk}, project_start_dt = #{project_start_dt}, project_comp_dt = #{project_comp_dt},
+		project_description = #{project_description}, project_state_pk = #{project_state_pk}
+		where project_pk = #{project_pk}
+	</update>
+	
+	<update id="updateResourceByProjectEmp" parameterType="com.team3.pms.Dao.project.ResourceUpdateDTO">
+		UPDATE RESOURCE_TB
+		set resource_role = #{resource_role}
+		where emp_cd_pk = #{emp_cd_pk}
+		and project_pk = #{project_pk}
+	</update>
+	
+	<insert id="saveProject" parameterType="com.team3.pms.Controller.project.form.ProjectRegForm">
+		INSERT INTO PROJECT_TB(EMP_DEPT_PK, PROJECT_NM, PROJECT_TYPE, RND_TYPE, PROJECT_START_DT, PROJECT_COMP_DT, PROJECT_DESCRIPTION)
+		VALUES (#{projectDept},#{projectName},#{projectType},#{rndType},#{projectStartDT},#{projectCompDT},#{projectDescription})
+	</insert>
+	
+	
+	<insert id="savePM" parameterType="com.team3.pms.Dao.project.PMSaveDTO">
+		insert into RESOURCE_TB(resource_pk, project_pk, emp_cd_pk, resource_role)
+		values(concat('RSC-', LPAD(nextval(sq_resource), 4, '0')), #{project_pk}, #{emp_cd_pk}, 5)
+	</insert>
+	
+	
+	
+	<delete id="deleteProject">
+		DELETE FROM PROJECT_TB 
+		WHERE PROJECT_PK = #{projectId}
+	</delete>
+	
+	
+	<select id="getProjectMaxId" resultType="String">
+		select max(project_pk)
+		from PROJECT_TB
+	</select>
+	<!-- end of project -->
+	
+	<!-- get deptList -->
+	<select id="deptList" resultType="com.team3.pms.Dao.project.DeptDTO">
+		SELECT EMP_DEPT_PK, DEPT_NAME
+		FROM EMP_DEPT_TB
+	</select>
+	
+	<select id="getPMList" resultType="com.team3.pms.Dao.project.ProjectgetPMListDTO">
+		select emp_cd_pk, emp_name
+		from SYS_EMP_TB
+		where emp_dept_fk = #{deptData}
+		order by emp_cd_pk
+	</select>
+	
+	<!-- task -->
+	<select id="callTasks" resultType="com.team3.pms.Dao.project.TaskDTO">
+	select task_pk, task_approver, task_nm, task_state, date_format(task_start_dt,'%d-%m-%Y') task_start_dt, date_format(task_comp_dt,'%d-%m-%Y') task_comp_dt, task_progress, task_type, task_description, task_parent, task_sortorder, task_manager
+	from TASK_TB
+	where project_pk = #{projectId}
+	</select>
+	
+	<select id="getMaxId" resultType="String">
+	select max(task_pk)
+	from TASK_TB
+	</select>
+	
+	<select id="taskSatetSummaryChart" resultType="com.team3.pms.Dao.project.TaskStateSummaryDTO">
+	select task_state, count(t.task_state) count
+	from(
+		select
+			case 
+				when task_progress = 0
+				then '시작전'
+				<![CDATA[when task_progress < 1]]>
+				then '진행중'
+				when task_progress = 1
+				then '완료'
+			end task_state
+		from TASK_TB t
+		where project_pk = #{projectId}) t
+	group by t.task_state
+	</select>
+	
+	<select id="resourceDeptSummaryChart" resultType="com.team3.pms.Dao.project.ResourceDeptSummaryChartDTO">
+	select dept_name, count(dept_name) count
+	from(
+	select r.emp_cd_pk, emp_dept_fk
+	from RESOURCE_TB r, SYS_EMP_TB e
+	where r.emp_cd_pk = e.emp_cd_pk 
+	and project_pk = #{projectId})t, EMP_DEPT_TB d
+	where d.emp_dept_pk = t.emp_dept_fk
+	group by dept_name
+	</select>
+	
+	<insert id="saveTask" parameterType="com.team3.pms.Controller.project.form.TaskProjectSaveForm"> 
+		INSERT INTO TASK_TB(project_pk, task_approver, task_nm, task_state, task_start_dt, task_comp_dt, task_progress, task_type, task_description, task_parent, task_sortorder, task_manager)
+		VALUES(#{projectId},#{approver},#{text},#{state},str_to_date(#{start_date},'%d-%m-%Y'),str_to_date(#{end_date},'%d-%m-%Y'),#{progress},#{type},#{description},#{parent},#{sortorder}, #{manager})
+	</insert>
+	
+	<update id="updateTask" parameterType="com.team3.pms.Controller.project.form.TaskUpdateForm">
+		UPDATE TASK_TB
+		set project_pk = #{projectId}, task_approver = #{approver}, task_nm = #{text}, task_state = #{state}, 
+		task_start_dt = str_to_date(#{start_date},'%d-%m-%Y'), task_comp_dt = str_to_date(#{end_date},'%d-%m-%Y'),
+		task_progress = #{progress}, task_type = #{type}, task_description = #{description}, task_parent = #{parent},
+		task_sortorder = #{sortorder}, task_manager = #{manager}
+		where task_pk = #{id}
+	</update>
+	
+	<delete id="deleteTask">
+		DELETE FROM TASK_TB WHERE TASK_PK = #{taskId}
+	</delete>
+	<!-- end of task -->
+	
+</mapper>

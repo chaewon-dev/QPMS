@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.community.BbsDao">
+	<select id="noticeList"
+		resultType="com.team3.pms.VO.community.Bbs">
+		select *
+		from(
+		select @row_num:=@row_num+1 as bbs_no, bbs_cd_pk, bbs_title, bbs_kind, bbs_cont,
+		DATE_FORMAT(bbs_dt, '%Y-%m-%d') as bbs_dt, b.emp_cd_pk, emp_name,
+		bbs_hit
+		from SYS_BBS_TB b, SYS_EMP_TB e, (select @row_num := 0) as s
+		WHERE e.emp_cd_pk = b.emp_cd_pk and bbs_kind='N'
+		order by bbs_dt asc
+		) sub order by bbs_no desc
+	</select>
+	<!-- <select id="noticeList" parameterType="String" resultType="com.team3.pms.VO.community.Bbs"> 
+		select * from SYS_BBS_TB where bbs_title LIKE CONCAT('%','','%') and bbs_kind='N' 
+		</select> -->
+	<select id="bbsDetail" parameterType="String"
+		resultType="com.team3.pms.VO.community.Bbs">
+		select bbs_cd_pk, bbs_title, bbs_cont, e.emp_cd_pk, emp_name, bbs_hit,
+		DATE_FORMAT(bbs_dt, '%Y-%m-%d') as bbs_dt
+		from SYS_BBS_TB b, SYS_EMP_TB
+		e
+		WHERE bbs_cd_pk = #{bbs_cd_pk} and e.emp_cd_pk = b.emp_cd_pk
+	</select>
+	<update id="hitUpdate" parameterType="String">
+		update SYS_BBS_TB set
+		bbs_hit = bbs_hit +1 where bbs_cd_pk=#{bbs_cd_pk}
+	</update>
+	<insert id="noticeInsert"
+		parameterType="com.team3.pms.VO.community.Bbs">
+		insert into SYS_BBS_TB(bbs_cd_pk, bbs_title, bbs_kind,
+		bbs_cont,emp_cd_pk)
+		values(concat('BBS-', LPAD(nextval(BBS_SEQ), 4,
+		'0')), #{bbs_title},'N', #{bbs_cont},
+		#{emp_cd_pk});
+	</insert>
+	<insert id="fileInsert"
+		parameterType="com.team3.pms.VO.community.Bfile">
+		insert into SYS_BFILE_TB(bfile_cd_pk, bbs_cd_pk,
+		org_nm,
+		bfile_nm)
+		values(concat('BFL-', LPAD(nextval(BFILE_SEQ), 4,
+		'0')), concat('BBS-', LPAD(LASTVAL(BBS_SEQ), 4,
+		'0')), #{org_nm},
+		#{bfile_nm});
+	</insert>
+	<update id="noticeUpdate"
+		parameterType="com.team3.pms.VO.community.Bbs">
+		update SYS_BBS_TB set
+		bbs_title = #{bbs_title},
+		bbs_cont=#{bbs_cont} where bbs_cd_pk=#{bbs_cd_pk}
+	</update>
+	<delete id="bbsDelete" parameterType="String">
+		delete from SYS_BBS_TB
+		where bbs_cd_pk = #{bbs_cd_pk}
+	</delete>
+
+	<select id="archiveList"
+		resultType="com.team3.pms.VO.community.Bbs">
+		select *
+		from(
+		select @row_num:=@row_num+1 as bbs_no, bbs_cd_pk, bbs_title, bbs_kind, bbs_cont,
+		DATE_FORMAT(bbs_dt, '%Y-%m-%d') as bbs_dt, b.emp_cd_pk, emp_name,
+		bbs_hit
+		from SYS_BBS_TB b, SYS_EMP_TB e, (select @row_num := 0) as s
+		WHERE e.emp_cd_pk = b.emp_cd_pk and bbs_kind='A'
+		order by bbs_dt asc
+		) sub order by bbs_no desc
+	</select>
+	<insert id="archiveInsert"
+		parameterType="com.team3.pms.VO.community.Bbs">
+		insert into SYS_BBS_TB(bbs_cd_pk, bbs_title, bbs_kind,
+		bbs_cont,emp_cd_pk)
+		values(concat('BBS-', LPAD(nextval(BBS_SEQ), 4,
+		'0')), #{bbs_title},'A', #{bbs_cont},
+		#{emp_cd_pk});
+	</insert>
+	<update id="archiveUpdate"
+		parameterType="com.team3.pms.VO.community.Bbs">
+		update SYS_BBS_TB set
+		bbs_title = #{bbs_title},
+		bbs_cont=#{bbs_cont} where bbs_cd_pk=#{bbs_cd_pk}
+	</update>
+	<select id="getFile" parameterType="String" resultType="String">
+		SELECT
+		org_nm
+		from SYS_BFILE_TB
+		WHERE bbs_cd_pk = #{bbs_cd_pk}
+	</select>
+	<select id="getFileNum" parameterType="String"
+		resultType="String">
+		select bfile_cd_pk from SYS_BFILE_TB
+		WHERE bbs_cd_pk =
+		#{bbs_cd_pk}
+	</select>
+	<select id="getFileDetail" parameterType="String"
+		resultType="com.team3.pms.VO.community.Bfile">
+		select bfile_cd_pk, org_nm, bfile_nm
+		from
+		SYS_BFILE_TB
+		where bfile_cd_pk = #{bfile_cd_pk}
+	</select>
+	<delete id="fileDelete" parameterType="String">
+		delete from SYS_BFILE_TB
+		where bbs_cd_pk = #{bbs_cd_pk}
+	</delete>
+	<update id="updateFile" parameterType="com.team3.pms.VO.community.Bfile">
+		update SYS_BFILE_TB set org_nm=#{org_nm}, bfile_nm=#{bfile_nm}
+		where bbs_cd_pk=#{bbs_cd_pk}
+	</update>
+</mapper>

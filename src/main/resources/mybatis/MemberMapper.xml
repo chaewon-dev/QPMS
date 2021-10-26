@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.Member.MemberDao">
+
+	
+	<!-- Member -->
+	
+	<select id="findByID" resultType="com.team3.pms.Dao.Member.MemberDto">
+		select emp_cd_pk, emp_auth_fk, emp_auth, emp_pos_fk, emp_pos, emp_dept_fk, emp_dept, 
+				emp_id, emp_name, emp_birth, emp_img, emp_tel, emp_email 
+		from v_empTB
+		where id = #{id};
+	</select>
+	
+	<select id="memberList" resultType="com.team3.pms.Dao.Member.MemberDto">
+		select emp_cd_pk, emp_auth, emp_pos, emp_dept, 
+				emp_id, emp_name
+		from v_empTB;
+	</select>
+	
+	<select id="findByEmail" resultType="com.team3.pms.Dao.Member.MemberDto">
+		select emp_cd_pk, emp_auth_fk, emp_auth, emp_pos_fk, emp_pos, emp_dept_fk, emp_dept, 
+				emp_id, emp_name, emp_birth, emp_img, emp_tel, emp_email 
+		from v_empTB
+		where email = #{email};
+	</select>
+	
+	<insert id="regMember" parameterType="com.team3.pms.Controller.Member.form.MemberRegForm">
+		insert into SYS_EMP_TB values (emp_auth_fk, emp_dept_fk, emp_pos_fk, emp_id, emp_pw, emp_name, emp_birth, emp_tel, emp_email, emp_income)
+		vlues (#{auth_fk},#{dept_fk},#{pos_fk},#{id},#{pass},#{name},#{birth},#{tel},#{email},sysdate())
+	</insert>
+	<!-- end of Member -->
+	
+	
+
+</mapper>

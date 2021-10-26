@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.MyPage.MyApprovalDao">
+
+<select id="getTaskList" resultType="com.team3.pms.VO.MyPage.Task" parameterType="String">
+<![CDATA[ SELECT b.TASK_PK , task_nm, project_nm, (SELECT emp_name from SYS_EMP_TB
+					where emp_cd_pk like (SELECT emp_cd_pk from RESOURCE_TB 
+					where resource_pk = task_approver)) AS task_approver,  
+					task_start_dt, task_comp_dt, task_progress_value AS task_progress, c.project_pk,
+					(CASE WHEN task_start_dt > sysdate() THEN '작업전'
+			        WHEN (task_start_dt < sysdate() < task_comp_dt) THEN '진행중'
+			        WHEN sysdate() > task_comp_dt THEN '지연' 
+			         END) AS 'task_state',
+					task_type, task_description, emp_name 
+			from RESOURCE_TB a,TASK_TB b, PROJECT_TB c, task_progress_value d, SYS_EMP_TB e
+			where a.resource_pk = b.TASK_MANAGER 
+			and b.PROJECT_PK = c.PROJECT_PK
+			and b.TASK_PK = d.task_pk_value
+			and a.emp_cd_pk = e.emp_cd_pk 
+			and task_app_request = 0
+			and resource_role = 1
+			and a.emp_cd_pk like #{emp_cd_pk} ]]>
+</select>
+
+<select id="getTaskDetail" resultType="com.team3.pms.VO.MyPage.Task" parameterType="String">
+<![CDATA[ SELECT b.TASK_PK , task_nm, project_nm, (SELECT emp_name from SYS_EMP_TB
+					where emp_cd_pk like (SELECT emp_cd_pk from RESOURCE_TB 
+					where resource_pk = task_approver)) AS task_approver,  
+					task_start_dt, task_comp_dt, task_progress_value AS task_progress, c.project_pk,
+					(CASE WHEN task_start_dt > sysdate() THEN '작업전'
+			        WHEN (task_start_dt < sysdate() < task_comp_dt) THEN '진행중'
+			        WHEN sysdate() > task_comp_dt THEN '지연' 
+			         END) AS 'task_state', 
+					task_progress_value AS task_progress, task_type, task_description
+			from RESOURCE_TB a,TASK_TB b, PROJECT_TB c, SYS_EMP_TB d, task_progress_value e
+			where a.project_pk = b.project_pk
+			and b.project_pk = c.PROJECT_PK
+			and a.project_pk = c.PROJECT_PK 
+			and a.emp_cd_pk = d.emp_cd_pk
+			and b.task_pk = e.task_pk_value
+			and b.task_pk like #{task_pk} ]]>
+</select>
+
+<select id="getTaskLog" resultType="com.team3.pms.VO.MyPage.Log" 
+	parameterType="String">
+	SELECT task_log_category, task_log_dt, emp_name task_log_writer 
+		from SYS_TASK_LOG_TB a, RESOURCE_TB b, SYS_EMP_TB c 
+	where task_log_writer = resource_pk
+	and b.emp_cd_pk = c.emp_cd_pk
+	and task_pk like #{task_pk}
+</select>
+
+
+<select id="getApprovalDetail" resultType="com.team3.pms.VO.MyPage.Task" parameterType="String">
+<![CDATA[ SELECT b.TASK_PK , task_nm, project_nm, (SELECT emp_name from SYS_EMP_TB
+					where emp_cd_pk like (SELECT emp_cd_pk from RESOURCE_TB 
+					where resource_pk = task_approver)) AS task_approver,  
+					task_start_dt, task_comp_dt, task_progress_value AS task_progress, c.project_pk,
+					(CASE WHEN task_start_dt > sysdate() THEN '작업전'
+			        WHEN (task_start_dt < sysdate() < task_comp_dt) THEN '진행중'
+			        WHEN sysdate() > task_comp_dt THEN '지연' 
+			         END) AS 'task_state', approval_cd_pk, approval_reg_dt, approval_status,
+					(SELECT emp_name from SYS_EMP_TB where emp_cd_pk = f.approval_from) AS emp_name, 
+					task_progress_value AS task_progress, task_type, task_description, approval_from
+			from RESOURCE_TB a,TASK_TB b, PROJECT_TB c, SYS_EMP_TB d, task_progress_value e, SYS_APPROVAL_TB f
+			where a.project_pk = b.project_pk
+			and b.project_pk = c.PROJECT_PK
+			and a.emp_cd_pk = d.emp_cd_pk
+			and b.task_pk = e.task_pk_value
+			and b.task_pk = f.task_pk
+			and b.task_pk like #{task_pk} ]]>
+</select>
+
+
+<update id="taskUpdate" parameterType="com.team3.pms.VO.MyPage.Task">
+update TASK_TB 
+	set task_start_dt = #{start_dt},
+		task_comp_dt = #{comp_dt},
+		task_description = #{task_description}
+where task_pk = #{task_pk}
+</update>
+
+<update id="taskProgressUpdate" parameterType="com.team3.pms.VO.MyPage.Task">
+update task_progress_value
+	set task_progress_value	= #{task_progress}/100
+where task_pk_value = #{task_pk}
+</update>
+
+
+
+<insert id="insertRequestApproval" parameterType="Map">
+	insert into SYS_APPROVAL_TB values (concat('APR-', LPAD(nextval(sq_app), 4, '0')),
+	sysdate(),0,#{approval_detail}, #{task_pk}, #{emp_cd_pk});
+</insert> 
+
+<update id="insertRequestApproval_task" parameterType="com.team3.pms.VO.MyPage.Task">
+	UPDATE TASK_TB 
+		SET task_app_request = 1
+	WHERE task_pk like #{task_pk}   
+</update>
+
+
+<select id="getApprovalList" resultType="com.team3.pms.VO.MyPage.Task" 
+parameterType="String">
+<![CDATA[  SELECT b.task_pk, task_nm, (SELECT emp_name from SYS_EMP_TB
+				where emp_cd_pk like (SELECT emp_cd_pk from RESOURCE_TB 
+				where resource_pk = b.task_approver)) AS task_approver, 
+				(CASE WHEN task_start_dt > sysdate() THEN '작업전'
+				WHEN (task_start_dt < sysdate() and sysdate() < task_comp_dt) THEN '진행중'
+				WHEN sysdate() > task_comp_dt THEN '지연' 
+		        END) AS 'task_state', 
+		        task_start_dt, task_comp_dt, 
+				task_progress_value AS task_progress, task_type, task_description, 
+				(SELECT emp_name from SYS_EMP_TB
+				where emp_cd_pk = approval_from) emp_name, approval_reg_dt, approval_status
+		from RESOURCE_TB a, TASK_TB b, SYS_APPROVAL_TB c, task_progress_value d
+		where (a.resource_pk = b.TASK_APPROVER
+		or a.resource_pk = b.TASK_MANAGER)
+		and a.emp_cd_pk = c.approval_from 
+		and b.TASK_PK = c.task_pk
+		and c.task_pk = d.task_pk_value 
+		and task_app_request = 1
+		and (approval_from like #{emp_cd_pk} or (select emp_cd_pk from RESOURCE_TB 
+		where resource_pk = b.task_approver) like #{emp_cd_pk})
+		order by approval_reg_dt DESC
+ ]]>
+</select>
+
+<select id="getApprovalRequestList" resultType="com.team3.pms.VO.MyPage.Task" parameterType="String">
+<![CDATA[ SELECT b.task_pk, task_nm, (SELECT emp_name from SYS_EMP_TB
+				where emp_cd_pk like (SELECT emp_cd_pk from RESOURCE_TB 
+				where resource_pk = b.task_approver)) AS task_approver, 
+				(CASE WHEN task_start_dt > sysdate() THEN '작업전'
+				WHEN (task_start_dt < sysdate() and sysdate() < task_comp_dt) THEN '진행중'
+				WHEN sysdate() > task_comp_dt THEN '지연' 
+		        END) AS 'task_state', 
+		        task_start_dt, task_comp_dt, 
+				task_progress_value AS task_progress, task_type, task_description, 
+				(SELECT emp_name from SYS_EMP_TB
+				where emp_cd_pk = approval_from) emp_name, approval_reg_dt, approval_status
+		from RESOURCE_TB a, TASK_TB b, SYS_APPROVAL_TB c, task_progress_value d
+		where (a.resource_pk = b.TASK_APPROVER
+		or a.resource_pk = b.TASK_MANAGER)
+		and a.emp_cd_pk = c.approval_from 
+		and b.TASK_PK = c.task_pk
+		and c.task_pk = d.task_pk_value 
+		and (approval_from like #{emp_cd_pk} or (select emp_cd_pk from RESOURCE_TB 
+		where resource_pk = b.task_approver) like #{emp_cd_pk})
+		order by approval_reg_dt DESC ]]>
+</select>
+
+<update id="cancelRequestApproval_task" parameterType="String">
+	UPDATE TASK_TB 
+		SET task_app_request = 0
+	WHERE task_pk like #{task_pk}  	   
+</update>
+
+<update id="cancelRequestApproval_app" parameterType="String">
+	UPDATE SYS_APPROVAL_TB
+		SET approval_status = 2
+	WHERE task_pk like #{task_pk}  	   
+</update>
+
+<insert id="taskApprovalPermit" parameterType="com.team3.pms.VO.MyPage.Task">
+	insert into SYS_APPROVAL_DONE_TB values (concat('APD-', LPAD(nextval(sq_app_done), 4, '0')),#{approval_cd_pk})
+</insert> 
+
+<update id="taskPermitUpdate" parameterType="com.team3.pms.VO.MyPage.Task">
+	UPDATE SYS_APPROVAL_TB
+		SET approval_status = 1
+	WHERE task_pk like #{task_pk}  	   
+</update>
+
+<update id="taskProgressPermit" parameterType="com.team3.pms.VO.MyPage.Task">
+	UPDATE TASK_TB a
+		JOIN task_progress_value b
+		ON a.TASK_PK = b.task_pk_value 
+		SET a.task_progress = b.task_progress_value
+	WHERE a.TASK_PK = #{task_pk}   
+</update>
+
+<update id="taskPermitNoUpdate" parameterType="com.team3.pms.VO.MyPage.Task">
+	UPDATE TASK_TB 
+		SET task_app_request = 1
+	WHERE TASK_PK = #{task_pk}   
+</update>
+
+
+<update id="rejectApproval" parameterType="String">
+	UPDATE SYS_APPROVAL_TB
+		SET approval_status = 3
+	WHERE task_pk like #{task_pk}  	   
+</update>
+
+<select id="getproductDetail_task" resultType="com.team3.pms.VO.MyPage.Product" 
+parameterType="String">
+SELECT a.prod_cd_pk, a.task_pk, task_nm, project_nm, 	
+	(select emp_name from SYS_EMP_TB where emp_cd_pk = uploaded_from) uploaded_from,
+	prod_reg_dt, attach_nm, prod_category_cd, prod_classify_cd,	prod_detail
+from SYS_PRODUCT_TB a, TASK_TB b, PROJECT_TB c, SYS_ATTACHMENT_TB d
+where a.task_pk = b.task_pk 
+and b.project_pk = c.project_pk 
+and a.prod_cd_pk = d.prod_cd_pk
+and a.task_pk like #{task_pk}
+</select>
+
+
+</mapper>	

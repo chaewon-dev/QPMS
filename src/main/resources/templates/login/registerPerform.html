@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+/*
+
+*/
+
+
+</script>
+</head>
+<body>
+
+</body>
+<script th:inline="javascript">
+window.onload = function(){
+	/*<![CDATA[*/
+		var msg = /*[[${MSG}]]*/;
+			alert(msg);
+			location.href = /*[[@{/login}]]*/;
+	/*]]>*/
+};
+</script>
+</html>

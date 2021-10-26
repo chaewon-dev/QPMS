@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index2 :: navi">
+</head>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<div  th:with="title='[ ' + ${projectId} + ' ] ' + ${projectName}">
+					<nav th:replace="index2 :: topBar"></nav>
+					<input type="hidden" id="projectId" th:value="${projectId}">
+				</div>				<!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                	<!-- Page Heading -->
+<!--                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">tabs</h1>
+                    </div> -->
+                    <!-- Content Row -->
+
+						<div class="tabs-container">
+						       <ul class="nav nav-tabs" role="tablist">
+						         <li><a class="nav-link active" th:href="'/project/summary/'+${projectId}">요약정보</a></li>
+						         <li><a class="nav-link" th:href="'/project/basic/'+${projectId}">기본정보</a></li>
+						         <li><a class="nav-link" th:href="'/project/resource/'+${projectId}">리소스</a></li>
+						         <li><a class="nav-link" th:href="'/project/wbs/'+${projectId}">WBS</a></li>
+						         <li><a class="nav-link" th:href="'/project/cost/'+${projectId}">비용</a></li>
+						       </ul>
+						       
+						       
+						         
+						    <div class="tab-content">   
+						        
+						            <!-- Tab 1 Content -->
+						            <div role="tabpanel">
+						                <div class="panel-body">
+						                    <div class="card shadow mb-4">
+						                        <div class = "card-body">
+						                        	<div class="row">
+						                        		<div class="col-md-7 mb-3"> 
+								                            <!-- Bar Chart -->
+								                            <div class="card shadow mb-4">
+								                                <div class="card-header py-3">
+								                                    <h6 class="m-0 font-weight-bold text-primary">프로젝트 정보</h6>
+								                                </div>
+								                                <div class="card-body">
+								                                    <table class="ml-3" style="width: 100%; height: 220px;">
+								                                    <tr>
+								                                    	<td style="font-weight: bold">프로젝트 명</td>
+								                                    	<td th:text="${projectDetail.project_nm}" colspan="3"></td>
+								                                    </tr>
+								                                    
+								                                    <tr>
+								                                    	<td style="font-weight: bold">부서</td>
+								                                    	<td th:text="${dept_name}"></td>
+								                                    	<td style="font-weight: bold">프로젝트 매니저</td>
+								                                    	<td th:text="${currentPM.emp_cd_pk} +' / '+${currentPM.emp_name}"></td>
+								                                    </tr>
+								                                    
+								                                    <tr>
+								                                    	<td style="font-weight: bold">프로젝트 유형</td>
+								                                    	<td th:text="${projectDetail.project_type}"></td>
+								                                    	<td style="font-weight: bold">R&D 구분</td>
+								                                    	<td th:text="${projectDetail.rnd_type}"></td>
+								                                    </tr>
+								                                    
+								                                    
+								                                    <tr>
+								                                    	<td style="font-weight: bold">시작일</td>
+								                                    	<td th:text="${#dates.format(projectDetail.project_start_dt,'yyyy-MM-dd')}"></td>
+								                                    	<td style="font-weight: bold">종료일</td>
+								                                    	<td th:text="${#dates.format(projectDetail.project_comp_dt,'yyyy-MM-dd')}"></td>
+								                                    </tr>
+								                                    
+								                                    <tr>
+								                                    	<td style="font-weight: bold">프로젝트 상태</td>
+								                                    	<td th:text="${project_state_nm}"></td>
+								                                    	<td style="font-weight: bold">전체 진행률</td>
+								                                    	<td th:text="${progress_rate}"></td>
+								                                    </tr>
+								                                    
+								                                    </table>
+								                                </div>
+								                            </div>
+														</div>
+														
+														<div class="col-md-5 mb-3"> 
+								                            <!-- Bar Chart -->
+								                            <div class="card shadow mb-4">
+								                                <div class="card-header py-3">
+								                                    <h6 class="m-0 font-weight-bold text-primary">참여 인력</h6>
+								                                </div>
+								                                <div class="card-body">
+								                                    <div class="" style="width: 100%; height: 220px; overflow:auto;">
+							                                    		<table id="engageMemberList" border="1" width="100%" cellspacing="0" 
+							                                    		style="text-align:center; border-color: #e9e9e9;">
+							                                    			<thead>
+										                                        <tr>
+										                                            <th>회원번호</th>
+										                                            <th>이름</th>
+										                                            <th>부서</th>
+										                                        </tr>
+										                                    </thead>
+										                                    <tbody id="engageMemberListContents">
+										                                    </tbody>
+							                                    		</table>
+						                                    		</div>
+								                                </div>
+								                            </div>
+														</div>
+						                        	
+						                        	</div>
+						                        	
+								                    <div class="row">
+														<div class="col-md-7 mb-3"> 
+								                            <!-- Bar Chart -->
+								                            <div class="card shadow mb-4">
+								                                <div class="card-header py-3">
+								                                    <h6 class="m-0 font-weight-bold text-primary">부서별 리소스</h6>
+								                                </div>
+								                                <div class="card-body" style="height: 360px;">
+								                                    <div class="chart-bar">
+								                                        <canvas id="myBarChart"></canvas>
+								                                    </div>
+								                                </div>
+								                            </div>
+														</div>
+								
+								                        <!-- Donut Chart -->
+								                        <div class="col-md-5 mb-3"> 
+								                            <div class="card shadow mb-4">
+								                                <div class="card-header py-3">
+								                                    <h6 class="m-0 font-weight-bold text-primary">프로젝트 태스크 진행상태</h6>
+								                                </div>
+								                                <!-- Card Body -->
+								                                <div class="card-body" style="height: 360px;">
+								                                    <div class="chart-pie pt-4" id="pieChartDiv">
+								                                        <canvas id="myPieChart"></canvas>
+								                                    </div>
+								                                </div>
+								                            </div>
+								                        </div>
+								                    </div>
+								                    
+								                    <div class="row">
+						                        	</div>
+						                 		</div>
+						                 	</div>
+						                </div>
+						            </div>
+				
+				            <!-- End of Tab 1 Content -->       
+				
+				                  
+				            <!-- End of Tab 6 Content -->
+				            
+						</div>
+                    </div>
+				</div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <div>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="/login/getLogout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+    <!-- Page level plugins -->
+    <script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+
+
+	</div>
+    
+    
+    <script th:src="@{/js/project/chart-bar.js}"></script>
+    <script th:src="@{/js/project/chart-pie.js}"></script>
+    <script th:src="@{/js/project/projectSummary.js}"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index2 :: navi">
+</head>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<nav th:replace="index2 :: topBar"></nav>
+				<!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                	<!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">tabs</h1>
+                    </div>
+                    <!-- Content Row -->
+
+						<div class="tabs-container">
+						       <ul class="nav nav-tabs" role="tablist">
+						         <li><a class="nav-link active" data-toggle="tab" href="#tab-1">프로젝트</a></li>
+						         <li><a class="nav-link" data-toggle="tab" href="#tab-2">산출물</a></li>
+						         <li><a class="nav-link" data-toggle="tab" href="#tab-3">리스크</a></li>
+						         <li><a class="nav-link" data-toggle="tab" href="#tab-4">이슈</a></li>
+						         <li><a class="nav-link" data-toggle="tab" href="#tab-5">자료실</a></li>
+						         <li><a class="nav-link" data-toggle="tab" href="#tab-6">...</a></li>
+						       </ul>
+						         
+						    <div class="tab-content">   
+						        
+						            <!-- Tab 1 Content -->
+						            <div role="tabpanel" id="tab-1" class="tab-pane active">
+						                <div class="panel-body">
+						                    <div class="card shadow mb-4">
+						                        <div class = "card-body">
+								                    <h1>프로젝트내용 입력</h1>
+						                 		</div>
+						                 	</div>
+						                </div>
+						            </div>
+				
+				            <!-- End of Tab 1 Content -->       
+				
+				                    <!-- Tab 2 Content -->
+						             <div role="tabpanel" id="tab-2" class="tab-pane">
+						                <div class="panel-body">
+						                    <div class="card shadow mb-4">
+						                        <div class = "card-body">
+								                    <h1>산출물 입력</h1>
+						                 		</div>
+						                 	</div>
+						                </div>
+						            </div>
+				                                    
+				            <!-- End of Tab 2 Content -->
+				
+				            <!-- Tab 3 Content -->
+						            <div role="tabpanel" id="tab-3" class="tab-pane">
+						                <div class="panel-body">
+						                    <div class="card shadow mb-4">
+						                        <div class = "card-body">
+								                    <h1>리스크내용 입력</h1>
+						                 		</div>
+						                 	</div>
+						                </div>
+						            </div>
+				            <!-- End of Tab 3 Content -->
+
+				            <!-- Tab 4 Content -->
+						            <div role="tabpanel" id="tab-4" class="tab-pane">
+						                <div class="panel-body">
+						                    <div class="card shadow mb-4">
+						                        <div class = "card-body">
+								                    <h1>이슈 내용 입력</h1>
+						                 		</div>
+						                 	</div>
+						                </div>
+						            </div>
+				            <!-- End of Tab 4 Content -->				         
+
+				            <!-- Tab 5 Content -->
+						            <div role="tabpanel" id="tab-5" class="tab-pane">
+						                <div class="panel-body">
+						                    <div class="card shadow mb-4">
+						                        <div class = "card-body">
+								                    <h1>자료실 내용 입력</h1>
+						                 		</div>
+						                 	</div>
+						                </div>
+						            </div>
+				            <!-- End of Tab 5 Content -->
+
+				            <!-- Tab 6 Content -->
+						            <div role="tabpanel" id="tab-6" class="tab-pane">
+						                <div class="panel-body">
+						                    <div class="card shadow mb-4">
+						                        <div class = "card-body">
+								                    <h1>....내용 입력</h1>
+						                 		</div>
+						                 	</div>
+						                </div>
+						            </div>
+				            <!-- End of Tab 6 Content -->
+				            
+						</div>
+                    </div>
+				</div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <div th:replace="index2 :: etc"></div>
+</body>
+</html>

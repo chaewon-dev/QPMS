@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>QPMS - Login</title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+
+	
+     
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-5 col-lg-6 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">QPMS</h1>
+                                    </div>
+                                    <form class="form-register" th:action="@{/register/perform}" onsubmit="return checkForm_join();" method="post">
+										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+										<div class="form-group">
+                                            <input type="hidden" id="sha" name="sha" th:value="${Token.sha}" >
+                                            <input type="hidden" id="auth" name="auth" th:value="${Token.emp_auth_fk}" >
+                                            <input type="hidden" id="dept" name="dept" th:value="${Token.emp_dept_fk}" >
+                                            <input type="hidden" id="pos" name="pos" th:value="${Token.emp_pos_fk}" >
+                                        </div>
+										<div class="input-group mb-3">
+										  <div class="input-group-prepend">
+										    <span class="input-group-text">부서: </span>
+										  </div>
+										    <input type="text" class="form-control form-control-user"  th:value="${Token.dept_name}"
+                                                id="dept_name" name="dept_name" readonly>
+										</div>
+										<div class="input-group mb-3">
+										  <div class="input-group-prepend">
+										    <span class="input-group-text">직책: </span>
+										  </div>
+											<input type="text" class="form-control form-control-user" th:value="${Token.pos_name}"
+		                                                id="pos_name" name="pos_name" readonly>
+										</div>
+										<div class="input-group mb-3">
+										  <div class="input-group-prepend">
+										    <span class="input-group-text">이름: </span>
+										  </div>
+											<input type="text" class="form-control form-control-user" th:value="${Token.emp_name}"
+                                                id="name" name="name" readonly>
+										</div>
+                                        <hr>
+										<div class="input-group mb-3">
+											<div class="input-group-append">
+												<span class="input-group-text" id="checkIcon" style="display:none;"><i class="fas fa-check-circle"></i></span>
+											</div>
+                                            <input type="text" class="form-control form-control-user"
+                                                id="id" name="id"
+                                                placeholder="Enter Id">
+                                            <input type="hidden" id="isID_verified" name="isID_verified" th:value="${isID_verified}">
+                                            <div class="input-group-append">
+										    	<input class="btn btn-outline-secondary" id="idCheck" type="button" onclick="popUp_idCheck()" value="중복 검사" />
+										  </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                id="pass1" name="pass1"
+                                                placeholder="Enter Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                id="pass2" name="pass2"
+                                                placeholder="Re-Enter Password">
+                                        </div>
+                                        <hr>
+                                        <div class="input-group mb-3">
+										  <div class="input-group-prepend">
+										    <span class="input-group-text">이메일: </span>
+										  </div>
+											<input type="text" class="form-control form-control-user" th:value="${Token.emp_email}"
+                                                id="email" name="email" readonly>
+										</div>
+										
+										<div class="input-group mb-3">
+										  <div class="input-group-prepend">
+										    <span class="input-group-text">전화번호: </span>
+										  </div>
+											<input type="tel" class="form-control form-control-user"
+                                                id="tel" name="tel" placeholder="01011112222">
+										</div>
+										<div class="input-group mb-3">
+										  <div class="input-group-prepend">
+										    <span class="input-group-text">생일: </span>
+										  </div>
+											<input type="date" class="form-control form-control-user"
+                                                id="birth" name="birth" value="1900-01-01">
+										</div>
+                                      
+                                        <hr>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Create Account
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+     <!-- Bootstrap core JavaScript-->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+     <!-- Core plugin JavaScript-->
+    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+</body>
+<script type="text/javascript">
+var path = window.location.pathname;
+var pathSplit  = path.split("/");    //   "/" 로 전체 url 을 나눈다 
+// 결과: ['', 'jspexp', 'Join.do']
+var splitLength  = pathSplit.length;
+var checkPath = "/"+pathSplit[splitLength-2]+"/checkID?id=";
+console.log(checkPath);
+
+function popUp_idCheck(){
+	var id = document.getElementById("id").value;
+	var openWin = window.open("/checkID?id="+id, "ID 중복 검사", "width=350px, height=250px");
+	
+}
+
+var checkIcon = document.getElementById("checkIcon");
+var idCheckButton = document.getElementById("idCheck");
+var isID_verified = document.getElementById("isID_verified");
+function checkVerified(){
+	if(isID_verified.value == 'true'){
+		checkIcon.style.display = "";
+		//idCheckButton.style.display = "none";
+		idCheckButton.value = "ID 재입력";
+		document.getElementById('id').readOnly = true;
+
+	} else{
+		checkIcon.style.display = "none";
+		//idCheckButton.style.display = "";
+		idCheckButton.value = "중복 검사";
+		document.getElementById('id').readOnly = false;
+	}
+}
+
+function checkForm_join() {
+    
+	//입력여부, 길이, 형식 검사
+	var id = document.getElementById("id");
+	var pass = document.getElementById("pass1");
+	
+	//입력여부, 일치여부 검사
+	var pass2 = document.getElementById("pass2");
+	
+	//입력여부 검사
+	var email = document.getElementById("email");
+	var birth = document.getElementById("birth");
+	var tel = document.getElementById("tel");
+	var idCheck = document.getElementById("isID_verified");
+	
+	var check = document.getElementById("idCheck");
+
+	var re = /^[a-zA-Z][0-9a-zA-Z]{1,14}$/;
+	// 아이디가 적합한지 검사할 정규식
+
+    // 입력 유무 체크
+    if(id.value == '') {
+        window.alert("Enter ID");
+        id.focus();
+        id.select();
+        return false; // 아이디 입력이 안되어 있다면 submit 이벤트를 중지
+    }
+    else if(idCheck.value != "true"){
+        alert('id 중복체크 해주세요');
+        check.focus();
+        return false;
+    }
+	// **아이디 형식 체크
+	else if(!re.test(id.value) || !(id.value.length >= 4 && id.value.length <= 12)){
+		alert("ID는 영어로 시작하는 4~15글자입니다. (영어+숫자 조합) ");
+		return false;
+    }
+    else if(pass.value == ''){
+        alert('비밀번호를 입력하세요.'); 
+        pass.focus();
+      	pass.select();
+        return false;
+    }
+	else if(pass2.value == ''){
+        alert('비밀번호 확인을 입력하세요.');
+        pass2.focus();
+        pass2.select();
+        return false;
+    }
+	// **암호 재확인 체크
+	else if(pass.value != pass2.value){
+        alert('비밀번호 확인이 정확하지 않습니다.'); 
+        pass2.focus();
+      	pass2.select();
+        return false;
+    } 
+
+    else if(tel.value == ''){
+        alert('전화번호를 입력하세요.');
+        tel.focus();
+        tel.select();
+        return false;
+    }
+	
+    else if(birth.value == ''){
+        alert('생년월일을 입력하세요.');
+        birth.focus();
+        birth.select();
+        return false;
+    }
+	
+/*	
+	function getByteB(str) {
+		var byte = 0;
+		for (var i = 0; i < str.length; ++i) {
+			// 기본 한글 3바이트 처리
+			(str.charCodeAt(i) > 127) ? byte += 3 : byte++;
+		}
+		return byte;
+
+	}
+*/
+
+}
+</script>
+</html>

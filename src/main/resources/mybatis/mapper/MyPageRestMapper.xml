@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.MyPage.MyPageRestDao">
+
+<select id="getProductList" resultType="com.team3.pms.VO.MyPage.Product" 
+parameterType="String">
+SELECT a.prod_cd_pk, a.task_pk, task_nm, project_nm, 
+	(select emp_name from SYS_EMP_TB where emp_cd_pk = uploaded_from) uploaded_from, 
+	prod_reg_dt, attach_nm, prod_category_cd, prod_classify_cd,	prod_detail
+from SYS_PRODUCT_TB a, TASK_TB b, PROJECT_TB c, SYS_ATTACHMENT_TB d
+where a.task_pk = b.task_pk 
+and b.project_pk = c.project_pk 
+and a.prod_cd_pk = d.prod_cd_pk
+and uploaded_from = #{emp_cd_pk}
+order by prod_cd_pk desc
+</select>
+
+
+<select id="getTaskNm" resultType="com.team3.pms.VO.MyPage.Product" parameterType="String">
+SELECT task_nm, task_pk
+from TASK_TB
+WHERE project_pk = #{project_pk}
+</select>
+
+<select id="getProjectNm" resultType="com.team3.pms.VO.MyPage.Product">
+SELECT project_nm, project_pk 
+from PROJECT_TB
+</select>
+
+<select id="getCategoryNm" resultType="com.team3.pms.VO.MyPage.Product">
+SELECT prod_classify_cd, prod_classify_status 
+from SYS_RRO_CLASSIFY_TB
+</select>
+
+
+<select id="getproductDetail" resultType="com.team3.pms.VO.MyPage.Product" 
+parameterType="String">
+SELECT a.prod_cd_pk, a.task_pk, task_nm, project_nm, 	
+	(select emp_name from SYS_EMP_TB where emp_cd_pk = uploaded_from) uploaded_from,
+	prod_reg_dt, attach_nm, prod_category_cd, prod_classify_cd,	prod_detail
+from SYS_PRODUCT_TB a, TASK_TB b, PROJECT_TB c, SYS_ATTACHMENT_TB d
+where a.task_pk = b.task_pk 
+and b.project_pk = c.project_pk 
+and a.prod_cd_pk = d.prod_cd_pk
+and a.prod_cd_pk like #{prod_cd_pk}
+</select>
+
+<insert id="insertProduct" parameterType="Map">
+	insert into SYS_PRODUCT_TB values (concat('PRO-', 
+	LPAD(nextval(sq_pro), 4, '0')),	#{project_pk}, 
+	#{task_pk}, #{prod_category_cd}, #{prod_classify_cd}, 
+	sysdate(), #{prod_detail}, #{uploaded_from});
+</insert> 
+
+
+<insert id="insertAttachment" parameterType="Map">
+    <selectKey resultType="string" keyProperty="prod_cd_pk" order="BEFORE">
+        SELECT max(prod_cd_pk) from SYS_PRODUCT_TB      
+    </selectKey>
+		insert into SYS_ATTACHMENT_TB values (concat('ATC-', 
+		LPAD(nextval(sq_atc), 4, '0')), #{attach_nm}, #{prod_cd_pk});
+</insert>  
+ 
+ 
+<update id="productUpdate" parameterType="com.team3.pms.VO.MyPage.Product">
+	UPDATE SYS_PRODUCT_TB
+	set prod_category_cd = #{prod_category_cd},
+		prod_classify_cd = #{prod_classify_cd}
+	WHERE prod_cd_pk = #{prod_cd_pk}
+</update>
+
+	<delete id="productDelete"  parameterType="String">
+		DELETE FROM SYS_PRODUCT_TB WHERE prod_cd_pk = #{prod_cd_pk}
+	</delete>
+
+</mapper>	

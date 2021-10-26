@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.project.ProjectCostDao">
+
+	
+	
+	<!-- cost -->
+	<select id="costInfo" resultType="com.team3.pms.Dao.project.CostEditDTO">
+		SELECT cost_pk, emp_cd_pk, cost_type, cost, emp_dept_pk, cost_dt, cost_memo
+		from COST_TB
+		where cost_pk = #{cost_pk}
+	</select>
+	
+	<insert id="saveCost" parameterType="com.team3.pms.Controller.project.form.CostSaveForm">
+		insert into COST_TB(project_pk, emp_cd_pk, emp_dept_pk, cost_type, cost, cost_reg_dt, cost_memo, cost_dt)
+		values(#{project_pk},#{emp_cd_pk},#{emp_dept_pk},#{cost_type},#{cost},sysdate(),#{cost_memo},#{cost_dt})
+	</insert>
+	
+	<update id="updateCost" parameterType="com.team3.pms.Controller.project.form.CostSaveForm">
+		UPDATE COST_TB
+		set cost_type = #{cost_type}, cost = #{cost}, emp_dept_pk = #{emp_dept_pk},
+		cost_dt = #{cost_dt}, cost_memo = #{cost_memo}
+		where cost_pk = #{project_pk}
+
+	</update>
+	<delete id="deleteCost">
+		DELETE FROM COST_TB WHERE COST_PK = #{cost_pk}
+	</delete>
+	
+
+	
+</mapper>

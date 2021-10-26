@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.Dashboard.DashboardDao">
+
+	<!-- 대시보드1: 진행중인 프로젝트 이름, 상태, 담당부서, 시작날짜, 끝날짜, 진척상황 (project_state_pk < 40) -->
+	<select id="getDash1" resultType="com.team3.pms.VO.Dashboard.DashboardDto">
+		select * from v_dashboard_1;
+	</select>
+	
+	<!-- 대시보드2: 전체 프로젝트의 리소스(인력) 갯수 (project_state_pk < 40) -->
+	<select id="getDash2" resultType="com.team3.pms.VO.Dashboard.DashboardDto">
+		select * from v_dashboard_2;
+	</select>
+	
+	<!-- 대시보드3: 부서별 프로젝트 갯수 (10: 시작 전, 20: 정상진행, 40: 완료)-->
+	<select id="getDash3" resultType="com.team3.pms.VO.Dashboard.DashboardDto">
+	select count(project_pk) num_of_project, a.*			
+	from v_dashboard_3 a
+			where project_state_pk = #{project_state_pk}
+			group by emp_dept_pk;
+	</select>
+	
+	<select id="getProjectList" resultType="com.team3.pms.VO.Dashboard.ProjectListDto">
+		select a.project_pk, a.emp_cd_pk, a.resource_role, d.auth_name, b.project_nm, 
+				c.*, task_progress
+		from RESOURCE_TB a
+			inner join PROJECT_TB b on a.project_pk = b.project_pk
+			inner join PROJECT_STATE_TB c on b.project_state_pk = c.project_state_pk
+			inner join EMP_AUTH_TB d on a.resource_role = d.emp_auth_pk
+			left join v_project_progress e on a.project_pk = e.project_pk
+		where emp_cd_pk = #{emp_cd_pk}  and b.project_state_pk &lt; 40
+		group by a.project_pk
+		order by task_progress desc
+		limit 5;
+	</select>
+	
+	
+	<!-- 대시보드4: 전체 상태별 프로젝트 태스크의 진행률 (10: 시작 전, 20: 정상진행, 40: 완료)-->
+	<select id="getDash4" resultType="com.team3.pms.VO.Dashboard.DashboardDto">
+		select project_nm, dept_name, parent_task_nm, parent_task_approver_name, sum_of_task_progress
+			from v_dashboard_4
+			where where project_state_pk  = #{project_state_pk};
+	</select>
+	
+	<!-- get Dash by pk -->
+	<select id="getDash1_by_projectPK" resultType="com.team3.pms.VO.Dashboard.DashboardDto">
+		select * from v_dashboard_1
+				where project_pk = #{project_pk};
+	</select>
+	<select id="getDash2_by_projectPK" resultType="com.team3.pms.VO.Dashboard.DashboardDto">
+		select * from v_dashboard_2
+				where project_pk = #{project_pk};
+	</select>
+	<select id="getDash3_by_deptPK" resultType="com.team3.pms.VO.Dashboard.DashboardDto">
+		select count(project_pk) num_of_project, project_state_nm, dept_name
+			from v_dashboard_3
+			where project_state_pk = #{project_state_pk} and emp_dept_pk = #{emp_dept_pk}
+			group by emp_dept_pk;
+	</select>
+	<select id="getDash4_by_projectPK" resultType="com.team3.pms.VO.Dashboard.DashboardDto">
+		select project_nm, dept_name, parent_task_nm, parent_task_approver_name, sum_of_task_progress
+			from v_dashboard_4
+			where where project_state_pk = #{project_state_pk} and project_pk = #{project_pk};
+	</select>
+	
+
+</mapper>

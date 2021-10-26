@@ -1,0 +1,8 @@
+@charset "EUC-KR";
+.card-header .py-3{
+	display : inline-block;
+}
+
+#regBtn{
+	float : right;
+}

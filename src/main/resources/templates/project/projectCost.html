@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Tables</title>
+
+    <!-- Custom fonts for this template -->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet">
+
+</head>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul th:replace="index2 :: sideBar"></ul>
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<div  th:with="title='[ ' + ${projectId} + ' ] ' + ${projectName}">
+					<nav th:replace="index2 :: topBar"></nav>
+					<input type="hidden" id="projectId" th:value="${projectId}">
+				</div>				<!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                	<!-- Page Heading -->
+<!--                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">tabs</h1>
+                    </div> -->
+                    <!-- Content Row -->
+
+						<div class="tabs-container">
+						       <ul class="nav nav-tabs" role="tablist">
+						         <li><a class="nav-link" th:href="'/project/summary/'+${projectId}">요약정보</a></li>
+						         <li><a class="nav-link" th:href="'/project/basic/'+${projectId}">기본정보</a></li>
+						         <li><a class="nav-link" th:href="'/project/resource/'+${projectId}">리소스</a></li>
+						         <li><a class="nav-link" th:href="'/project/wbs/'+${projectId}">WBS</a></li>
+						         <li><a class="nav-link active" th:href="'/project/cost/'+${projectId}">비용</a></li>
+						       </ul>
+						         
+						    <div class="tab-content">   
+						        
+						          		         
+
+				            <!-- Tab 5 Content -->
+						            <div role="tabpanel">
+						                <div class="panel-body">
+						                    <div class="card shadow mb-4">
+						                        <div class = "card-body">
+								                    <div class="card shadow mb-4">
+								                        <div class="card-header py-3">
+								                            <h6 class="m-0 mt-2 font-weight-bold text-secondary float-left">
+								                            비용 리스트</h6>
+								                            <button class="btn float-right btn-primary" type="button" 
+								                            th:onclick="'location.href = \'' + @{/project/cost/{id}/create(id=${projectId})} + '\''">
+								                                <i class="fas fa-plus fa-sm"></i>
+								                                <span>비용 등록</span>
+								                             </button>
+								
+								                        </div>
+								                        <div class="card-body">
+								                            <div class="table-responsive">
+								                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="text-align:center">
+								                                    <thead>
+								                                        <tr>
+								                                        	<th>비용 번호</th>
+								                                        	<th>비용 항목</th>
+								                                            <th>지출 비용</th>
+								                                            <th>부서</th>
+								                                            <th>지출일자</th>
+								                                            <th>등록자</th>
+								                                            <th>등록일</th>
+								                                        </tr>
+								                                    </thead>
+								                                    <tbody>
+								 										<tr th:each="cost : ${costList}"   
+								                                    	th:onclick="'location.href = \'' + @{/project/cost/{id}/edit/{id2}(id=${projectId},id2=${cost.cost_pk})} + '\''"
+								                                    	style="cursor:pointer;">
+								                                    		<td th:text="${cost.cost_pk}"></td>
+								                                    		<td th:text="${cost.cost_type}"></td>
+																			<td th:text="${#numbers.formatInteger(cost.cost,3,'COMMA')} + ' 원'"></td>
+																			<td th:text="${cost.dept_name}"></td>
+																			<td th:text="${#dates.format(cost.cost_dt,'yyyy-MM-dd')}"></td>
+																			<td th:text="${cost.emp_name}"></td>
+																			<td th:text="${#dates.format(cost.cost_reg_dt,'yyyy-MM-dd')}"></td>
+																		</tr>
+								                                    </tbody>
+								                                </table>
+								                            </div>
+								                        </div>
+								                    </div>
+						                 		</div>
+						                 	</div>
+						                </div>
+						            </div>
+				            <!-- End of Tab 5 Content -->
+
+
+				            
+						</div>
+                    </div>
+				</div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+			<!-- Footer -->
+			<footer th:replace="index2 :: footer"> </footer>
+			<!-- End of Footer -->
+		</div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <div th:replace="index2 :: etc"></div>
+    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+    <!-- Page level custom scripts -->
+    <script th:src="@{/js/project/datatables-demo.js}"></script>
+</body>
+</html>

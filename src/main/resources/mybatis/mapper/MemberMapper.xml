@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3.pms.Dao.Member.MemberDao">
+
+	
+	<!-- Member -->
+	<select id="getMemberByID" resultType="com.team3.pms.VO.Member.MemberDto">
+		select emp_cd_pk, emp_auth_fk, emp_auth, emp_pos_fk, emp_pos, emp_dept_fk, emp_dept, 
+				emp_id, emp_pw, emp_name
+		from v_empTB
+		where emp_id = #{id};
+	</select>
+
+	
+	<select id="getMemberList" resultType="com.team3.pms.VO.Member.MemberDto">
+		select emp.emp_cd_pk, emp.emp_name, emp.emp_auth_fk, auth.auth_name, 
+				dept.dept_name, pos.pos_name, ifnull(a.num_of_project, 0) num_of_project  
+		from SYS_EMP_TB emp
+		inner join EMP_AUTH_TB auth on emp.emp_auth_fk = auth.emp_auth_pk
+		inner join EMP_DEPT_TB dept on emp.emp_dept_fk = dept.emp_dept_pk
+		inner join EMP_POS_TB pos on emp.emp_pos_fk = pos.emp_pos_pk
+		left join (select count(project_pk) num_of_project, emp_cd_pk
+					from RESOURCE_TB
+					group by emp_cd_pk)	a on emp.emp_cd_pk = a.emp_cd_pk
+		order by emp_auth_fk, emp_dept_fk, emp_name;
+	</select>
+	
+	<select id="getMemberByPK_Detailed" resultType="com.team3.pms.VO.Member.MemberDto">
+		select a.emp_cd_pk, a.emp_name, auth.auth_name, dept.dept_name, pos.pos_name,
+			a.emp_id, a.emp_birth, a.emp_tel, a.emp_email, a.income_date,
+			ifnull(b.num_of_project, 0) num_of_project 
+		from SYS_EMP_TB a
+		inner join EMP_AUTH_TB auth on a.emp_auth_fk = auth.emp_auth_pk
+		inner join EMP_DEPT_TB dept on a.emp_dept_fk = dept.emp_dept_pk
+		inner join EMP_POS_TB pos on a.emp_pos_fk = pos.emp_pos_pk
+		left join (select count(project_pk) num_of_project, emp_cd_pk
+					from RESOURCE_TB
+					group by emp_cd_pk)	b on a.emp_cd_pk = b.emp_cd_pk	
+		where a.emp_cd_pk = #{pk};
+	</select>
+	
+	<select id="getPersonalProjectListByPK" resultType="com.team3.pms.VO.Member.ProjectListDto">
+		select a.project_pk, a.resource_role, d.auth_name, b.project_nm, c.*
+			from RESOURCE_TB a
+				inner join PROJECT_TB b on a.project_pk = b.project_pk
+				inner join PROJECT_STATE_TB c on b.project_state_pk = c.project_state_pk
+				inner join EMP_AUTH_TB d on a.resource_role = d.emp_auth_pk
+			where emp_cd_pk = #{pk}
+			order by project_state_pk, project_pk;
+	</select>
+		
+	
+	
+	<!-- end of Member -->
+	
+	
+	<!-- Register Token -->
+	<select id="getDeptList" resultType="com.team3.pms.VO.Member.RegSelectDto">
+		select * from EMP_DEPT_TB
+	</select>
+	<select id="getAuthList" resultType="com.team3.pms.VO.Member.RegSelectDto">
+		select * from EMP_AUTH_TB
+			order by emp_auth_pk desc;
+	</select>
+	<select id="getPosList" resultType="com.team3.pms.VO.Member.RegSelectDto">
+		select * from EMP_POS_TB
+			order by emp_pos_pk desc;
+	</select>
+	
+	
+	<insert id="insertRegToken" parameterType="com.team3.pms.Controller.Member.form.MemberRegForm">
+		insert EMP_REGISTER_TOKEN (emp_email, emp_name, emp_auth_fk, emp_dept_fk, emp_pos_fk)
+			values(#{email}, #{name}, #{emp_auth_pk}, #{emp_dept_pk}, #{emp_pos_pk});
+	</insert>
+	<select id="getRegTokenID" resultType="String">
+			select max(id) pk from EMP_REGISTER_TOKEN;
+	</select>
+	<update id="updateRegTokenSha" parameterType="String">
+		update EMP_REGISTER_TOKEN set sha=#{sha} where id=#{id};
+	</update>
+	<select id="getRegTokenID_bySha" resultType="String">
+			select id from EMP_REGISTER_TOKEN where sha=#{sha};
+	</select>
+	<!-- end of Register Token -->
+
+	<!-- Register Page -->
+	<select id="getRegTokenByID" resultType="com.team3.pms.VO.Member.RegTokenDto">
+		select a.* , b.dept_name, c.auth_name, d.pos_name
+		from EMP_REGISTER_TOKEN a
+			inner join EMP_DEPT_TB b on a.emp_dept_fk = b.emp_dept_pk
+			inner join EMP_AUTH_TB c on a.emp_auth_fk = c.emp_auth_pk
+			inner join EMP_POS_TB d on a.emp_pos_fk = d.emp_pos_pk
+		WHERE id = #{id};
+	</select>
+	<insert id="insertMember" parameterType="com.team3.pms.Controller.Member.form.MemberRegForm">
+		insert into SYS_EMP_TB (emp_auth_fk, emp_dept_fk, emp_pos_fk, emp_id, emp_pw,
+						emp_name, emp_birth, emp_tel, emp_email) 
+		values ( #{emp_auth_pk}, #{emp_dept_pk}, #{emp_pos_pk}, 
+				#{id}, #{pass}, #{name}, #{birth}, #{tel}, #{email});
+	</insert>
+	<select id="getEmpPK" resultType="String">
+		select concat('emp-',lpad(lastval(EMP_SEQ),4,0));
+	</select>
+	<update id="updateRegToken_expired" parameterType="String">
+		update EMP_REGISTER_TOKEN set expired=1, last_modified_dt=now() where id=#{id};
+	</update>
+	<select id="checkID" resultType="int">
+		SELECT count(emp_id) countID 
+		FROM SYS_EMP_TB
+		WHERE emp_id = #{id};
+	</select>
+	
+
+	<!-- end of Register Page -->
+
+
+
+
+</mapper>
