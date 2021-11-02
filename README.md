@@ -22,3 +22,24 @@
 
 </br>
 
+## 3. ERD 설계
+프로젝트, 회원, 작업, 커뮤니티, 리스크, 스케줄 등에 대해 ERD를 설계하였습니다.
+
+<details>
+<summary><b>ERD 설계 펼치기</b></summary>
+<div markdown="1">
+
+### 3.1. 전체 ERD 요약
+![](https://github.com/chaewon-dev/portfolio/blob/main/src/ERD_summary.png)
+
+### 3.2. 전체 ERD 
+![](https://github.com/chaewon-dev/portfolio/blob/main/src/ERD_all.png)
+
+### 3.3. ERD 확대 ver.
+![](https://github.com/chaewon-dev/portfolio/blob/main/src/ERD_detail_01.png)
+![](https://github.com/chaewon-dev/portfolio/blob/main/src/ERD_detail_02.png)
+  
+</div>
+</details>
+
+</br>
