@@ -18,6 +18,7 @@
   - Thymeleaf
   - MariaDB
   - Gradle
+  - Gantt Chart, Chart.js, Full Calendar를 활용한 프로젝트, 작업, 일정 통합 관리
   - AWS 활용 배포
 
 </br>
