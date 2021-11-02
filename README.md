@@ -18,7 +18,7 @@
   - Thymeleaf
   - MariaDB
   - Gradle
-  - SMTP 메일 전송을 통한 회원
+  - SMTP 메일 전송을 통한 회원가입
   - WebSocket 기반 채팅
   - Gantt Chart, Chart.js, Full Calendar를 활용한 프로젝트, 작업, 일정 통합 관리
   - AWS 활용 배포
