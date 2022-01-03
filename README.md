@@ -54,3 +54,26 @@
 </details>
 
 </br>
+
+## 4. 핵심 기능
+QPMS 서비스의 핵심 기능은 Dashboard와 Gantt Chart를 통한 프로젝트 관리입니다. </br>
+추가적으로 회원 관리, 채팅, 전자결재, 로그 등의 기능이 있습니다.
+
+<details>
+<summary><b>핵심 기능 설명 펼치기</b></summary>
+<div markdown="1">
+
+### 4.1. 전체 흐름
+
+### 4.2. 사용자 요청
+
+### 4.3. Controller
+
+### 4.4. Service
+
+### 4.5. Repository
+
+</div>
+</details>
+
+</br>
